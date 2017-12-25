@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.amazeintv.artwork" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] Artwork" provider-name="CrazyMAzeY">
+	<requires>
+		<import addon="xbmc.python" version="2.19.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<summary>ArtWork for the a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/COLOR] Addon</summary>
+		<description></description>
+		<platform>all</platform>
+	</extension>
+</addon>
