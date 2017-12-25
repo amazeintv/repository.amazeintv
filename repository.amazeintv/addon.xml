@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<addons>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="repository.amazeintv" name="[COLOR blue][B]CrazyMAzeYs[/B][/COLOR]" version="1.0.1" provider-name="CrazyMAzeY">
 	<extension point="xbmc.addon.repository" name="CrazyMAzeYs">
 		<dir>
@@ -17,4 +16,3 @@
 		<genre>movies,music,tvshows,uk,usa</genre>
 	</extension>
 </addon>
-</addons>
