@@ -109,7 +109,7 @@
 
 <addon id="plugin.video.thepyramid"
        name="The Pyramid"
-       version="1.65"
+       version="1.68"
        provider-name="TomBraiderMovies">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>

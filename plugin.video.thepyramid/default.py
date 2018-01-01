@@ -366,6 +366,32 @@ def Search_loop():
 					addDir(name2,url2,30,image2,fanart2,'','','','')
 			else:
 				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML21 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/januarytv.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML21)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML22 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/februarytv.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML22)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')						
 def getSources():
         if os.path.exists(favorites) == True:
@@ -2331,7 +2357,7 @@ def urlsolver(url):
     resolved=genesisresolvers.get(url).result
     if url == resolved or resolved is None:
         #import
-        xbmc.executebuiltin("XBMC.Notification([COLORorange]The Pyramid[/COLOR] ,[COLORorange]Enjoy Your Viewing On The Pyramid[/COLOR] ,5000)")
+        xbmc.executebuiltin("XBMC.Notification([COLORgreen]The Pyramid[/COLOR] ,[COLORgreen]Enjoy Your Viewing On The Pyramid[/COLOR] ,5000)")
         import urlresolver
         host = urlresolver.HostedMediaFile(url)
         if host:
