@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.bbciplayer" name="BBC iPlayer" version="0.5.2" provider-name="catchup4kodi">
+<addon id="plugin.video.bbciplayer" name="BBC iPlayer" version="0.5.3" provider-name="catchup4kodi">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -10,6 +10,6 @@
     <summary lang="en">BBC iPlayer</summary>
     <description lang="en">BBC iPlayer</description>
     <platform>all</platform>
-    <news>Fixed search</news>
+    <news>Changed a-z from dialog to window / Removed a bunch of spaces and empty lines</news>
   </extension>
 </addon>

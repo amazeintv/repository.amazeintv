@@ -46,7 +46,7 @@
 	</extension>
 </addon>
 
-<addon id="plugin.video.bbciplayer" name="BBC iPlayer" version="0.5.2" provider-name="catchup4kodi">
+<addon id="plugin.video.bbciplayer" name="BBC iPlayer" version="0.5.3" provider-name="catchup4kodi">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -57,7 +57,7 @@
     <summary lang="en">BBC iPlayer</summary>
     <description lang="en">BBC iPlayer</description>
     <platform>all</platform>
-    <news>Fixed search</news>
+    <news>Changed a-z from dialog to window / Removed a bunch of spaces and empty lines</news>
   </extension>
 </addon>
 
@@ -109,7 +109,7 @@
 
 <addon id="plugin.video.thepyramid"
        name="The Pyramid"
-       version="1.68"
+       version="1.72"
        provider-name="TomBraiderMovies">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -250,7 +250,7 @@
   </extension>
 </addon>
 
-<addon id="script.module.urlresolver" name="URLResolver" version="4.0.16" provider-name="Eldorado, tknorris, tvaddons">
+<addon id="script.module.urlresolver" name="URLResolver" version="4.0.17" provider-name="Eldorado, tknorris, tvaddons">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />

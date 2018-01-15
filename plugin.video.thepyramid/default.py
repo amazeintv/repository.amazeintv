@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# v1.0 With edits by Tomb Raider & Origin
+# v1.70 With edits by Tomb Raider & Origin
 import urllib
 import urllib2
 import datetime
@@ -19,7 +19,6 @@ try:
     import json
 except:
     import simplejson as json
-import SimpleDownloader as downloader
 import time
 import requests
 import _Edit
@@ -51,7 +50,6 @@ FANART = os.path.join(home, 'fanart.jpg')
 source_file = os.path.join(profile, 'source_file')
 functions_dir = profile
 
-downloader = downloader.SimpleDownloader()
 debug = addon.getSetting('debug')
 if os.path.exists(favorites)==True:
     FAV = open(favorites).read()
@@ -88,8 +86,8 @@ def makeRequest(url, headers=None):
 				
 def SKindex():
     addon_log("SKindex")
-    addDir('[B][COLOR gold]THE PYRAMID FAVOURITES[/B][/COLOR]','[B][COLOR gold]THE PYRAMID FAVOURITES[/B][/COLOR]',4,'https://rocketdock.com/images/screenshots/Favorites-icon.png' ,  FANART,'','','','')
-    addDir('[B][I][COLORwhite]PYRAMID MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]','[B][I][COLORwhite]PYRAMID MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
+    addDir('[B][COLOR white]THE PYRAMID FAVOURITES[/B][/COLOR]','[B][COLOR white]THE PYRAMID FAVOURITES[/B][/COLOR]',4,'https://rocketdock.com/images/screenshots/Favorites-icon.png' ,  FANART,'','','','')
+    addDir('[B][I][COLORwhite]MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]','[B][I][COLORwhite]MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
     getData(_Edit.MainBase,'')
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
@@ -117,23 +115,23 @@ def Search_loop():
 	else:
 		Search_title = Search_name.lower().replace(' ','')
 		if Search_title[0] in 'abcd':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/A-D.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/A-D.txt'
 		elif Search_title[0] in 'efgh':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/E-H.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/E-H.txt'
 		elif Search_title[0] in 'ijkl':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/I-L.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/I-L.txt'
 		elif Search_title[0] in 'mnop':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/M-P.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/M-P.txt'
 		elif Search_title[0] in 'qrs':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/Q-S.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/Q-S.txt'
 		elif Search_title[0] in 't':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/T.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/T.txt'
 		elif Search_title[0] in 'uvwxyz':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/U-Z.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/U-Z.txt'
 		elif Search_title[0] in '0123456789':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/0-1000000.txt.txt'
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/0-1000000.txt.txt'
 		elif Search_title[0] in '':
-			url_to_open = 'http://lists.thepyramid.seedr.io/pyramid/realdebrid.txt'			
+			url_to_open = 'http://supremacy.org.uk/tombraider/pyramid/realdebrid.txt'			
 			
 		HTML = Open_Url(url_to_open)
 		match = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>',re.DOTALL).findall(HTML)
@@ -146,7 +144,7 @@ def Search_loop():
 			else:
 				if Search_title in name.lower().replace(' ',''):
 					addLink(url, name,img,FANART,'','','','',None,'',1)				
-		HTML2 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/newreleases.txt')
+		HTML2 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/newreleases.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML2)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -159,7 +157,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML14 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/cams.txt')
+		HTML14 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/cams.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML14)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -172,7 +170,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')					
-		HTML3 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/boxsets.txt')
+		HTML3 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/boxsets.txt')
 		match3 = re.compile('<channel>.+?<name>(.+?)</name>.+?<thumbnail>(.+?)</thumbnail>.+?<externallink>(.+?)</externallink>.+?<fanart>(.+?)/fanart>.+?<info>(.+?)/info>.+?</channel>',re.DOTALL).findall(HTML3)
 		for name3,image3,url3,fanart3,info3 in match3:
 			if fanart3 == '<':
@@ -185,7 +183,7 @@ def Search_loop():
 				info3 = info3.replace('<','')
 			if Search_title in name3.lower().replace(' ',''):
 				addDir(name3,url3,1,image3,fanart3,info3,'','','')
-		HTML13 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/fullseries.txt')
+		HTML13 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/fullseries.txt')
 		match3 = re.compile('<channel>.+?<name>(.+?)</name>.+?<thumbnail>(.+?)</thumbnail>.+?<externallink>(.+?)</externallink>.+?<fanart>(.+?)/fanart>.+?<info>(.+?)/info>.+?</channel>',re.DOTALL).findall(HTML13)
 		for name3,image3,url3,fanart3,info3 in match3:
 			if fanart3 == '<':
@@ -198,7 +196,7 @@ def Search_loop():
 				info3 = info3.replace('<','')
 			if Search_title in name3.lower().replace(' ',''):
 				addDir(name3,url3,1,image3,fanart3,info3,'','','')					
-		HTML4 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/realdebrid.txt')
+		HTML4 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/realdebrid.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML4)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -211,7 +209,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML5 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/specials.txt')
+		HTML5 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/specials.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML5)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -224,7 +222,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML6 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/kidsmovies.txt')
+		HTML6 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/kidsmovies.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML6)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -237,7 +235,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML7 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/horror.txt')
+		HTML7 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/horror.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML7)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -250,7 +248,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML8 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/september.txt')
+		HTML8 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/september.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML8)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -263,7 +261,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML9 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/latesttv.txt')
+		HTML9 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/latesttv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML9)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -276,7 +274,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML10 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/july.txt')
+		HTML10 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/july.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML10)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -289,7 +287,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML11 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/junetv.txt')
+		HTML11 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/junetv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML11)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -302,7 +300,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML12 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/augusttv.txt')
+		HTML12 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/augusttv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML12)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -315,7 +313,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML17 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/documentaries.txt')
+		HTML17 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/documentaries.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML17)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -328,7 +326,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML18 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/octobertv.txt')
+		HTML18 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/octobertv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML18)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -341,7 +339,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML19 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/novembertv.txt')
+		HTML19 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/novembertv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML19)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -354,7 +352,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')	
-		HTML20 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/decembertv.txt')
+		HTML20 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/decembertv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML20)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -367,7 +365,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML21 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/januarytv.txt')
+		HTML21 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/januarytv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML21)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -380,7 +378,7 @@ def Search_loop():
 			else:
 				if Search_title in name2.lower().replace(' ',''):
 					addDir(name2,url2,1,image2,fanart2,'','','','')
-		HTML22 = Open_Url('http://lists.thepyramid.seedr.io/pyramid/februarytv.txt')
+		HTML22 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/februarytv.txt')
 		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML22)
 		for name2,url2,image2,fanart2 in match2:
 			if fanart2 == '<':
@@ -392,7 +390,267 @@ def Search_loop():
 					addDir(name2,url2,30,image2,fanart2,'','','','')
 			else:
 				if Search_title in name2.lower().replace(' ',''):
-					addDir(name2,url2,1,image2,fanart2,'','','','')						
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML23 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10action.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML23)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML24 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10alieninvasion.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML24)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML25 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10animation.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML25)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML26 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10comedies.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML26)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML27 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10disaster.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML27)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML28 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10fight.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML28)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML29 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10gangster.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML29)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML30 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10ghosthorror.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML30)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML31 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10harrisonford.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML31)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML32 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10horror.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML32)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML33 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10kubrick.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML33)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML34 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10musicals.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML34)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML35 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10oscarwinners.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML35)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML36 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10romance.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML36)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML37 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10scifi.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML37)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML38 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10spielberg.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML38)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML39 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10stephenking.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML39)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML40 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10vampire.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML40)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML41 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10war.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML41)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML42 = Open_Url('http://supremacy.org.uk/tombraider/pyramid/top10westerns.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML42)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')					
 def getSources():
         if os.path.exists(favorites) == True:
             addDir('Favorites','url',4,os.path.join(home, 'resources', 'favorite.png'),FANART,'','','','')
@@ -715,7 +973,7 @@ def getData(url,fanart):
                 try:
                     if name == '[B][I][COLORgold]YOU ARE IN THE MOVIE ZONE[/B][/I][/COLOR]':
                         addDir(name.encode('utf-8', 'ignore'),url.encode('utf-8'),2,thumbnail,fanArt,desc,genre,date,credits,True)
-                        addDir('[B][I][COLORwhite]PYRAMID MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]','[B][I][COLORwhite]PYRAMID MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
+                        addDir('[B][I][COLORwhite]MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]','[B][I][COLORwhite]MOVIE & CATCH UP TV SEARCH[/B][/I][/COLOR]',41,'http://spiritualunitecdn-8df5.kxcdn.com/articles/wp-content/uploads/2016/06/pyramid-eye-third-eye1.jpg' ,  FANART,'','','','')
                     elif linkedUrl=='':
                         addDir(name.encode('utf-8', 'ignore'),url.encode('utf-8'),2,thumbnail,fanArt,desc,genre,date,credits,True)
                     else:
@@ -2357,7 +2615,7 @@ def urlsolver(url):
     resolved=genesisresolvers.get(url).result
     if url == resolved or resolved is None:
         #import
-        xbmc.executebuiltin("XBMC.Notification([COLORgreen]The Pyramid[/COLOR] ,[COLORgreen]Enjoy Your Viewing On The Pyramid[/COLOR] ,5000)")
+        xbmc.executebuiltin("XBMC.Notification([COLORgreen]The Pyramid[/COLOR] ,[COLORwhite]Enjoy Your Viewing On The Pyramid[/COLOR] ,5000)")
         import urlresolver
         host = urlresolver.HostedMediaFile(url)
         if host:
