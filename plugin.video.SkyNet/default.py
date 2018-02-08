@@ -268,9 +268,9 @@ def catchuptv1(url):
             Big_Resolve('',url)
 
 def RESOLVEtest(url):
-    import urlresolver
+    import resolveurl
     try:
-        resolved_url = urlresolver.resolve(url).strip()
+        resolved_url = resolveurl.resolve(url).strip()
         xbmc.Player().play(resolved_url, xbmcgui.ListItem(name))
     except:
         try:
@@ -2170,10 +2170,10 @@ def urlsolver(url):
     if url == resolved or resolved is None:
         #import
         xbmc.executebuiltin("XBMC.Notification(Skynet,Is Finding Your Link - ,5000)")
-        import urlresolver
-        host = urlresolver.HostedMediaFile(url)
+        import resolveurl
+        host = resolveurl.HostedMediaFile(url)
         if host:
-            resolver = urlresolver.resolve(url)
+            resolver = resolveurl.resolve(url)
             resolved = resolver
     if resolved :
         if isinstance(resolved,list):
@@ -2714,9 +2714,9 @@ def Menu(name, url, mode, iconimage, fanart, description, extra, showcontext=Tru
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
 
 def Big_Resolve(name,url):
-    import urlresolver
+    import resolveurl
     try:
-        resolved_url = urlresolver.resolve(url)
+        resolved_url = resolveurl.resolve(url)
         xbmc.Player().play(resolved_url, xbmcgui.ListItem(name))
     except:
         xbmc.Player().play(url, xbmcgui.ListItem(name))
