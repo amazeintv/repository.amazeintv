@@ -1,6 +1,6 @@
-# Addon Name: Jen Unleashed
-# Addon id: plugin.video.jen.unleased
-# Addon Provider: Team Jen
+# Addon Name: Atriox
+# Addon id: plugin.video.Atriox
+# Addon Provider: Atriox
 msgid ""
 msgstr ""
 "Project-Id-Version: Jen\n"

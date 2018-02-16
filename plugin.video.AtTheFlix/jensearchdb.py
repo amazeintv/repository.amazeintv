@@ -266,16 +266,16 @@ def get_xml(url):
 
 
 def main():
-    main_url = "http://mavericktv.net/data/home/homejen.xml"  #your main.xml url goes here
+    main_url = "http://supremacy.org.uk/Atriox/main.xml"  #your main.xml url goes here
     sections = [
         {'name': 'jen', # can change jen to whatever you want.  This wil name the output xml jen.xml
-         'url': "http://mavericktv.net/data/home/homejen.xml", # your section xml goes here
+         'url': "http://supremacy.org.uk/Atriox/main.xml", # your section xml goes here
          'poster': 'Jen'}, # can change Jen to whatever you want. This will be displayed as the poster name on jen.xml and
                            # also in the actual search in your addon in kodi eg Jen - The Avengers
     ]
 
-    os.remove("http://mavericktv.net/data/flix/search.db")  # add the directory to where this file is stored
-    dbcon = database.connect("http://mavericktv.net/data/flix/search.db") # add the directory to where this file is stored
+    os.remove("C:/Users/dumpling1/Desktop/search/output/search.db")  # add the directory to where this file is stored
+    dbcon = database.connect("C:/Users/dumpling1/Desktop/search/output/search.db") # add the directory to where this file is stored
     dbcur = dbcon.cursor()
     dbcur.execute(
         "CREATE TABLE IF NOT EXISTS search (""item TEXT, ""poster TEXT);")
