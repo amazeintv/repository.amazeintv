@@ -425,6 +425,28 @@
         </extension>
 </addon>
 
+<addon id="script.module.pyxbmct"
+   name="PyXBMCt"
+   version="1.2.0"
+   provider-name="Roman V.M.">
+  <requires>
+    <import addon="xbmc.python" version="2.20.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">PyXBMCt UI framework</summary>
+    <description lang="en">PyXBMCt is a mini-framework for simple XBMC addon UI buliding. It is similar to PyQt and provides parent windows, a number of UI controls (widgets) and a grid layout manager to place controls.</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <license>GNU GPL v.3</license>
+    <forum>http://forum.xbmc.org/showthread.php?tid=174859</forum>
+    <website>http://romanvm.github.io/PyXBMCt</website>
+    <email>romanvm@yandex.ua</email>
+    <source>https://github.com/romanvm/script.module.pyxbmct</source>
+  </extension>
+</addon>
+
 <addon id="script.module.resolveurl" name="ResolveURL" version="5.0.06" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
@@ -443,6 +465,25 @@
 		<description lang="en">Resolve common video host URL's to be playable in XBMC/Kodi, simplify addon development of video plugins requiring multi video hosts.</description>
 		<description lang="hr">Prilagodi najčešće URL-ove video izvora kako bi radili u XBMC/Kodiju, pojednostavnjuje razvoj priključaka za video dodatke koji zahtjevaju višestruke video izvore.</description>
 	</extension>
+</addon>
+
+<addon id="script.module.sportsvod" name="[COLOR ffff0000][B]Cyphers Sports VOD[/B][/COLOR]" version="1.0" Eprovider-name="Cypher">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.requests" />
+	<import addon="script.module.urlresolver" />
+    <import addon="script.module.beautifulsoup4" />
+	<import addon="script.video.F4mProxy" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>all</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Dependency Addon for Project Cypher</summary>
+    <description lang="en">Dependency Addon Project Cypher</description>
+	<disclaimer lang="en">Dependency Addon Project Cypher</disclaimer>
+    <platform>all</platform>
+  </extension>
 </addon>
 
 <addon id="script.module.universalscrapers" name="Universal Scrapers" version="1.0.0" provider-name="Team Universal">
