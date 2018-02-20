@@ -16,7 +16,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.amazeintv" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR]" provider-name="CrazyMAzeY">
+<addon id="plugin.video.amazeintv" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR]" provider-name="Anonymous">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="repository.amazeintv" version="0.0.1"/>
@@ -32,7 +32,7 @@
 	<extension point="xbmc.service" library="service.py" start="startup" />
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en">a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/COLOR]</summary>
-		<description lang="en">THIS IS NOT CONNECTED TO TVADDONS.CO - This Is a FORK of the once Late and Great Genesis Modded by CrazyMAzeY</description>
+		<description lang="en">THIS IS NOT CONNECTED TO TVADDONS.CO - This Is a FORK of the once Late and Great Genesis Modded by Anonymous</description>
 		<disclaimer lang="en">The author does not host or distribute any of the content displayed by this addon. The author does not have any affiliation with the content provider.</disclaimer>
 		<platform>all</platform>
 		<assets>
@@ -289,7 +289,7 @@
 	</extension>
 </addon>
 
-<addon id="script.amazeintv.artwork" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] Artwork" provider-name="CrazyMAzeY">
+<addon id="script.amazeintv.artwork" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] Artwork" provider-name="Anonymous">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>
@@ -301,7 +301,7 @@
 	</extension>
 </addon>
 
-<addon id="script.amazeintv.metadata" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] MetaData" provider-name="CrazyMAzeY">
+<addon id="script.amazeintv.metadata" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] MetaData" provider-name="Anonymous">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>
@@ -369,7 +369,7 @@
   </extension>
 </addon>
 
-<addon id="script.module.amazeintv"  version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] Module" provider-name="CrazyMAzeY">
+<addon id="script.module.amazeintv"  version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] Module" provider-name="Anonymous">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
@@ -447,7 +447,7 @@
   </extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.06" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.06b" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />

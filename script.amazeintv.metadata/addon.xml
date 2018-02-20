@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.amazeintv.metadata" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] MetaData" provider-name="CrazyMAzeY">
+<addon id="script.amazeintv.metadata" version="1.0.1" name="a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/B][/COLOR] MetaData" provider-name="Anonymous">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0"/>
 	</requires>
