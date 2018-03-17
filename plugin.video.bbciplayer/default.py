@@ -5,19 +5,27 @@ import HTMLParser
 ADDON = xbmcaddon.Addon(id='plugin.video.bbciplayer')
 ICON = ADDON.getAddonInfo('icon')
 FANART = ADDON.getAddonInfo('fanart')
-PROXYBASE=ADDON.getSetting('new_custom_url')
+PROXYBASE=ADDON.getSetting('PROXYBASE')
 ART = xbmc.translatePath(os.path.join('special://home/addons/plugin.video.bbciplayer/img/'))
 
-if 'just' in PROXYBASE:
-    PROXYURL = 'https://www.justproxy.co.uk/index.php?q=%s'
-    PROXYREF = 'https://www.justproxy.co.uk/'
+
+xbmc_version =  re.search('^(\d+)', xbmc.getInfoLabel( "System.BuildVersion" ))
+if xbmc_version:
+    xbmc_version = int(xbmc_version.group(1))
 else:
-    if 'england' in PROXYBASE:
-        PROXYURL = 'https://www.englandproxy.co.uk/'
-        PROXYREF = 'https://www.englandproxy.co.uk/'
-    else:
-        PROXYURL='http://www.joeproxy.co.uk/index.php?q=%s&hl=3cc'
-        PROXYREF = 'http://www.joeproxy.co.uk/'    
+    xbmc_version = 1    
+
+
+    
+if 'just' in PROXYBASE:
+    PROXYURL = 'http://www.justproxy.co.uk/index.php?q=%s'
+    PROXYREF = 'http://www.justproxy.co.uk/'
+    
+
+if 'england' in PROXYBASE:
+    PROXYURL = 'https://www.englandproxy.co.uk/'
+    PROXYREF = 'https://www.englandproxy.co.uk/'
+  
 
 def fixImage(image, resolution):
     image = image.replace('80x80',     resolution)
@@ -27,6 +35,8 @@ def fixImage(image, resolution):
     image = image.replace('1408x1408', resolution)
     return image
 
+
+
 def CATEGORIES():
     addDir('My Searches','',11,ART+'iplay.jpg','')    
     addDir('Most Popular','http://www.bbc.co.uk/iplayer/group/popular',10,ART+'iplay.jpg','')
@@ -35,12 +45,19 @@ def CATEGORIES():
     addDir('Categories','url',7,ART+'iplay.jpg','')
     addDir('Live','url',2,ART+'iplay.jpg','')
 
+
+ 
+       
+                                                                      
 def char_range(c1, c2):
+    
     for c in xrange(ord(c1), ord(c2)+1):
         yield chr(c)
+ 
 
 def GetLive(url):
-    addDir('[COLOR red]Red Button[/COLOR]','url',13,'','')
+    addDir('[COLOR red]Red Button[/COLOR]','url',13,'','')     
+
     channel_list = [
                     ('bbc_one_hd','bbc_one_hd',                       'BBC One','choose'),
                     ('bbc_two_hd','bbc_two_hd',                       'BBC Two','choose'),
@@ -73,7 +90,9 @@ def GetLive(url):
                     ('bbc_one_hd','bbc_one_west_midlands',            'BBC One West Midlands','hls_tablet'),
                     ('bbc_one_hd','bbc_one_yorks',                    'BBC One Yorks','hls_tablet')
                 ]
+    
     for id, img, name , device  in channel_list :
+
         if device == 'choose':
             if ADDON.getSetting('livehd')=='true':
                 device='abr_hdtv'
@@ -83,6 +102,7 @@ def GetLive(url):
         url='http://a.files.bbci.co.uk/media/live/manifesto/audio_video/simulcast/hls/uk/%s/ak/%s.m3u8' % (device, img)
         iconimage = xbmc.translatePath(os.path.join('special://home/addons/plugin.video.bbciplayer/img',id+'.png'))
         addDir(name,url,6,iconimage,'')
+
 
 def ListRedButton():
     channel_list = [
@@ -112,78 +132,104 @@ def ListRedButton():
         ('sport_stream_24', 'BBC Red Button 24','choose'),
     ]
     for id, name , device in channel_list:
+
         if device == 'choose':
             if ADDON.getSetting('livehd')=='true':
                 device='abr_hdtv'
             else:
                 device='hls_mobile_wifi'
+        
         url='http://a.files.bbci.co.uk/media/live/manifesto/audio_video/webcast/hls/uk/%s/ak/%s.m3u8' % (device, id)
         addDir(name,url,6,'','')
+        
 
 def GetContent(url):
     nameurl=[]
     urlurl=[]
     for name in char_range('A', 'Z'):
-        addDir(name,url,16,ART+'iplay.jpg','')
+        nameurl.append(name)
+        urlurl.append(name.lower())
+        
+    link=OPEN_URL('http://www.bbc.co.uk/iplayer/a-z/%s'%urlurl[xbmcgui.Dialog().select('Please Select', nameurl)])
+    match=re.compile('<a href="/iplayer/brand/(.+?)".+?<span class="title">(.+?)</span>',re.DOTALL).findall (link)
 
-def GetByName(name):
-    link=OPEN_URL('http://www.bbc.co.uk/iplayer/a-z/%s' % name)
-    match=re.compile('<a href="/iplayer/brand/(.+?)".+?<span class="title">(.+?)</span>',re.DOTALL).findall(link)
     for url , name in match:
+        
         addDir(name,url,4,ART+'iplay.jpg','')
 
+
+
 def GetByChannel(url):
+    
     link=OPEN_URL(url)
     link=link.split('data-id="')
+
     for p in link:
         try:
             name=re.compile('alt="(.+?)"').findall(p)[0]
             _url=re.compile('href="(.+?)"').findall(p)[0]+'/a-z'
+      
             if len(name)<16:
                 if not 'http' in _url:
                     _url='http://www.bbc.co.uk/'+_url
                 addDir(name,_url,7,ART+'iplay.jpg','')
         except:pass
     setView('movies', 'default')
+        
 
 def NextPageGenre(url):
-    NEW_URL = url
-    link    = OPEN_URL(NEW_URL)
-    html = link.replace('data-ip-episode', '-episode')
-    html = html.replace('data-ip-src',     '-src')
-    html = html.replace('data-ip-type',    '-type')
+
+    #NEW_URL = url
+
     #html = html.split('data-ip')
-    addDir('*** [COLOR orange]Right Click Show To Grab All Episodes[/COLOR] ***','url',10,'','','')
-    html=html.split('data-ip-id="')
+    #addDir('*** [COLOR orange]Right Click Show To Grab All Episodes[/COLOR] ***','url',10,'','','')
+    link = OPEN_URL(url)
+    html = link.split('<li class="list__grid__item')
     for p in html:
         try:
-            IPID=p.split('"')[0]
+            #IPID=p.split('"')[0]
             URL=re.compile('href="(.+?)"').findall (p)[0]
-            name=re.compile('title="(.+?)"').findall (p)[0]
-            try:iconimage=re.compile('img src="(.+?)"').findall (p)[0]
-            except:
-                try:iconimage=re.compile('srcset="(.+?)"').findall (p)[0]
-                except:iconimage=''
+
+            name=re.compile('skylark typo--bold">(.+?)<').findall (p)[0]
+ 
+            try:iconimage=re.compile('srcSet="(.+?),').findall (p)[0]
+            except:iconimage=''
+            if ',' in iconimage:
+                iconimage=iconeimage.split(',')[1]
+     
             #plot=re.compile('<p class="synopsis">(.+?)</p>').findall (p)[0]
+
             #except:
                 #name=name
+            
             if 'http://www.bbc.co.uk' not in URL:
+                
                 _URL_='http://www.bbc.co.uk%s' %URL
             else:
                 _URL_ = URL
-            if not IPID in _URL_:
-                IPID=IPID
-            else:
-                IPID=''
+                
+            IPID= URL.split('episode/')[1].split('/')[0]
+
+                
             if ADDON.getSetting('autoplay')=='true':
                 mode=14
             else:
                 mode=5
-            addDir(name,_URL_,mode,iconimage.replace('336x189','832x468') ,'',IPID)
-        except:pass
+                
+            
+            
+            if 'view all episodes' in p.lower():
+                IPID=re.compile('href="/iplayer/episodes/(.+?)"').findall(p)[0]
+                addDir(name+ '[COLOR orange] - More Episodes Avaiable[/COLOR]',IPID,4,iconimage.replace('336x189','832x468') ,'',IPID)
+            else:
+                addDir(name,_URL_,mode,iconimage.replace('336x189','832x468').replace('416x234','832x468').replace('304x171','832x468') ,'',IPID)    
+                
+            
+        except:pass    
     setView('movies', 'episode-view')
 
-def ForCategrories(NEW_URL):
+
+def ForCategrories(NEW_URL):    
     HTML=OPEN_URL(NEW_URL)
     print 'PAGE' + HTML
     html=HTML.split('data-ip-id="')
@@ -196,37 +242,48 @@ def ForCategrories(NEW_URL):
             except:
                 try:iconimage=re.compile('srcset="(.+?)"').findall (p)[0]
                 except:iconimage=''
+
             #plot=re.compile('class="synopsis">(.+?)</p>').findall (p)[0]
             try:
                 number=re.compile('>(.+?)</em>').findall(p)[0]
+
                 if not IPID in URL:
                     name='%s - [COLOR orange](%s Available)[/COLOR]' % (name,number.strip())
             except:
                 name=name
+                
             if 'http://www.bbc.co.uk' not in URL:
+                
                 _URL_='http://www.bbc.co.uk%s' %URL
             else:
                 _URL_ = URL
+
+                
             if not IPID in _URL_:
                 IPID=IPID
             else:
                 IPID=''
+                
             if ADDON.getSetting('autoplay')=='true':
                 mode=14
             else:
                 mode=5
+                
             addDir(name,_URL_,mode,iconimage.replace('336x189','832x468') ,'',IPID)
-        except:pass
+        except:pass             
+
     try:
         HTML=HTML.split('next txt')[1]
+        
         nextpage = re.compile('<a href="(.+?)"').findall(HTML)[0].replace('amp;','')
         if not nextpage in NEW_URL:
             _URL_='http://www.bbc.co.uk'+nextpage
             addDir('[COLOR blue]>> Next Page >>[/COLOR]',_URL_,7,ART+'nextpage.jpg' ,'','')
     except:
-        pass
+        pass  
 
 def Genre(url):
+
     if not len(url)> 3:
         nameurl=[]
         urlurl=[]
@@ -238,61 +295,79 @@ def Genre(url):
                 h = HTMLParser.HTMLParser()
                 nameurl.append(h.unescape(name))
                 urlurl.append('/iplayer/categories/'+url)
+        
         NEW_URL='http://www.bbc.co.uk%s/all?sort=dateavailable'%urlurl[xbmcgui.Dialog().select('Please Select Category', nameurl)]
     else:
         NEW_URL = url
     if '/categories/' in NEW_URL:
         return ForCategrories(NEW_URL)
+    
     HTML=OPEN_URL(NEW_URL)
     html=HTML.split('programme">')
     for p in html:
         try:
             #IPID=p.split('"')[0]
             URL=re.compile('href="(.+?)"').findall (p)[0]
+           
             IPID=URL.split('episode/')[1]
             IPID=IPID.split('/')[0]
+            
             name=re.compile('title="(.+?)"').findall (p)[0]
             h = HTMLParser.HTMLParser()
             name =h.unescape(name)
+            
             try:iconimage=re.compile('srcset="(.+?)"').findall (p)[1]
             except:iconimage=''
             if ',' in iconimage:
                 iconimage=iconimage.split(',')[1].split('.jpg')[0]+'.jpg'
+ 
+              
             plot=re.compile('<p class=".+?synopsis.+?">(.+?)</p>',re.DOTALL).findall (p)[0]
+     
             try:
                 number=re.compile('>(.+?) available episode').findall(p)[0]
+
                 if not IPID in URL:
                     name='%s - [COLOR orange](%s Available)[/COLOR]' % (name,number.strip())
             except:
                 name=name
+                
             if 'http://www.bbc.co.uk' not in URL:
+                
                 _URL_='http://www.bbc.co.uk%s' %URL
             else:
                 _URL = URL
+
+                
             if not IPID in _URL_:
                 IPID=IPID
             else:
                 IPID=''
+                
             if ADDON.getSetting('autoplay')=='true':
                 mode=14
             else:
                 mode=5
+                
             addDir(name,_URL_,mode,iconimage.replace('336x189','1200x675').strip() ,plot,IPID)
-        except:pass
+        except:pass             
+
     try:
         HTML=HTML.split('pagination__item--next">')[1]
+        
         nextpage = urllib.unquote(re.compile('<a href="(.+?)"').findall(HTML)[0])
         if '?' in NEW_URL:
             NEW_URL=NEW_URL.split('?')[0]
         _URL_=NEW_URL+nextpage.replace('&#x3D;','=')
         addDir('[COLOR blue]>> Next Page >>[/COLOR]',_URL_,7,ART+'nextpage.jpg' ,'','')
     except:
-        pass
+        pass      
     setView('movies', 'episode-view')   
 
 def POPULAR(url):
     NEW_URL=url
     HTML=OPEN_URL(NEW_URL)
+
     #match1=re.compile('data-ip-id="(.+?)">.+?href="(.+?)" title="(.+?)".+?img src="(.+?)".+?<p class="synopsis">(.+?)</p>',re.DOTALL).findall (html)
     html=HTML.split('data-ip-id="')
     for p in html:
@@ -304,28 +379,35 @@ def POPULAR(url):
             except:
                 try:iconimage=re.compile('srcset="(.+?)"').findall (p)[0]
                 except:iconimage=''
+   
             plot=re.compile('<p class="synopsis">(.+?)</p>').findall (p)[0]
+
             #except:
-                #name=name
+                #name=name    
             _URL_=URL
             if not IPID in _URL_:
                 IPID=IPID
             else:
                 IPID=''
+                
             if ADDON.getSetting('autoplay')=='true':
                 mode=14
             else:
                 mode=5
+                
             addDir(name,_URL_,mode,iconimage.replace('336x189','832x468') ,plot,IPID)
         except:pass
+ 
     try:
         HTML=HTML.split('next txt')[1]
+        
         nextpage = re.compile('<a href="(.+?)"').findall(HTML)[0].replace('amp;','')
         if not nextpage in NEW_URL:
             _URL_='http://www.bbc.co.uk'+nextpage
+           
             addDir('[COLOR blue]>> Next Page >>[/COLOR]',_URL_,10,ART+'nextpage.jpg' ,'','')
     except:
-        pass
+        pass   
     setView('movies', 'episode-view')
 
 def MySearch():
@@ -334,6 +416,7 @@ def MySearch():
     for title in favs:
         NEW_URL='http://www.bbc.co.uk/iplayer/search?q=%s' % title.replace(' ','%20')        
         addDir(title,NEW_URL,8,ART+'iplay.jpg','')
+    
 
 def Search(search_entered):
     favs = ADDON.getSetting('favs').split(',')
@@ -342,69 +425,101 @@ def Search(search_entered):
         keyboard.doModal()
         if keyboard.isConfirmed():
             search_entered = keyboard.getText()
+
     search_entered = search_entered.replace(',', '')
+
     if len(search_entered) == 0:
         return
+
     if not search_entered in favs:
         favs.append(search_entered)
         ADDON.setSetting('favs', ','.join(favs))
+
     search_entered = search_entered.replace(' ','%20')
+
     NEW_URL='http://www.bbc.co.uk/iplayer/search?q=%s' % search_entered
+
     NextPageGenre(NEW_URL)
+
 
 def GetEpisodes(id, page=1):
     url  = 'http://www.bbc.co.uk/iplayer/episodes/%s?page=%d' % (id, page)
+  
     link = OPEN_URL(url)
-    html = link.split('data-ip-id="')
+    html = link.split('<li class="list__grid__item')
     for p in html:
         try:
-            IPID=p.split('"')[0]
+            #IPID=p.split('"')[0]
             URL=re.compile('href="(.+?)"').findall (p)[0]
-            name=re.compile('title="(.+?)"').findall (p)[0]
-            try:iconimage=re.compile('img src="(.+?)"').findall (p)[0]
-            except:
-                try:iconimage=re.compile('srcset="(.+?)"').findall (p)[0]
-                except:iconimage=''
+         
+            name=re.compile('skylark typo--bold">(.+?)<').findall (p)[0]
+           
+            try:iconimage=re.compile('srcSet="(.+?),').findall (p)[0]
+            except:iconimage=''
+            if ',' in iconimage:
+                iconimage=iconeimage.split(',')[1]
+         
             #plot=re.compile('<p class="synopsis">(.+?)</p>').findall (p)[0]
+
             #except:
                 #name=name
+            
             if 'http://www.bbc.co.uk' not in URL:
+                
                 _URL_='http://www.bbc.co.uk%s' %URL
             else:
                 _URL_ = URL
-            if not IPID in _URL_:
-                IPID=IPID
-            else:
-                IPID=''
+                
+            IPID= URL.split('episode/')[1].split('/')[0]
+
+                
             if ADDON.getSetting('autoplay')=='true':
                 mode=14
             else:
                 mode=5
-            addDir(name,_URL_,mode,iconimage.replace('336x189','832x468') ,'',IPID)
+                
+            addDir(name,_URL_,mode,iconimage.replace('464x261','832x468').replace('416x234','832x468').replace('304x171','832x468') ,'',IPID)
         except:
             pass
-    page = page + 1
+
+    page = page + 1    
     if '/iplayer/episodes/%s?page=%d' % (id, page) in link:
         GetEpisodes(id, page=page)
+        
     setView('movies', 'episode-view')
+
 
 def GetAutoPlayable(name,url,iconimage):
     if 'http://www.bbc.co.uk' not in url:
+                
         url='http://www.bbc.co.uk%s' %url
+
     _NAME_=name
     if 'plugin.video.bbciplayer' in iconimage:
+
         vpid=url
+
     else:
-        print 'GW> ' + url
+        xbmc.log('GW> ' + str(url))    
         html = OPEN_URL(url)
+        
+      
         vpid=re.compile('"versions":\[.+?"id":"(.+?)"').findall(html)[0]
+    
+
+
+
     URL=[]
     uniques=[]
+    NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/iptv-all/vpid/%s" % vpid
+    
     if ADDON.getSetting('proxy')=='true':
         NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/apple-ipad-hls/vpid/%s" % vpid
         html = OPEN_URL(NEW_URL,True)
+
         match=re.compile('application="(.+?)".+?String="(.+?)".+?identifier="(.+?)".+?protocol="(.+?)".+?server="(.+?)".+?supplier="(.+?)"').findall(html.replace('amp;',''))
         for app,auth , playpath ,protocol ,server,supplier in match:
+
             port = '1935'
             if protocol == 'rtmpt': port = 80
             if supplier == 'limelight':
@@ -413,11 +528,17 @@ def GetAutoPlayable(name,url,iconimage):
                     res=playpath.split('secure_auth/')[1]
                     resolution=res.split('kbps')[0]
                     URL.append([(eval(resolution)),url]) 
+
+
     elif int(ADDON.getSetting('catchup'))==1:
+        
         NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/pc/vpid/%s" % vpid
-        html = OPEN_URL(NEW_URL,True)
+        
+        
+        html = OPEN_URL(NEW_URL,False)
         match=re.compile('application="(.+?)".+?String="(.+?)".+?identifier="(.+?)".+?protocol="(.+?)".+?server="(.+?)".+?supplier="(.+?)"').findall(html.replace('amp;',''))
         for app,auth , playpath ,protocol ,server,supplier in match:
+
             port = '1935'
             if protocol == 'rtmpt': port = 80
             if int(ADDON.getSetting('supplier'))==1: 
@@ -425,105 +546,159 @@ def GetAutoPlayable(name,url,iconimage):
                     url="%s://%s:%s/ app=%s?%s tcurl=%s://%s:%s/%s?%s playpath=%s" % (protocol,server,port,app,auth,protocol,server,port,app,auth,playpath)
                     res=playpath.split('secure_auth/')[1]
                     resolution=res.split('kbps')[0]
-                    URL.append([(eval(resolution)),url])
+                    URL.append([(eval(resolution)),url])                
+      
+               
             if int(ADDON.getSetting('supplier'))==0:
                 url="%s://%s:%s/%s?%s playpath=%s?%s" % (protocol,server,port,app,auth,playpath,auth)
                 if supplier == 'akamai':
                     res=playpath.split('secure/')[1]
                     resolution=res.split('kbps')[0]
                     URL.append([(eval(resolution)),url])
+
     else:
-        hls = re.compile('bitrate="(.+?)".+?connection href="(.+?)".+?transferFormat="(.+?)"/>').findall(html)
-        for resolution, url, supplier in hls:
-            server=url.split('//')[1]
-            server=server.split('/')[0]
-            if int(resolution) > 1400 :
-                TITLE='[COLOR green][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
+        html = OPEN_URL(NEW_URL,False)
+
+        link=html.split('width="')
+        for p in link:
+            try:
+                res=p.split('"')[0]
+                match=re.compile('href="(.+?)".+?supplier="(.+?)".+?transferFormat="(.+?)"').findall(p)
+            
+                for url , supplier, Format in match:
+                    url=url.replace('amp;','')
+                    Format = Format.lower()
+
+                    if Format == 'hls':
+                        if int(ADDON.getSetting('supplier'))==0:
+                            if 'akamai' in supplier.lower():
+                            
+                                URL.append([(eval(res)),url])
+                        if int(ADDON.getSetting('supplier'))==1:
+                            if 'limelight' in supplier.lower():
+                      
+                                URL.append([(eval(res)),url])
+                        if int(ADDON.getSetting('supplier'))==2:
+                            if 'bidi' in supplier.lower():
+
+                                URL.append([(eval(res)),url])
+                                
+
+            except:pass    
+    URL=max(URL)[1]
+   
+    PLAY_STREAM(name,str(URL),iconimage)
+
+    
+
+
+
+def GetPlayable(name,url,iconimage):
+    
+    if 'http://www.bbc.co.uk' not in url:
+                
+        url='http://www.bbc.co.uk%s' %url
+    _NAME_=name
+    if 'plugin.video.bbciplayer' in iconimage:
+
+        vpid=url
+
+    else:    
+        html = OPEN_URL(url)
+      
+        vpid=re.compile('"versions":\[.+?"id":"(.+?)"').findall(html)[0]
+    
+
+
+    uniques=[]
+    NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/iptv-all/vpid/%s" % vpid
+    
+    if ADDON.getSetting('proxy')=='true':
+        NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/apple-ipad-hls/vpid/%s" % vpid
+        html = OPEN_URL(NEW_URL,True)
+        match=re.compile('application="(.+?)".+?String="(.+?)".+?identifier="(.+?)".+?protocol="(.+?)".+?server="(.+?)".+?supplier="(.+?)"').findall(html.replace('amp;',''))
+        for app,auth , playpath ,protocol ,server,supplier in match:
+
+            port = '1935'
+            if protocol == 'rtmpt': port = 80
+            if supplier == 'limelight':
+                url="%s://%s:%s/ app=%s?%s tcurl=%s://%s:%s/%s?%s playpath=%s" % (protocol,server,port,app,auth,protocol,server,port,app,auth,playpath)
+                res=playpath.split('secure_auth/')[1]
+                
             else:
-                TITLE='[COLOR red][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())    
+               url="%s://%s:%s/%s?%s playpath=%s?%s" % (protocol,server,port,app,auth,playpath,auth)
+               
+            if supplier == 'akamai':
+                res=playpath.split('secure/')[1]
+                
+            if supplier == 'level3':
+                res=playpath.split('mp4:')[1]
+                
+            resolution=res.split('kbps')[0]
+            if int(resolution) > 1400 :
+                TITLE='[COLOR green][%s kbps][/COLOR] - [COLOR white]RTMP %s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
+            else:
+                TITLE='[COLOR red][%s kbps][/COLOR] - [COLOR white]RTMP %s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
             addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
         NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/iptv-all/vpid/%s" % vpid
         html = OPEN_URL(NEW_URL,True)
-        hls = re.compile('bitrate="(.+?)".+?connection href="(.+?)".+?transferFormat="(.+?)"/>').findall(html)
-        for resolution, url, supplier in hls:
-            server=url.split('//')[1]
-            server=server.split('/')[0]
-            if int(ADDON.getSetting('supplier'))==0:
-                URL.append([(eval(resolution)),url])
-            if int(ADDON.getSetting('supplier'))==1:
-                URL.append([(eval(resolution)),url]) 
-    URL=max(URL)[1]
-    PLAY_STREAM(name,str(URL),iconimage)
-
-def GetPlayable(name,url,iconimage):
-    _NAME_=name
-    if 'plugin.video.bbciplayer' in iconimage:
-        vpid=url
     else:
-        html = OPEN_URL(url)
-        vpid=re.compile('"versions":\[.+?"id":"(.+?)"').findall(html)[0]
-    NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/pc/vpid/%s" % vpid
-    html = OPEN_URL(NEW_URL,True)
-    match=re.compile('application="(.+?)".+?String="(.+?)".+?identifier="(.+?)".+?protocol="(.+?)".+?server="(.+?)".+?supplier="(.+?)"').findall(html.replace('amp;',''))
-    for app,auth , playpath ,protocol ,server,supplier in match:
-        port = '1935'
-        if protocol == 'rtmpt': port = 80
-        if supplier == 'limelight':
-            url="%s://%s:%s/ app=%s?%s tcurl=%s://%s:%s/%s?%s playpath=%s" % (protocol,server,port,app,auth,protocol,server,port,app,auth,playpath)
-            res=playpath.split('secure_auth/')[1]
-        else:
-           url="%s://%s:%s/%s?%s playpath=%s?%s" % (protocol,server,port,app,auth,playpath,auth)
-        if supplier == 'akamai':
-            res=playpath.split('secure/')[1]
-        if supplier == 'level3':
-            res=playpath.split('mp4:')[1]
-        resolution=res.split('kbps')[0]
-        if int(resolution) > 1400 :
-            TITLE='[COLOR green][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
-        else:
-            TITLE='[COLOR red][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
-        addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
-    NEW_URL= "http://open.live.bbc.co.uk/mediaselector/5/select/version/2.0/mediaset/apple-ipad-hls/vpid/%s" % vpid
-    html = OPEN_URL(NEW_URL,True)
-    match=re.compile('application="(.+?)".+?String="(.+?)".+?identifier="(.+?)".+?protocol="(.+?)".+?server="(.+?)".+?supplier="(.+?)"').findall(html.replace('amp;',''))
-    for app,auth , playpath ,protocol ,server,supplier in match:
-        port = '1935'
-        if protocol == 'rtmpt': port = 80
-        if supplier == 'limelight':
-            url="%s://%s:%s/ app=%s?%s tcurl=%s://%s:%s/%s?%s playpath=%s" % (protocol,server,port,app,auth,protocol,server,port,app,auth,playpath)
-            res=playpath.split('secure_auth/')[1]
-        else:
-           url="%s://%s:%s/%s?%s playpath=%s?%s" % (protocol,server,port,app,auth,playpath,auth)
-        if supplier == 'akamai':
-            res=playpath.split('secure/')[1]
-        if supplier == 'level3':
-            res=playpath.split('mp4:')[1]
-        resolution=res.split('kbps')[0]
-        if int(resolution) > 1400 :
-            TITLE='[COLOR green][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
-        else:
-            TITLE='[COLOR red][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
-        addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
-    hls = re.compile('bitrate="(.+?)".+?connection href="(.+?)".+?transferFormat="(.+?)"/>').findall(html)
-    for resolution, url, supplier in hls:
-        server=url.split('//')[1]
-        server=server.split('/')[0]
-        if int(resolution) > 1400 :
-            TITLE='[COLOR green][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())
-        else:
-            TITLE='[COLOR red][%s kbps][/COLOR] - [COLOR white]%s[/COLOR] - %s'%(resolution, supplier.upper(),server.upper())    
-        addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
+        html = OPEN_URL(NEW_URL,False)
+
+    link=html.split('height="')
+    for p in link:
+        try:
+            res=p.split('"')[0]
+            match=re.compile('href="(.+?)".+?supplier="(.+?)".+?transferFormat="(.+?)"').findall(p)
+        
+            for url , supplier, Format in match:
+                url=url.replace('amp;','')
+                if 'akamai' in supplier:
+                    supplier ='AKAMAI'
+                elif 'limelight' in supplier:
+                    supplier ='LIMELIGHT'
+                elif 'bidi' in supplier:
+                    supplier ='BIDI'
+                else:
+                    supplier ='UNKOWN'
+                    
+                Format = Format.lower()
+                if int(res)>1000:
+                    color='green'
+                elif int(res)>700 and int(res)<1000:
+                    color='orange'
+                else:
+                    color='red' 
+                TITLE='[COLOR %s][%sP][/COLOR] - [COLOR white]%s[/COLOR] [COLOR royalblue]- %s [/COLOR]'%(color,res, supplier.upper(),Format.upper())
+
+                if 'dash' in Format.lower():
+                    if xbmc_version >= 16.9:
+                        addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
+                else:
+                    addDir(TITLE + ' : ' + _NAME_,url,200,iconimage,'')
+        except:pass
     xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_VIDEO_TITLE)
 
+
+
+
+
 def GetLivePlayable(name,url,iconimage):
+
+        
     STREAM = url  
+
     liz = xbmcgui.ListItem(name, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
     liz.setInfo(type='Video', infoLabels={'Title':name})
     liz.setProperty("IsPlayable","true")
     liz.setPath(STREAM)
     xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
-        #self.AddLiveLink( list, id.replace('_',' ').upper(), url, language = language.title(),host= 'BBC iPLAYER '+supplier,quality=quality_dict.get(res, 'NA'))
 
+            
+
+        #self.AddLiveLink( list, id.replace('_',' ').upper(), url, language = language.title(),host= 'BBC iPLAYER '+supplier,quality=quality_dict.get(res, 'NA'))       
+
+ 
 def OPEN_URL(url,resolve=False):
     #print url
     if ADDON.getSetting('proxy')=='false':
@@ -534,24 +709,32 @@ def OPEN_URL(url,resolve=False):
             if 'england' in PROXYREF:
                 url=url.split('//')[1]
                 req = urllib2.Request(PROXYURL + url)
-            else:
+            else:    
                 req = urllib2.Request(PROXYURL % base64.b64encode(url))
-            req.add_header('Referer', PROXYREF)
+            req.add_header('Referer', PROXYREF)                
         else:
             req = urllib2.Request(url)
+                                      
     req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
     response = urllib2.urlopen(req)
     link=response.read()
     response.close()
     return link
-
+    
+    
+    
 def PLAY_STREAM(name,url,iconimage):
     name = name.split(' : ', 1)[-1]
+
     liz = xbmcgui.ListItem(name, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
     liz.setInfo(type='Video', infoLabels={'Title':name})
     liz.setProperty("IsPlayable","true")
+    if '.mpd' in url:
+        liz.setProperty('inputstreamaddon', 'inputstream.adaptive')
+        liz.setProperty('inputstream.adaptive.manifest_type', 'mpd')
     liz.setPath(url)
     xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
+    
 
 def addDir(name,url,mode,iconimage,description,IPID=''):
         if not name =='':
@@ -560,10 +743,13 @@ def addDir(name,url,mode,iconimage,description,IPID=''):
                     h = HTMLParser.HTMLParser()
                     name =h.unescape(name)
                 except:pass
+
                 try:
                     name = name.encode('ascii', 'ignore')
                 except:
                     name = name.decode('utf-8').encode('ascii', 'ignore')
+
+
                 u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&description="+urllib.quote_plus(description)+"&IPID="+urllib.quote_plus(IPID)
                 ok=True
                 #if not IPID == '':
@@ -584,24 +770,30 @@ def addDir(name,url,mode,iconimage,description,IPID=''):
                 else:
                     ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
                 return ok
+            
+        
 
+        
 def setView(content, viewType):
         if content:
                 xbmcplugin.setContent(int(sys.argv[1]), content)
         if ADDON.getSetting('auto-view') == 'true':#<<<----see here if auto-view is enabled(true) 
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % ADDON.getSetting(viewType) )#<<<-----then get the view type
-
+                      
+               
 def get_params(path):
     params = {}
     path   = path.split('?', 1)[-1]
     pairs  = path.split('&')
+
     for pair in pairs:
         split = pair.split('=')
         if len(split) > 1:
             params[split[0]] = urllib.unquote_plus(split[1])
-    return params
 
-params      = get_params(sys.argv[2])
+    return params
+   
+params      = get_params(sys.argv[2])            
 url         = None
 name        = None
 mode        = None
@@ -628,18 +820,19 @@ try:    IPID = params["IPID"]
 except: pass    
 
 #these are the modes which tells the plugin where to go
+       
 if mode==1:
         print ""+url
         GetMain(url)
 
 elif mode==2:
         print ""+url
-        GetLive(url)
-
+        GetLive(url)        
+        
 elif mode==3:
         print ""+url
         GetContent(url)
-
+     
 elif mode==4:
         print ""+url
         GetEpisodes(url)
@@ -653,25 +846,27 @@ elif mode==6:
 elif mode==7:
         Genre(url)
 
+
 elif mode==8:
-        NextPageGenre(url)
+        NextPageGenre(url)  
+
 
 elif mode==9:
-        Search(url)
+        Search(url)    
 
 elif mode==10:
-        POPULAR(url)
+        POPULAR(url)         
 
 elif mode==11:
         MySearch()
-
+        
 elif mode == 12:
     favs = ADDON.getSetting('favs').split(",")
     try:
         favs.remove(name)
         ADDON.setSetting('favs', ",".join(favs))
     except:pass
-
+    
 elif mode==13:
         ListRedButton()
 
@@ -680,12 +875,12 @@ elif mode==14:
 
 elif mode==15:
     GetByChannel(url)
-
-elif mode==16:
-    GetByName(name)
-
+    
 elif mode==200:
+
         PLAY_STREAM(name,url,iconimage)
+
 else:
     CATEGORIES()
+       
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
