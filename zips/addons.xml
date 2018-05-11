@@ -86,7 +86,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.itv" name="ITV" version="2.4.3" provider-name="LittleWiz">
+<addon id="plugin.video.itv" name="ITV" version="2.5.1" provider-name="LittleWiz">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
   </requires>
@@ -178,7 +178,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
 
 <addon id="plugin.video.SkyNet"
        name="SkyNet"
-       version="4.0.4"
+       version="4.0.9"
        provider-name="SkyNet">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -207,6 +207,37 @@ This is a Non-profit resource, organized solely for educational purposes which i
   <extension point="xbmc.addon.metadata">
     <summary lang="en">SkyNet</summary>
     <description lang="en">SkyNet</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.themagicdragon"
+       name="The Magic Dragon"
+       version="1.08"
+       provider-name="Magic Dragon">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+	<import addon="script.module.t0mm0.common" version="2.0.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.1"/>
+    <import addon="script.module.simple.downloader" version="0.9.4"/>
+    <import addon="script.module.beautifulsoup4" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.httplib2" />
+    <import addon="script.module.youtube.dl" optional="true"/>
+    <import addon="plugin.video.youtube" version="3.0.0"/>
+    <import addon="script.module.urlresolver" />
+    <import addon="script.module.simplejson" />
+    <import addon="script.common.plugin.cache" version="2.5.2"/>
+    <import addon="script.module.metahandler" version="2.5.1"/>
+	<import addon="script.module.resolveurl" version="5.0.00"/>
+
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLORblue]Magic Dragon All In One Add On[/COLOR]</summary>
+    <description lang="en">[COLORblue]This Is A 3rd Party Add On And Is Not Linked To Kodi In Any Way. All The Content We Provide Is Freely Available On The Internet. We Do Not Store Any Content Ourselves.[/COLOR]</description>
     <platform>all</platform>
   </extension>
 </addon>
@@ -664,31 +695,33 @@ This is a Non-profit resource, organized solely for educational purposes which i
   </extension>
 </addon>
 
-<addon id="script.module.universalscrapers" name="Universal Scrapers" version="1.0.0" provider-name="Team Universal">
-        <requires>
-                <import addon="xbmc.python" version="2.1.0"/>
-                <import addon="script.module.beautifulsoup" version="3.2.1"/>
-                <import addon="script.module.futures" version="2.2.0"/>
-                <import addon="script.module.requests"/>
-                <import addon="script.module.six"/>
-		    <import addon="script.module.resolveurl" version="5.0.00" optional="true"/>
+<addon id="script.module.universalscrapers" name="Universal Scrapers" version="1.0.9" provider-name="Team Universal">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+        <import addon="script.module.beautifulsoup" version="3.2.1"/>
+        <import addon="script.module.futures" version="2.2.0"/>
+        <import addon="script.module.requests"/>
+        <import addon="script.module.six"/>
+        <import addon="repository.universalscrapers"/>
+	<import addon="script.module.resolveurl" version="5.0.00" optional="true"/>
+
                 <!--<import addon="script.mrknow.urlresolver" version="2016.10.30.2" optional="true"/>-->
-        </requires>
-        <extension point="xbmc.python.module" library="lib"/>
-        <extension point="xbmc.python.pluginsource" library="lib/default.py">
-                <provides>executable</provides>
-        </extension>
+    </requires>
+    <extension point="xbmc.python.module" library="lib"/>
+    <extension point="xbmc.python.pluginsource" library="lib/default.py">
+        <provides>executable</provides>
+    </extension>
         <extension point="xbmc.addon.metadata">
-                <platform>all</platform>
-                <summary lang="en">Scrape common video host for URL's to be playable in XBMC/Kodi.</summary>
-                <description lang="en">Scrape common video host for URL's to be playable in XBMC/Kodi, simplifying addon development of video plugins requiring multi video hosts.
-                </description>
-                <license>GPL v3</license>
-                <source>http://theunjudged.com/Universal/script.module.universalscrapers</source>
+            <platform>all</platform>
+            <summary lang="en">Scrape common video host for URL's to be playable in XBMC/Kodi.</summary>
+            <description lang="en">Scrape common video host for URL's to be playable in XBMC/Kodi, simplifying addon development of video plugins requiring multi video hosts.
+            </description>
+            <license>GPL v3</license>
+            <source>https://</source>
         </extension>
 </addon>
 
-<addon id="script.module.urlresolver" name="URLResolver" version="5.0.08" provider-name="tvaddons">
+<addon id="script.module.urlresolver" name="URLResolver" version="5.0.15" provider-name="tvaddons">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />

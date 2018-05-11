@@ -42,46 +42,13 @@ if not os.path.isdir(SUBTITLES_DIR):
 if not os.path.isdir(IMAGE_DIR):
     os.makedirs(IMAGE_DIR)
 
-def get_proxy():
-    proxy_server = None
-    proxy_type_id = 0
-    proxy_port = 8080
-    proxy_user = None
-    proxy_pass = None
-    try:
-        proxy_server = __settings__.getSetting('proxy_server')
-        proxy_type_id = __settings__.getSetting('proxy_type')
-        proxy_port = int(__settings__.getSetting('proxy_port'))
-        proxy_user = __settings__.getSetting('proxy_user')
-        proxy_pass = __settings__.getSetting('proxy_pass')
-        
-    except:
-        pass
-
-    if   proxy_type_id == '0': proxy_type = socks.PROXY_TYPE_HTTP_NO_TUNNEL
-    elif proxy_type_id == '1': proxy_type = socks.PROXY_TYPE_HTTP
-    elif proxy_type_id == '2': proxy_type = socks.PROXY_TYPE_SOCKS4
-    elif proxy_type_id == '3': proxy_type = socks.PROXY_TYPE_SOCKS5
-
-    proxy_dns = True
-    
-    return (proxy_type, proxy_server, proxy_port, proxy_dns, proxy_user, proxy_pass)
+livepro = ADDON.getSetting('livepro')
 
 def get_httplib():
-    http = None
-    try:
-        if __settings__.getSetting('proxy_use') == 'true':
-            (proxy_type, proxy_server, proxy_port, proxy_dns, proxy_user, proxy_pass) = get_proxy()
-            logging.info("Using proxy: type %i rdns: %i server: %s port: %s user: %s pass: %s", proxy_type, proxy_dns, proxy_server, proxy_port, "***", "***")
-            http = httplib2.Http(proxy_info = httplib2.ProxyInfo(proxy_type, proxy_server, proxy_port, proxy_dns, proxy_user, proxy_pass))
-        else:
-          logging.info("No Proxy\n")
-          http = httplib2.Http()
-    except:
-        raise
-        logging.error('Failed to initialize httplib2 module')
+ 
 
-    return http
+
+    return httplib2.Http()
 
 http = get_httplib()
 
@@ -104,6 +71,24 @@ def httpget(url):
     return data
     
     
+def download_subtitles_HLS(url, offset):
+
+    logging.info('subtitles at =%s' % url)
+    outfile = os.path.join(SUBTITLES_DIR, 'itv.srt')
+    fw = open(outfile, 'w')
+    
+    if not url:
+        fw.write("1\n0:00:00,001 --> 0:01:00,001\nNo subtitles available\n\n")
+        fw.close() 
+        return outfile
+    txt = OPEN_URL(url)
+
+
+    fw.write(txt)
+    fw.close()    
+    return outfile
+
+
 def download_subtitles(url, offset):
 
     logging.info('subtitles at =%s' % url)
@@ -152,6 +137,8 @@ def download_subtitles(url, offset):
     fw.close()    
     return outfile
 
+
+
 def CATS():
         if os.path.exists(favorites)==True:
             addDir('[COLOR yellow]Favorites[/COLOR]','url',12,'')
@@ -160,15 +147,53 @@ def CATS():
         addDir('Categories','cats',205,icon,isFolder=True)
         addDir('Live','Live',206,icon,isFolder=True)
         setView('tvshows', 'default')
+
+        
+                        
+def getsim(channel):
+    if 'ITV' == channel.upper():return ('ITV','2')
+
+    if 'ITV2' in channel.upper():return ('ITV2','3')
+
+    if 'ITV3' in channel.upper():return ('ITV3','4')
+
+    if 'ITV4' in channel.upper():return ('ITV4','5')
+
+    if 'CITV' in channel.upper():return ('CITV','6')
+
+    if 'ITVBE' in channel.upper():return ('ITVBe','7')
+
+    
                         
 def LIVE():
-    addDir('ITV1','sim1',7,foricon+'art/1.png',isFolder=False)#sim1   https://itv1liveios-i.akamaihd.net/hls/live/203437/itvlive/ITV1MN/master.m3u8
-    addDir('ITV2','sim2',7,foricon+'art/2.png',isFolder=False)#sim2   https://itv2liveios-i.akamaihd.net/hls/live/203495/itvlive/ITV2MN/master.m3u8
-    addDir('ITV3','sim3',7,foricon+'art/3.png',isFolder=False)#sim3   https://itv3liveios-i.akamaihd.net/hls/live/207262/itvlive/ITV3MN/master.m3u8
-    addDir('ITV4','sim4',7,foricon+'art/4.png',isFolder=False)#sim4   https://itv4liveios-i.akamaihd.net/hls/live/207266/itvlive/ITV4MN/master.m3u8
-    #addDir('ITVBe','https://itvbeliveios-i.akamaihd.net/hls/live/219078/itvlive/ITVBE/master.m3u8',7,foricon+'art/8.jpg',isFolder=False)#    https://itvbeliveios-i.akamaihd.net/hls/live/219078/itvlive/ITVBE/master.m3u8
-    addDir('CITV','sim7',7,foricon+'art/7.png',isFolder=False)#sim7  https://citvliveios-i.akamaihd.net/hls/live/207267/itvlive/CITVMN/master.m3u8
-    addDir('Events/Sport','https://itvliveevents-i.akamaihd.net/hls/live/203496/itvliveevents/ITVEVTMN/master.m3u8',7,foricon+'art/9.jpg',isFolder=False)#sim9
+    try:
+        link = OPEN_URL('https://www.itv.com/hub/tv-guide')
+
+        link = link.split('class="guide__item')
+        for p in link:
+            if 'watch live' in p.lower():
+
+                title = '[COLOR orange]'+re.compile('title="(.+?)"').findall(p)[0].replace('amp;','')+'[/COLOR]'
+                channel = re.compile('live on (.+?)"').findall(p)[0]
+                sim, icon_num=getsim(channel)
+                if livepro=='true':
+                    mode = 8
+                else:
+                    mode = 7
+                    sim = 'sim'+icon_num
+                addDir(channel + ' - '+title,sim,mode,foricon+'art/%s.png' % icon_num,isFolder=False)
+                
+
+        addDir('Events/Sport','https://itvliveevents-i.akamaihd.net/hls/live/203496/itvliveevents/ITVEVTMN/master.m3u8',7,foricon+'art/9.jpg',isFolder=False)#sim9
+        
+    except: 
+        addDir('ITV1','sim1',7,foricon+'art/1.png',isFolder=False)#sim1   https://itv1liveios-i.akamaihd.net/hls/live/203437/itvlive/ITV1MN/master.m3u8
+        addDir('ITV2','sim2',7,foricon+'art/2.png',isFolder=False)#sim2   https://itv2liveios-i.akamaihd.net/hls/live/203495/itvlive/ITV2MN/master.m3u8
+        addDir('ITV3','sim3',7,foricon+'art/3.png',isFolder=False)#sim3   https://itv3liveios-i.akamaihd.net/hls/live/207262/itvlive/ITV3MN/master.m3u8
+        addDir('ITV4','sim4',7,foricon+'art/4.png',isFolder=False)#sim4   https://itv4liveios-i.akamaihd.net/hls/live/207266/itvlive/ITV4MN/master.m3u8
+        addDir('ITVBe','sim8',7,foricon+'art/8.jpg',isFolder=False)#    https://itvbeliveios-i.akamaihd.net/hls/live/219078/itvlive/ITVBE/master.m3u8
+        addDir('CITV','sim7',7,foricon+'art/7.png',isFolder=False)#sim7  https://citvliveios-i.akamaihd.net/hls/live/207267/itvlive/CITVMN/master.m3u8
+        addDir('Events/Sport','https://itvliveevents-i.akamaihd.net/hls/live/203496/itvliveevents/ITVEVTMN/master.m3u8',7,foricon+'art/9.jpg',isFolder=False)#sim9
 
 def CATEGORIES():
         CATS= [('children', 'Children'),
@@ -189,6 +214,7 @@ def CATEGORIES():
         
         
 def PLAY_STREAM(name,url,iconimage):
+    ENDING=''
     quality = int(__settings__.getSetting('live_stream'))
     
     if len(url)>4:
@@ -197,9 +223,19 @@ def PLAY_STREAM(name,url,iconimage):
 
     else:    
         SoapMessage=TEMPLATE(url,'itv'+url.replace('sim',''))
-        headers={'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
-        res, response = http.request("http://mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
+        headers={'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
 
+        if ADDON.getSetting('proxy')=='true':
+            if ADDON.getSetting('custom_ip')=='':
+                IP=getip()
+            else:
+                IP=ADDON.getSetting('custom_ip')
+            headers={"X-Forwarded-For":IP,'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
+
+            ENDING='|X-Forwarded-For='+IP
+
+        res, response = http.request("https://secure-mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
+        
         rtmp=re.compile('<MediaFiles base="(.+?)"').findall(response)[0]
         if 'CITV' in name:
             r='CDATA\[(citv.+?)\]'
@@ -215,7 +251,7 @@ def PLAY_STREAM(name,url,iconimage):
     liz = xbmcgui.ListItem(name, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
     liz.setInfo(type='Video', infoLabels={'Title':name})
     liz.setProperty("IsPlayable","true")
-    liz.setPath(STREAM)
+    liz.setPath(STREAM+ENDING)
     xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
 
     
@@ -254,6 +290,7 @@ def BESTOFEPS(name,url):
                 addDir(name,url,3,'',isFolder=False)
         
 def SHOWS(url):
+        
     if __settings__.getSetting('proxy_use') == 'true':
         proxy_server = None
         proxy_type_id = 0
@@ -287,17 +324,23 @@ def SHOWS(url):
         try:
             linkurl= re.compile('href="(.+?)"').findall (p)[0]
             #print linkurl
-            image= re.compile('srcset="(.+?)"').findall (p)[0].replace('w=304&h=174','w=800&h=450')
+            image= re.compile('srcset="(.+?)"').findall (p)[0]
+            if '?' in image:
+                image=image.split('?')[0] +'?w=512&h=288'
             #print image
             name= re.compile('"tout__title complex-link__target theme__target">(.+?)</h3',re.DOTALL).findall (p)[0].strip()
             #print name
             episodes = re.compile('"tout__meta theme__meta">(.+?)</p',re.DOTALL).findall (p)[0].strip()
+            if 'mins' in episodes:
+               episodes = re.compile('>(.+?)</',re.DOTALL).findall (episodes)[0].strip() 
             #print episodes
-            if 'day left' in episodes or 'days left' in episodes :
-                addDir2(name+' - '+episodes,linkurl,3,'', '',image,'',isFolder=False)
+            if 'day left' in episodes or 'days left' in episodes or episodes=='1 episode' or 'mins' in episodes:
+                if not 'mins' in episodes:
+                    linkurl = linkurl+'##'
+                addDir2(name+' - [COLOR orange]%s[/COLOR]'%episodes,linkurl,3,'', '',image,'',isFolder=False)
             else:
                 if not 'no episodes' in episodes.lower():
-                    addDir(name+' - '+episodes,linkurl,2,image)
+                    addDir(name+' - [COLOR orange]%s[/COLOR]'%episodes,linkurl,2,image)
         except:pass        
     setView('tvshows', 'show') 
             
@@ -374,7 +417,7 @@ def parse_Date(date_string,format,thestrip):
     return DATE    
     
 def EPS(name,url):
-    xbmc.log(url)
+
     if __settings__.getSetting('proxy_use') == 'true':
         proxy_server = None
         proxy_type_id = 0
@@ -404,22 +447,26 @@ def EPS(name,url):
     buf=re.sub('&middot;','',buf)
     buf=re.sub('&#039;','\'',buf)
     f.close()
+    buf = buf.split('more-episodes')[1]
+    buf = buf.split('<div id="')[0]
     buf = buf.split('grid-list__item width--one-half width--custard--one-third')
     NAME=name.split('-')[0]
     uniques=[]
     for p in buf:
-        #print p
+       
         try:
             linkurl= re.compile('href="(.+?)"').findall (p)[0]
-            #print linkurl
-            image= re.compile('srcset="(.+?)"').findall (p)[0].replace('w=304&h=174','w=800&h=450')
-            #print image
+          
+            image= re.compile('srcset="(.+?)"').findall (p)[0]
+            if '?' in image:
+                image=image.split('?')[0] +'?w=512&h=288'
             name= re.compile('"tout__title complex-link__target theme__target.+?>(.+?)</h',re.DOTALL).findall (p)[0].strip()
             
             if 'datetime' in name:
                 name=NAME
             #episodes = re.compile('"tout__meta theme__meta">(.+?)</p',re.DOTALL).findall (p)[0].strip()
-            description = re.compile('tout__summary theme__subtle">(.+?)</p',re.DOTALL).findall (p)[0].strip()
+            try:description = re.compile('tout__summary theme__subtle">(.+?)</p',re.DOTALL).findall (p)[0].strip()
+            except: description = ''
             #print description
 
             date = re.compile('datetime="(.+?)">',re.DOTALL).findall (p)[0]
@@ -429,12 +476,12 @@ def EPS(name,url):
                 ADDDATE= '%s %s' % (DATE,TIME)
             except Exception as e:
                ADDDATE= ''
-            #print date
-            NAME = name# + ' - ' + ADDDATE
+        
+            NAME = name
             
-            if ADDDATE not in uniques:
-                uniques.append(ADDDATE)
-                addDir2(NAME + ' - ' + ADDDATE,linkurl,3,date, name,image,description,isFolder=False)
+            #if ADDDATE not in uniques:
+                #uniques.append(ADDDATE)
+            addDir2(NAME + ' - ' + ADDDATE,linkurl,3,date, name,image,description,isFolder=False)
         except:pass  
                                 
 
@@ -489,9 +536,108 @@ def getip():
     return ip
 
 
+
+def PLAY_STREAM_HLS_LIVE(name,url,iconimage):
+     
+    ENDING=''
+    
+    if ADDON.getSetting('proxy')=='false':
+        buf = OPEN_URL('https://www.itv.com/hub/'+url.lower())
+    else:
+        buf = OPEN_URL_PROXY('https://www.itv.com/hub/'+url.lower())
+        
+        if ADDON.getSetting('custom_ip')=='':
+            IP=getip()
+        else:
+            IP=ADDON.getSetting('custom_ip')
+
+    TITLE= name
+    POSTURL='https://magni.itv.com/playlist/itvonline/'+url
+    hmac=re.compile('data-video-hmac="(.+?)"').findall(buf)[0]
+    
+    req = urllib2.Request(POSTURL)
+    req.add_header('Host','magni.itv.com')
+    req.add_header('hmac',hmac)
+    req.add_header('Accept','application/vnd.itv.vod.playlist.v2+json')
+    req.add_header('Proxy-Connection','keep-alive')
+    req.add_header('Accept-Language','en-gb')
+    req.add_header('Accept-Encoding','gzip, deflate')
+    req.add_header('Content-Type','application/json')
+    req.add_header('Origin','http://www.itv.com')
+    req.add_header('Connection','keep-alive')
+    if ADDON.getSetting('proxy')=='true':
+        req.add_header('X-Forwarded-For',IP)
+        ENDING='|X-Forwarded-For='+IP
+    req.add_header('User-Agent','Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G34 Safari/601.1')       
+    req.add_header('Referer',url)
+
+
+    #data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPhone","os":{"name":"iPad OS","version":"11.2.5","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
+    data  = {"user": {"itvUserId": "", "entitlements": [], "token": ""}, "device": {"manufacturer": "Safari", "model": "5", "os": {"name": "Windows NT", "version": "6.1", "type": "desktop"}}, "client": {"version": "4.1", "id": "browser"}, "variantAvailability": {"featureset": {"min": ["hls", "aes"], "max": ["hls", "aes"]}, "platformTag": "dotcom"}}
+
+
+    try:
+        content = urllib2.urlopen(req, json.dumps(data)).read()
+    except:
+        
+        dialog = xbmcgui.Dialog()
+        if ADDON.getSetting('proxy')=='true':
+            dialog.ok('ITV Player', 'Ooops Seems Your Uk IP Adress','[COLOR green]%s[/COLOR] Is Out Of Date' %IP, 'Gonna Grab New One Now')
+            import grabnewip
+        else:
+            dialog.ok('ITV Player', '','Not Available', '')
+        return ''
+
+
+    link=json.loads(content)
+
+
+    BEG = link['Playlist']['Video']['Base']
+    bb= link['Playlist']['Video']['MediaFiles']
+    try:
+        SUBLINK = link['Playlist']['Video']['Subtitles'][0]['Href']
+        subtitles_exist = 1
+    except:
+        subtitles_exist = 0
+        there_are_subtitles=0
+        
+    for k in bb:
+        END = bb[0]['Href']
+
+    if __settings__.getSetting('subtitles_control') == 'true':
+        if subtitles_exist == 1:
+            subtitles_file = download_subtitles_HLS(SUBLINK, '')
+            print "Subtitles at ", subtitles_file
+            there_are_subtitles=1
+        
+    STREAM =  BEG+END
+    
+    liz = xbmcgui.ListItem(TITLE, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
+    try:
+        if there_are_subtitles == 1:
+            liz.setSubtitles([subtitles_file])
+    except:pass     
+    liz.setInfo(type='Video', infoLabels={'Title':TITLE})
+    liz.setProperty("IsPlayable","true")
+    liz.setPath(STREAM+ENDING)
+    xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
+
+
+
+    
 def HLS(url,iconimage):
-
-
+    #xbmc.log(str(url))  
+    if url.endswith('##'):
+        url=url.split('##')[0]
+        if ADDON.getSetting('proxy')=='false':
+            buf = OPEN_URL(url)
+        else:
+            buf = OPEN_URL_PROXY(url)
+            
+        link=buf.split('data-episode-current')[1]
+        url=re.compile('href="(.+?)"').findall(link)[0]
+    
+    #xbmc.log(str(url))            
     ENDING=''
     
     if ADDON.getSetting('proxy')=='false':
@@ -509,7 +655,7 @@ def HLS(url,iconimage):
     hmac=re.compile('data-video-hmac="(.+?)"').findall(buf)[0]
     
     req = urllib2.Request(POSTURL)
-    req.add_header('Host','old-origin-api.itv.com')
+    req.add_header('Host','magni.itv.com')
     req.add_header('hmac',hmac)
     req.add_header('Accept','application/vnd.itv.vod.playlist.v2+json')
     req.add_header('Proxy-Connection','keep-alive')
@@ -525,14 +671,20 @@ def HLS(url,iconimage):
     req.add_header('Referer',url)
 
 
-    data={"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPhone","os":{"name":"iPad OS","version":"9.3","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
+   #data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPhone","os":{"name":"iPad OS","version":"11.2.5","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
+    data  = {"user": {"itvUserId": "", "entitlements": [], "token": ""}, "device": {"manufacturer": "Safari", "model": "5", "os": {"name": "Windows NT", "version": "6.1", "type": "desktop"}}, "client": {"version": "4.1", "id": "browser"}, "variantAvailability": {"featureset": {"min": ["hls", "aes", "outband-webvtt"], "max": ["hls", "aes", "outband-webvtt"]}, "platformTag": "dotcom"}}
+
 
     try:
         content = urllib2.urlopen(req, json.dumps(data)).read()
     except:
+        
         dialog = xbmcgui.Dialog()
-        dialog.ok('ITV Player', 'Ooops Seems Your Uk IP Adress','[COLOR green]%s[/COLOR] Is Out Of Date' %IP, 'Gonna Grab New One Now')
-        import grabnewip
+        if ADDON.getSetting('proxy')=='true':
+            dialog.ok('ITV Player', 'Ooops Seems Your Uk IP Adress','[COLOR green]%s[/COLOR] Is Out Of Date' %IP, 'Gonna Grab New One Now')
+            import grabnewip
+        else:
+            dialog.ok('ITV Player', '','Not Available', '')
         return ''
 
 
@@ -541,13 +693,29 @@ def HLS(url,iconimage):
 
     BEG = link['Playlist']['Video']['Base']
     bb= link['Playlist']['Video']['MediaFiles']
-
+    try:
+        SUBLINK = link['Playlist']['Video']['Subtitles'][0]['Href']
+        subtitles_exist = 1
+    except:
+        subtitles_exist = 0
+        there_are_subtitles=0
+        
     for k in bb:
         END = bb[0]['Href']
 
-                        
+    if __settings__.getSetting('subtitles_control') == 'true':
+        if subtitles_exist == 1:
+            subtitles_file = download_subtitles_HLS(SUBLINK, '')
+            print "Subtitles at ", subtitles_file
+            there_are_subtitles=1
+        
     STREAM =  BEG+END
-    liz = xbmcgui.ListItem(TITLE, iconImage='DefaultVideo.png', thumbnailImage=iconimage)      
+    
+    liz = xbmcgui.ListItem(TITLE, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
+    try:
+        if there_are_subtitles == 1:
+            liz.setSubtitles([subtitles_file])
+    except:pass     
     liz.setInfo(type='Video', infoLabels={'Title':TITLE})
     liz.setProperty("IsPlayable","true")
     liz.setPath(STREAM+ENDING)
@@ -555,35 +723,33 @@ def HLS(url,iconimage):
 
     
 def VIDEO(url,iconimage):
+    #xbmc.log(url)
+    if ADDON.getSetting('proxy')=='false':
+        if ADDON.getSetting('hls')=='true':
+            return HLS(url,iconimage)
 
-    if ADDON.getSetting('hls')=='true':
-        return HLS(url,iconimage)
-    if __settings__.getSetting('proxy_use') == 'true':
-        proxy_server = None
-        proxy_type_id = 0
-        proxy_port = 8080
-        proxy_user = None
-        proxy_pass = None
-        try:
-            proxy_server = __settings__.getSetting('proxy_server')
-            proxy_type_id = __settings__.getSetting('proxy_type')
-            proxy_port = __settings__.getSetting('proxy_port')
-            proxy_user = __settings__.getSetting('proxy_user')
-            proxy_pass = __settings__.getSetting('proxy_pass')
-        except:
-            pass
-        passmgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
-        proxy_details = 'http://' + proxy_server + ':' + proxy_port
-        passmgr.add_password(None, proxy_details, proxy_user, proxy_pass) 
-        authinfo = urllib2.ProxyBasicAuthHandler(passmgr)
-        proxy_support = urllib2.ProxyHandler({"http" : proxy_details})
+    if url.endswith('##'):
+        url=url.split('##')[0]
+        if ADDON.getSetting('proxy')=='false':
+            buf = OPEN_URL(url)
+        else:
+            buf = OPEN_URL_PROXY(url)
+            
+        link=buf.split('data-episode-current')[1]
+        url=re.compile('href="(.+?)"').findall(link)[0]
 
-        opener = urllib2.build_opener(proxy_support, authinfo)
-        urllib2.install_opener(opener)
-    pDialog = xbmcgui.DialogProgress()
-    pDialog.create('ITV Stream', 'Loading stream info')
-    productionID = iconimage.split('productionId=')[1]
-    productionID = urllib.unquote(productionID)
+        
+    if ADDON.getSetting('proxy')=='false':
+        buf = OPEN_URL(url)
+    else:
+        buf = OPEN_URL_PROXY(url)
+        
+        if ADDON.getSetting('custom_ip')=='':
+            IP=getip()
+        else:
+            IP=ADDON.getSetting('custom_ip')
+
+    productionID=re.compile('data-video-production-id="(.+?)"').findall(buf)[0]
     
     SM_TEMPLATE = """<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:itv="http://schemas.datacontract.org/2004/07/Itv.BB.Mercury.Common.Types" xmlns:com="http://schemas.itv.com/2009/05/Common">
       <soapenv:Header/>
@@ -639,14 +805,15 @@ def VIDEO(url,iconimage):
             IP=getip()
         else:
             IP=ADDON.getSetting('custom_ip')
-        headers = {"X-Forwarded-For":IP,"Host":"mercury.itv.com","Referer":"http://www.itv.com/mercury/Mercury_VideoPlayer.swf?v=1.6.479/[[DYNAMIC]]/2","Content-type":"text/xml; charset=utf-8","Content-length":"%d" % len(SoapMessage),"SOAPAction":"http://tempuri.org/PlaylistService/GetPlaylist"}
-        ENDING='|X-Forwarded-For='+IP
+        headers = {"X-Forwarded-For":IP,"Host":"secure-mercury.itv.com","Referer":"http://www.itv.com/mercury/Mercury_VideoPlayer.swf?v=1.6.479/[[DYNAMIC]]/2","Content-type":"text/xml; charset=utf-8","Content-length":"%d" % len(SoapMessage),"SOAPAction":"http://tempuri.org/PlaylistService/GetPlaylist"}
+        
     else:
-        headers = {"Host":"mercury.itv.com","Referer":"http://www.itv.com/mercury/Mercury_VideoPlayer.swf?v=1.6.479/[[DYNAMIC]]/2","Content-type":"text/xml; charset=utf-8","Content-length":"%d" % len(SoapMessage),"SOAPAction":"http://tempuri.org/PlaylistService/GetPlaylist"}
-        ENDING=''
-    response, res = http.request("http://mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
+        headers = {"Host":"secure-mercury.itv.com","Referer":"http://www.itv.com/mercury/Mercury_VideoPlayer.swf?v=1.6.479/[[DYNAMIC]]/2","Content-type":"text/xml; charset=utf-8","Content-length":"%d" % len(SoapMessage),"SOAPAction":"http://tempuri.org/PlaylistService/GetPlaylist"}
+        
+        
+    response, res = http.request("https://secure-mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
     title1= res.split("<ProgrammeTitle>")
-
+    
     try:
         title2= title1[1].split("</ProgrammeTitle>")
         #print res
@@ -720,7 +887,7 @@ def VIDEO(url,iconimage):
         playpath = re.compile('(mp4:[^\]]+)').findall(mediafile[selected_stream])[0]
         rtmp = rtmp.replace('&amp;','&')
     
-        url = rtmp + " swfurl=http://www.itv.com/mercury/Mercury_VideoPlayer.swf playpath=" + playpath + " swfvfy=true"
+        url = rtmp + " swfurl=http://www.itv.com/mediaplayer/ITVMediaPlayer.swf playpath=" + playpath + " swfvfy=true"
  
         liz = xbmcgui.ListItem(title2[0], iconImage='DefaultVideo.png', thumbnailImage=iconimage)
         try:
@@ -729,7 +896,7 @@ def VIDEO(url,iconimage):
         except:pass        
         liz.setInfo(type='Video', infoLabels={'Title':name})
         liz.setProperty("IsPlayable","true")
-        liz.setPath(url+ENDING)
+        liz.setPath(url)
         xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
 
     except:
@@ -879,13 +1046,15 @@ def addLink(name,url):
         return ok
 
 def addDir(name,url,mode,iconimage,plot='',isFolder=True):
+    
         try:
-            PID = iconimage.split('productionId=')[1]
+            PID = iconimage.split('episode/')[1].split('?')[0]
         except:pass    
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)
         ok=True
         liz=xbmcgui.ListItem(name,iconImage="DefaultVideo.png", thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot,'Premiered' : '2012-01-01','Episode' : '7-1' } )
+        liz.setProperty('Fanart_Image', iconimage.replace('w=512&h=288','w=1280&h=720'))
         menu=[]
         if mode == 2:
             menu.append(('[COLOR yellow]Add To Favourites[/COLOR]','XBMC.RunPlugin(%s?mode=13&url=%s&name=%s&iconimage=%s)'% (sys.argv[0],url,name,PID)))
@@ -904,6 +1073,7 @@ def addDir2(name,url,mode,date, episode,iconimage,plot='',isFolder=True):
         ok=True
         liz=xbmcgui.ListItem(name,iconImage="DefaultVideo.png", thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": plot,'Premiered' : date,'Episode' : episode } )
+        liz.setProperty('Fanart_Image', iconimage.replace('w=512&h=288','w=1280&h=720'))
         menu = []
         if isFolder==False:
             liz.setProperty("IsPlayable","true")        
@@ -962,6 +1132,10 @@ elif mode==6:
 elif mode==7:
         print "Getting Videofiles: "+url
         PLAY_STREAM(name,url,iconimage)
+
+elif mode==8:
+        print "Getting Videofiles: "+url
+        PLAY_STREAM_HLS_LIVE(name,url,iconimage)        
 
 elif mode==12:
     print ""
