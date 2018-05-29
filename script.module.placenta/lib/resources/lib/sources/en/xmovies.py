@@ -12,7 +12,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse,json
 
@@ -24,8 +24,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['xmovies8.tv', 'xmovies8.ru', 'xmovies8.es']
-        self.base_link = 'https://xmovies8.es'
+        self.domains = ['xmovies8.tv', 'xmovies8.ru', 'xmovies8.nu']
+        self.base_link = 'https://xmovies8.nu'
         self.search_link = 'https://search.' + self.domains[2] +'/?q=%s&page=1'
 
     def matchAlias(self, title, aliases):

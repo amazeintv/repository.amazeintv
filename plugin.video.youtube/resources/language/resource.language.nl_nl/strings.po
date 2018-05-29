@@ -249,8 +249,8 @@ msgstr "Schoon op"
 #empty strings from id 30121 to 30199
 
 msgctxt "#30200"
-msgid "API"
-msgstr "[COLOR red][B]API Sleutel[/B][/COLOR]"
+msgid "API Key"
+msgstr "API Sleutel"
 
 msgctxt "#30201"
 msgid "API Key"
@@ -270,7 +270,7 @@ msgstr "Peroonlijke API sleutels inschakelen"
 
 msgctxt "#30205"
 msgid "Use preset API key set"
-msgstr "Gebruik vooraf ingestelde API sleutel set (kies evt. [B]3-5[/B])"
+msgstr "Gebruik vooraf ingestelde API sleutel set"
 
 #YouTube
 #empty strings from id 30206 to 30499
@@ -632,12 +632,12 @@ msgid "Remove from My Subscriptions filter"
 msgstr "Verwijder van Mijn Abonnementen filter"
 
 msgctxt "#30589"
-msgid "Added %s to My Subscriptions filter"
-msgstr "%s toegevoegd aan Mijn Abonnementen filter"
+msgid "Added to My Subscriptions filter"
+msgstr "Toegevoegd aan Mijn Abonnementen filter"
 
 msgctxt "#30590"
-msgid "Removed %s from My Subscriptions filter"
-msgstr "%s verwijderd van Mijn Abonnementen filter"
+msgid "Removed from My Subscriptions filter"
+msgstr "Verwijderd van Mijn Abonnementen filter"
 
 msgctxt "#30591"
 msgid "Thumbnail size"

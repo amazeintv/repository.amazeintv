@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse
 
@@ -23,7 +23,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['freemoviedownloads6.com']
-        self.base_link = 'http://freemoviedownloads6.com'
+        self.base_link = 'http://freemoviedownloads6.com/'
         self.search_link = '%s/search?q=freemoviedownloads6.com+%s+%s'
         self.goog = 'https://www.google.co.uk'
 

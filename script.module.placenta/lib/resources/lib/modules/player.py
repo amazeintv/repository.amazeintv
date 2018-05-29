@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,sys,json,time,xbmc
 import hashlib,urllib,os,base64,codecs,xmlrpclib

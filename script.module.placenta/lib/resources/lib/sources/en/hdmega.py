@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urlparse,urllib,base64
 
@@ -21,7 +21,7 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['hdmega.net/']
+        self.domains = ['hdmega.net']
         self.base_link = 'http://hdmega.net/'
         self.search_link = '/search-movies/%s.html'
 

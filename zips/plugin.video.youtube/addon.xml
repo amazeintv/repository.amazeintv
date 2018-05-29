@@ -1,35 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="plugin.video.youtube" name="YouTube" version="6.0.0~alpha6" provider-name="bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.0.2" provider-name="bromix">
     <requires>
         <import addon="xbmc.python" version="2.20.0"/>
         <import addon="script.module.six"/>
         <import addon="script.module.requests" version="2.12.4"/>
+        <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="resources/lib/default.py">
         <provides>video</provides>
     </extension>
-    <extension point="xbmc.service" library="resources/lib/startup.py" start="startup"/>
+    <extension point="xbmc.service" library="resources/lib/startup.py" start="login"/>
     <extension point="xbmc.python.module" library="resources/lib/"/>
     <extension point="xbmc.addon.metadata">
         <news>
-[add] Python 3 compat.
-[add] Settings -> Maintenance -> Delete temporary files
-[add] Settings -> General -> Rate video after watching
-[add] Settings -> API -> Enable API configuration page
-        - when enabled, visit http://ipaddress:port/api to configure API keys from a web browser
-        - port is configured in Settings - HTTP Server - Port
-[add] Storing personal api keys in api_keys.json, restore keys from json on settings loss
-[add] Storing login tokens in access_manager.json, restore tokens from json on settings loss
-[add] youtube_registration module, register developer keys and use them by appending an addon_id=:addon_id parameter to youtube add-on plugin urls
-[add] screensaver=true parameter to /play route - no suggested videos, no post play events, don't ask for quality
-[fix] Signature deciphering
-[fix] context menu after playback
-[fix] alternative player, do not append headers
-[fix/upd] post play events happen post play
-[fix/upd] set title from metadata on play
-[upd] Dutch strings [MB1968]
-[upd] French strings [bubuleur]
-[upd] Greek strings [twilight0]
+6.0.2
+[fix] incorrectly raised 'Proxy is not running' error
         </news>
         <assets>
             <icon>icon.png</icon>
@@ -48,6 +33,7 @@
         <description lang="hu_hu">A YouTube világ egyik legnagyobb videómegosztó weboldala.</description>
         <summary lang="es_es">Plugin para YouTube</summary>
         <description lang="es_es">YouTube es uno de los mayores sitios web de intercambio de vídeos del mundo.</description>
+        <disclaimer lang="es_es">Este add-on no esta respaldado por Google</disclaimer>
         <summary lang="ru_ru">Видеодополнение YouTube</summary>
         <description lang="ru_ru">Данное дополнение позволяет находить и смотреть видео на всеми любимом сайте.</description>
         <summary lang="fr_fr">Plugin pour YouTube</summary>
@@ -68,6 +54,5 @@
         <website>https://www.youtube.com</website>
         <email>ytplugin at datanet dot ws</email>
         <source>https://github.com/jdf76/plugin.video.youtube</source>
-        <size>1776578</size>
     </extension>
 </addon>

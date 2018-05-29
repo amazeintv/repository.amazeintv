@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse
 
@@ -24,7 +24,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['seriesonline.io','series9.io','gomovies.pet']
-        self.base_link = 'https://series9.co/'
+        self.base_link = 'https://www1.series9.io/'
         self.search_link = '/movie/search/%s'
 
     def matchAlias(self, title, aliases):

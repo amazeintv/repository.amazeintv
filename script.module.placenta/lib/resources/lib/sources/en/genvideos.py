@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 
 import re,json,urllib,urlparse
@@ -25,7 +25,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['genvideos.org', 'genvideos.com']
-        self.base_link = 'http://genvideos.com'
+        self.base_link = 'https://genvideos.com/'
         self.search_link = '/watch_%s_%s.html'
         self.goog = 'https://www.google.co.uk'
 

@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import urlparse, urllib, json, base64, hashlib, re, xbmc
 
@@ -22,9 +22,8 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['vumoo.li']
-        self.base_link = 'http://vumoo.li'
+        self.base_link = 'http://vumoo.li/'
         self.cdn_link = 'http://cdn.123moviesapp.net'
-        self.goog = 'https://www.google.co.uk'
         self.search_path = '/search?q=%s'
         self.password = 'iso10126'
 

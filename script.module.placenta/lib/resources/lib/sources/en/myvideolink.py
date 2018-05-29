@@ -24,8 +24,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['go.myvideolinks.net','newmyvideolink.xyz', 'beta.myvideolinks.xyz', 'videolinks.ga', 'myvideolinks.ga', 'ezfile.xyz', 'newmyvideolinks.ga']
-        self.base_link = 'http://go.myvideolinks.net'
+        self.domains = ['go.myvideolinks.net','newmyvideolink.xyz', 'beta.myvideolinks.xyz', 'videolinks.ga', 'myvideolinks.ga', 'ezfile.xyz', 'dl.myvideolinks.net']
+        self.base_link = 'http://dl.myvideolinks.net'
         self.search_link = '/?s=%s'
 
 

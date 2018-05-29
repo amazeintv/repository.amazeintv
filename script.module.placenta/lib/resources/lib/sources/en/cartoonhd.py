@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse,json,base64,time,xbmc
 
@@ -24,8 +24,8 @@ class source:
     def __init__(self):
         self.priority = 0
         self.language = ['en']
-        self.domains = ['putlocker.systems', 'cartoonhd.website', 'cartoonhd.online', 'cartoonhd.cc', 'cartoonhd.life', 'cartoonhd.zone']
-        self.base_link = 'http://cartoonhd.zone'
+        self.domains = ['putlocker.systems', 'cartoonhd.website', 'cartoonhd.online', 'cartoonhd.cc', 'cartoonhd.life', 'cartoonhd.online', 'cartoonhd.systems']
+        self.base_link = 'https://cartoonhd.systems'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

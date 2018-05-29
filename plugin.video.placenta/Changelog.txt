@@ -1,3 +1,6 @@
+ver 1.2.3
+	- A Few tweaks
+	- Fixed existing providers
 ver 1.2.2
 	- A Few tweaks
 	- Scraper updates

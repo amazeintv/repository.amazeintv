@@ -81,20 +81,21 @@
         <setting type="sep" />
         <setting id="provider.2ddl" type="bool" label="2DDL" default="true" />
         <setting id="provider.123hulu" type="bool" label="123HULU" default="false" />
-        <setting id="provider.123netflix" type="bool" label="123NETFLIX" default="false" />
+        <setting id="provider.123netflix" type="bool" label="123NETFLIX" default="true" />
         <setting id="provider.1080P" type="bool" label="1080P" default="true" />
-        <setting id="provider.afdah" type="bool" label="AFDAH" default="false" />
+        <setting id="provider.afdah" type="bool" label="AFDAH" default="true" />
         <setting id="provider.allrls" type="bool" label="ALLRLS" default="true" />
         <setting id="provider.pronen" type="bool" label="PRONEN" default="false" />
         <setting id="provider.bmoviez" type="bool" label="BMOVIEZ" default="true" />
         <setting id="provider.bnwmovies" type="bool" label="BNWMOVIES" default="true" />
         <setting id="provider.bob" type="bool" label="BOB" default="true" />
+        <setting id="provider.bobp" type="bool" label="BOBP" default="true" />
         <setting id="provider.cartoonhd" type="bool" label="CARTOONHD" default="true" />
         <setting id="provider.cinemamega" type="bool" label="CINEMAMEGA" default="true" />
         <setting id="provider.cmovies" type="bool" label="CMOVIES" default="true" />
         <setting id="provider.coolmoviezone" type="bool" label="COOLMOVIEZONE" default="true" />
         <setting id="provider.cooltv" type="bool" label="COOLTV" default="true" />
-        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="false" />
+        <setting id="provider.divxcrawler" type="bool" label="DIVXCRAWLER" default="true" />
         <setting id="provider.dltube" type="bool" label="DLTUBE" default="true" />
         <setting id="provider.filmfrantic" type="bool" label="FILMFRANTIC" default="true" />
         <setting id="provider.filmxy" type="bool" label="FILMXY" default="false" />

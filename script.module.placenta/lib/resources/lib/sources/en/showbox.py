@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import urlparse,traceback,urllib,json,base64,xbmc
 
@@ -21,8 +21,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['movietimeapp.com']
-        self.base_link = 'http://sbfunapi.cc'
+        self.domains = ['movietimeapp.com', 'sbfunapi.cc']
+        self.base_link = 'http://sbfunapi.cc/'
         self.server = 'http://%s/video/%s/manifest_mp4.json?sign=%s&expires_at=%s'
         self.key = b'\x38\x36\x63\x66\x37\x66\x66\x63\x62\x33\x34\x64\x37\x64\x33\x30\x64\x33\x62\x63\x31\x35\x61\x38\x35\x31\x36\x33\x34\x33\x32\x38'
         self.show_search = '/api/serials/tv_list/?query=%s'
@@ -96,7 +96,7 @@ class source:
                         'quality': k + 'p',
                         'language': 'en',
                         'url': v,
-                        'direct': True,
+                        'direct': False,
                         'debridonly': False
                     })
 

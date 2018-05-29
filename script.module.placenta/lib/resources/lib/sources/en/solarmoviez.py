@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse,hashlib,random,string,json,base64,sys,xbmc
 
@@ -47,7 +47,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['solarmoviez.to', 'solarmoviez.ru']
-        self.base_link = 'https://solarmoviez.ru'
+        self.base_link = 'https://solarmoviez.ru/'
         self.search_link = '/movie/search/%s.html'
         self.info_link = '/ajax/movie_info/%s.html?is_login=false'
         self.server_link = '/ajax/v4_movie_episodes/%s'

@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import os, base64, sys, urllib2, urlparse
 import xbmc, xbmcaddon, xbmcgui
@@ -35,7 +35,7 @@ class navigator:
     HOMEPATH      = xbmc.translatePath('special://home/')
     ADDONSPATH    = os.path.join(HOMEPATH, 'addons')
     THISADDONPATH = os.path.join(ADDONSPATH, ADDON_ID)
-    NEWSFILE      = base64.b64decode(b'aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L1puNE1DMlNh')
+    NEWSFILE      = base64.b64decode(b'aHR0cHM6Ly9wYXN0ZWJpbi5jb20vcmF3L25XY1pTeDhh')
     LOCALNEWS     = os.path.join(THISADDONPATH, 'whatsnew.txt')
     
     def root(self):
@@ -75,7 +75,7 @@ class navigator:
             self.addDirectoryItem(32009, 'downloadNavigator', 'downloads.png', 'DefaultFolder.png')
 
         self.addDirectoryItem(32010, 'searchNavigator', 'search.png', 'DefaultFolder.png')
-        self.addDirectoryItem('[COLOR=orange]Follow on Twitter: @tantrumdev and @MRBlamoforkodi[/COLOR]', 'sectionItem', 'icon.png', 'DefaultAddonProgram.png')
+        self.addDirectoryItem('[COLOR=orange]Follow on Twitter: @Daddy_Blamo[/COLOR]', 'sectionItem', 'icon.png', 'DefaultAddonProgram.png')
         self.addDirectoryItem('[COLOR=orange]Can find on YouTube at http://youtube.tantrumtv.com[/COLOR]', 'sectionItem', 'icon.png', 'DefaultAddonProgram.png')
 
         self.endDirectory()

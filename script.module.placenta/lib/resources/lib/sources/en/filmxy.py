@@ -12,7 +12,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 
 import re,urllib,urlparse,json,base64
@@ -27,7 +27,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['filmxy.cc,filmxy.me']
-        self.base_link = 'http://www.filmxy.cc'
+        self.base_link = 'https://www.filmxy.me/'
         self.search_link = '%s/wp-json/wp/v2/posts?search=%s'
 
 

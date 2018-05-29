@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 # FIXME: Some titles, such as Thor Ragnarok, cause exceptions and not pulling URL correct. Need to investigate.
 
@@ -27,7 +27,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['watch32hd.co']
-        self.base_link = 'https://watch32hd.co'
+        self.base_link = 'https://watch32hd.co/'
         self.search_link = '/watch?v=%s_%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):

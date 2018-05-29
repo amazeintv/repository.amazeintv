@@ -10,4 +10,4 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.module.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo

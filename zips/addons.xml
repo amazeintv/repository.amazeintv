@@ -86,6 +86,564 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.iplayerwww" name="iPlayer WWW" version="3.0.26" provider-name="CaptainT, Cas, ihurst, primaeval">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+    <import addon="script.module.requests" version="2.7.0"/>
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>audio video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">TV and Radio from BBC iPlayer</summary>
+    <description lang="en">This add-on enables playing of Live and Catchup TV (UK only) and Radio content (UK or international) from the BBC iPlayer website. It is not created, maintained or in any way affiliated with the BBC. The add-on only provides an interface to access the BBC iPlayer website from Kodi.</description>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum>http://forum.kodi.tv/showthread.php?tid=239378</forum>
+    <website></website>
+    <email></email>
+    <source>https://github.com/vonH/plugin.video.iplayerwww</source>
+    <disclaimer>This add-on is a front end to the BBC iPlayer website. It is not an official BBC product. A UK TV Licence is required to watch the live, catch-up, or on-demand TV content.</disclaimer>
+    <assets>
+        <icon>resources/icon.png</icon>
+        <fanart>resources/fanart.jpg</fanart>
+    </assets>
+    <news>
+v3.0.26
+Categories fix.
+
+v3.0.25
+Fixed problem with episodes that are not available in standard format.
+
+v3.0.24
+Fixed pagination for Categories.
+
+v3.0.23
+Switched everything to https.
+Fixed problem with pagination.
+
+v3.0.22
+Added missing initializations and title fallback.
+
+v3.0.21
+Adapted to new episodes layout on iPlayer.
+Fixed Radio Favourites.
+Removed Radio Following (currently not working on the website).
+
+v3.0.20
+Fixed Most Popular and Highlights.
+
+v3.0.19
+Fixed Channel Highlights.
+
+v3.0.18
+Fixed Highlights (again).
+Fixed BBCiD login.
+Made Added and Watching more robust against some changes.
+
+v3.0.17
+Fixed Highlights.
+
+v3.0.16
+Categories now needs https.
+
+v3.0.15
+Fixed Highlights.
+
+v3.0.14
+Fix for new mediator HTML.
+Live TV now uses a timestamp to avoid problems with "Hide watched".
+
+v3.0.13
+Fix for full URL for some programmes.
+
+v3.0.12
+Signed and AD streams must be treated separately.
+
+v3.0.11
+Added new stream kind and option for future stream kinds.
+
+v3.0.10
+Add support for live events (webcast).
+
+v3.0.9
+Fixed Channel A-Z.
+
+v3.0.8
+Add support for 'technical-replacement' stream type.
+
+v3.0.7
+Fixed Channel Highlights.
+Removed dependency on InputStream Adaptive.
+COMPATIBILITY NOTE: Stream protocol will automatically reset to HLS if InputStream Adaptive is missing.
+
+v3.0.6
+Fixed broken Channel A-Z.
+
+v3.0.5
+Fixed Categories (yet again).
+Adapted to new design of episode pages.
+Fixed broken Radio A-Z.
+
+v3.0.4
+Fixed broken BBC iD functionality.
+
+v3.0.3
+Fixed broken Categories (again).
+
+v3.0.2
+Fixed broken Categories.
+Added support for Live https DASH streams.
+
+v3.0.1
+Optimized selection of catchup CDN internally.
+COMPATIBILITY NOTE: Users need to set catchup source to "Any" when Autoplay is switched off
+to get a choice of all CDNs.
+Additional programme properties for better shortcut handling within Kodi.
+Fixed Channel A-Z.
+
+v3.0.0
+Initial release for Kodi Krypton.
+Support for DASH streams if inputstream.adaptive add-on is available.
+
+v2.5.6
+Added live TV channel BBC One South West.
+
+v2.5.5
+Fixed broken Highlights.
+Added option to automatically sign in with BBCiD.
+NOTE: If this option is enabled, users will always be signed in.
+
+v2.5.4
+Fixed missing icon image when using BBCiD.
+Properly added new CDN Bidi (worked before just by chance).
+Added option to select main menu entries.
+
+v2.5.3
+New image urls.
+
+v2.5.2
+Fixed typo.
+Adapted to latest changes on the website.
+
+v2.5.1
+Fix for broken BBC iD functionality.
+COMPATIBILITY NOTE:
+Users need to sign in on the website once and provide additional data, e.g. their
+postcode before using the updated BBC iD functionality in the add-on.
+
+v2.5.0
+New channel icons for TV and Radio by primaeval. Now all channels have dedicated icons.
+Added warning regarding new TV Licence legislation.
+
+v2.4.1
+Fixed problem which caused too many playlists to be loaded.
+Tidied up some code.
+
+v2.4.0
+Added more Red Button streams.
+Added more regional Live TV.
+Added option to disable Red Button warning pop-up.
+Added icons for top level directories.
+
+v2.3.4
+Moved to different, hopefully more stable, source for Red Button streams.
+Red Button now uses the same code as Watch Live.
+
+v2.3.3
+Fixed high quality Red Button streams.
+
+v2.3.2
+Fixed Radio Favourites and renamed to Added, as on the website.
+
+v2.3.1
+Fixed Favourites and renamed to Added, as on the website.
+
+v2.3.0
+Added mode which shows CBeebies/CBBC only.
+Rearranged settings.
+Moved translation to .po format. (already in 2.2.1)
+
+v2.2.1
+Fixed problem with new Highlights layout.
+Fixed problem with new XML format.
+
+v2.2.0
+Added support for Red Button.
+Fixed empty directory in Channel Highlights.
+
+v2.1.3
+Added more bitrate options for Radio.
+Switched to new stable source for live TV.
+COMPATIBILITY NOTE:
+If autoplay is used for live TV, users MUST set their preferences for live TV bitrate again.
+
+v2.1.2
+Fixed missing live non-HD TV.
+
+v2.1.1
+Fixed live HD TV.
+
+v2.1.0
+Added support for international radio.
+Set default Live TV to 1.7Mbps.
+Live Radio max bitrate setting.
+Removed BBC Three live.
+
+v2.0.1
+Reverted sorting of programmes back to previous default.
+Fixed various warnings in the logfile.
+Added support for Channel A-Z.
+
+v2.0.0
+Added support for radio.
+Broke up code into different files.
+Added option to sign out BBCiD.
+
+v1.3.5
+Fix for Unicode characters in subtitles.
+
+v1.3.4
+Fix for new URL of BBC Three.
+
+v1.3.3
+Fix for episode count in Favourites.
+
+v1.3.2
+Fixed missing multiple episodes in Favourites.
+Added missing unescaping of HTML.
+Fix for single page listings.
+Minor fixes of potential errors.
+Added optional settings for displaying programme lists.
+
+v1.3.1
+Fixed aired date in Favourites and Watching.
+Fixed incompatibility with Python 2.6.
+
+v1.3.0
+Redesign of scrapers for more robustness, speed and ease of maintenance.
+New progress bar during lengthy scrapes.
+Search groups are supported again.
+Fixed missing aired date.
+Corrected and added dependencies.
+Added support for keyword injection in Search.
+
+v1.2.10
+Fix for changed HTML layout.
+
+v1.2.9
+Fixed broken aired date.
+Added rudimentary support for aired date in Categories.
+
+v1.2.8
+Temporarily removed support for search groups as it may cause Search to fail completely.
+
+v1.2.7
+Fixed bug in Categories with subtcategories, which was introduced in 1.2.6.
+
+v1.2.6
+Cleaned up scraping of aired date.
+Fixed subtitles for newer programmes.
+Fixed some missing channel icons for Live TV.
+
+v1.2.5
+Adapted to new design Highlights website.
+
+v1.2.4
+Added Channel Highlights.
+Fixed missing plot bug in Watching.
+Fixed bugs related to UTF-8 encoded v2.5.4
+Fixed missing icon image when using BBCiD.
+Properly added new CDN Bidi (worked before just by chance).
+Added option to select main menu entries.
+
+v2.5.3
+New image urls.
+
+v2.5.2
+Fixed typo.
+Adapted to latest changes on the website.
+
+v2.5.1
+Fix for broken BBC iD functionality.
+COMPATIBILITY NOTE:
+Users need to sign in on the website once and provide additional data, e.g. their
+postcode before using the updated BBC iD functionality in the add-on.
+
+v2.5.0
+New channel icons for TV and Radio by primaeval. Now all channels have dedicated icons.
+Added warning regarding new TV Licence legislation.
+
+v2.4.1
+Fixed problem which caused too many playlists to be loaded.
+Tidied up some code.
+
+v2.4.0
+Added more Red Button streams.
+Added more regional Live TV.
+Added option to disable Red Button warning pop-up.
+Added icons for top level directories.
+
+v2.3.4
+Moved to different, hopefully more stable, source for Red Button streams.
+Red Button now uses the same code as Watch Live.
+
+v2.3.3
+Fixed high quality Red Button streams.
+
+v2.3.2
+Fixed Radio Favourites and renamed to Added, as on the website.
+
+v2.3.1
+Fixed Favourites and renamed to Added, as on the website.
+
+v2.3.0
+Added mode which shows CBeebies/CBBC only.
+Rearranged settings.
+Moved translation to .po format. (already in 2.2.1)
+
+v2.2.1
+Fixed problem with new Highlights layout.
+Fixed problem with new XML format.
+
+v2.2.0
+Added support for Red Button.
+Fixed empty directory in Channel Highlights.
+
+v2.1.3
+Added more bitrate options for Radio.
+Switched to new stable source for live TV.
+COMPATIBILITY NOTE:
+If autoplay is used for live TV, users MUST set their preferences for live TV bitrate again.
+
+v2.1.2
+Fixed missing live non-HD TV.
+
+v2.1.1
+Fixed live HD TV.
+
+v2.1.0
+Added support for international radio.
+Set default Live TV to 1.7Mbps.
+Live Radio max bitrate setting.
+Removed BBC Three live.
+
+v2.0.1
+Reverted sorting of programmes back to previous default.
+Fixed various warnings in the logfile.
+Added support for Channel A-Z.
+
+v2.0.0
+Added support for radio.
+Broke up code into different files.
+Added option to sign out BBCiD.
+
+v1.3.5
+Fix for Unicode characters in subtitles.
+
+v1.3.4
+Fix for new URL of BBC Three.
+
+v1.3.3
+Fix for episode count in Favourites.
+
+v1.3.2
+Fixed missing multiple episodes in Favourites.
+Added missing unescaping of HTML.
+Fix for single page listings.
+Minor fixes of potential errors.
+Added optional settings for displaying programme lists.
+
+v1.3.1
+Fixed aired date in Favourites and Watching.
+Fixed incompatibility with Python 2.6.
+
+v1.3.0
+Redesign of scrapers for more robustness, speed and ease of maintenance.
+New progress bar during lengthy scrapes.
+Search groups are supported again.
+Fixed missing aired date.
+Corrected and added dependencies.
+Added support for keyword injection in Search.
+
+v1.2.10
+Fix for changed HTML layout.
+
+v1.2.9
+Fixed broken aired date.
+Added rudimentary support for aired date in Categories.
+
+v1.2.8
+Temporarily removed support for search groups as it may cause Search to fail completely.
+
+v1.2.7
+Fixed bug in Categories with subtcategories, which was introduced in 1.2.6.
+
+v1.2.6
+Cleaned up scraping of aired date.
+Fixed subtitles for newer programmes.
+Fixed some missing channel icons for Live TV.
+
+v1.2.5
+Adapted to new design Highlights website.
+
+v1.2.4
+Added Channel Highlights.
+Fixed missing plot bug in Watching.
+Fixed bugs related to UTF-8 encoded programme names.
+Fixed HTML tags showing up in some Highlights programme names.
+
+v1.2.3
+Fixed various bugs in personalisation features.
+Improved cookie handling.
+Make sure the user data directory exists.
+
+v1.2.2
+Further localization of messages.
+Fixed bugs in translations.
+
+v1.2.1
+Localized main menu entries and pop-up messages.
+
+v1.2.0
+Added personalisation features.
+Fixed S4C live TV.
+Final tweaks and fixes for Highlights section.
+Added error pop-ups for requests.
+
+v1.1.2
+Adapted to new layout of Highlights page.
+Part of this is still experimental and may need further fixes.
+
+v1.1.1
+Fixed bug in settings dialog.
+
+v1.1.0
+Added first aired date for episodes.
+Redesigned user interface for manual stream selection and preferences dialog.
+Cleaned up unneccesary code.
+Improved error dialog.
+
+v1.0.1
+Fixup code to pep8 standard.
+Convert to docstrings.
+Fixed typo.
+Added error dialog.
+
+v1.0.0
+Corrected a few typos.
+
+v1.0.0rc4
+Added additional sources for catchup content.
+Adapted to new website layout in Highlights section.
+
+v1.0.0rc3
+Fixed bug in bitrate selection of live TV and catchup content.
+
+v1.0.0rc2
+Added regional channels for live TV.
+Fixed display of icons for live TV.
+Fixed bug in bitrate selection of live TV.
+Fixed bug in bitrate selection of some catchup content.
+
+v1.0.0rc1
+Fixed bug in category and search view: Programmes with multiple episodes did not show up correctly.
+
+v1.0.0beta5
+Moved from urllib2 to requests (adds dependency to requests add-on from official repo).
+Corrected ambiguous values in settings.
+
+v1.0.0beta4
+Added experimental support for sorting content by date, if the date is part of the title.
+
+v1.0.0beta3
+Fixed problem with some older catchup content, which was not found correctly.
+
+v1.0.0beta2
+Fixed typo in settings.
+Fixed live TV for News, Parliament and Alba.
+
+v1.0.0beta1
+Initial release.
+programme names.
+Fixed HTML tags showing up in some Highlights programme names.
+
+v1.2.3
+Fixed various bugs in personalisation features.
+Improved cookie handling.
+Make sure the user data directory exists.
+
+v1.2.2
+Further localization of messages.
+Fixed bugs in translations.
+
+v1.2.1
+Localized main menu entries and pop-up messages.
+
+v1.2.0
+Added personalisation features.
+Fixed S4C live TV.
+Final tweaks and fixes for Highlights section.
+Added error pop-ups for requests.
+
+v1.1.2
+Adapted to new layout of Highlights page.
+Part of this is still experimental and may need further fixes.
+
+v1.1.1
+Fixed bug in settings dialog.
+
+v1.1.0
+Added first aired date for episodes.
+Redesigned user interface for manual stream selection and preferences dialog.
+Cleaned up unneccesary code.
+Improved error dialog.
+
+v1.0.1
+Fixup code to pep8 standard.
+Convert to docstrings.
+Fixed typo.
+Added error dialog.
+
+v1.0.0
+Corrected a few typos.
+
+v1.0.0rc4
+Added additional sources for catchup content.
+Adapted to new website layout in Highlights section.
+
+v1.0.0rc3
+Fixed bug in bitrate selection of live TV and catchup content.
+
+v1.0.0rc2
+Added regional channels for live TV.
+Fixed display of icons for live TV.
+Fixed bug in bitrate selection of live TV.
+Fixed bug in bitrate selection of some catchup content.
+
+v1.0.0rc1
+Fixed bug in category and search view: Programmes with multiple episodes did not show up correctly.
+
+v1.0.0beta5
+Moved from urllib2 to requests (adds dependency to requests add-on from official repo).
+Corrected ambiguous values in settings.
+
+v1.0.0beta4
+Added experimental support for sorting content by date, if the date is part of the title.
+
+v1.0.0beta3
+Fixed problem with some older catchup content, which was not found correctly.
+
+v1.0.0beta2
+Fixed typo in settings.
+Fixed live TV for News, Parliament and Alba.
+
+v1.0.0beta1
+Initial release.
+   </news>
+  </extension>
+</addon>
+
 <addon id="plugin.video.itv" name="ITV" version="2.5.1" provider-name="LittleWiz">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -101,15 +659,15 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.placenta" version="1.2.2" name="Placenta" provider-name="Team Afterbirth">
+<addon id="plugin.video.placenta" version="1.2.4" name="Placenta" provider-name="Team Afterbirth">
 	<requires>
 		<import addon="xbmc.python" version="2.19.0" />
 		<import addon="script.module.placenta" />
-		<import addon="script.placenta.artwork" version="1.0.0" />
-		<import addon="script.placenta.metadata" version="1.0.0" />
+		<import addon="script.placenta.artwork" />
+		<import addon="script.placenta.metadata" />
 		<import addon="script.module.resolveurl" />
 		<import addon="script.module.requests" />
-		<import addon="script.module.metahandler" version="1.0.0" />
+		<import addon="script.module.metahandler" />
         <import addon="plugin.video.youtube"/>
 	</requires>
 	<extension point="xbmc.python.pluginsource" library="default.py">
@@ -242,37 +800,22 @@ This is a Non-profit resource, organized solely for educational purposes which i
   </extension>
 </addon>
 
-<addon id="plugin.video.youtube" name="YouTube" version="6.0.0~alpha6" provider-name="bromix">
+<addon id="plugin.video.youtube" name="YouTube" version="6.0.2" provider-name="bromix">
     <requires>
         <import addon="xbmc.python" version="2.20.0"/>
         <import addon="script.module.six"/>
         <import addon="script.module.requests" version="2.12.4"/>
+        <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="resources/lib/default.py">
         <provides>video</provides>
     </extension>
-    <extension point="xbmc.service" library="resources/lib/startup.py" start="startup"/>
+    <extension point="xbmc.service" library="resources/lib/startup.py" start="login"/>
     <extension point="xbmc.python.module" library="resources/lib/"/>
     <extension point="xbmc.addon.metadata">
         <news>
-[add] Python 3 compat.
-[add] Settings -> Maintenance -> Delete temporary files
-[add] Settings -> General -> Rate video after watching
-[add] Settings -> API -> Enable API configuration page
-        - when enabled, visit http://ipaddress:port/api to configure API keys from a web browser
-        - port is configured in Settings - HTTP Server - Port
-[add] Storing personal api keys in api_keys.json, restore keys from json on settings loss
-[add] Storing login tokens in access_manager.json, restore tokens from json on settings loss
-[add] youtube_registration module, register developer keys and use them by appending an addon_id=:addon_id parameter to youtube add-on plugin urls
-[add] screensaver=true parameter to /play route - no suggested videos, no post play events, don't ask for quality
-[fix] Signature deciphering
-[fix] context menu after playback
-[fix] alternative player, do not append headers
-[fix/upd] post play events happen post play
-[fix/upd] set title from metadata on play
-[upd] Dutch strings [MB1968]
-[upd] French strings [bubuleur]
-[upd] Greek strings [twilight0]
+6.0.2
+[fix] incorrectly raised 'Proxy is not running' error
         </news>
         <assets>
             <icon>icon.png</icon>
@@ -291,6 +834,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
         <description lang="hu_hu">A YouTube világ egyik legnagyobb videómegosztó weboldala.</description>
         <summary lang="es_es">Plugin para YouTube</summary>
         <description lang="es_es">YouTube es uno de los mayores sitios web de intercambio de vídeos del mundo.</description>
+        <disclaimer lang="es_es">Este add-on no esta respaldado por Google</disclaimer>
         <summary lang="ru_ru">Видеодополнение YouTube</summary>
         <description lang="ru_ru">Данное дополнение позволяет находить и смотреть видео на всеми любимом сайте.</description>
         <summary lang="fr_fr">Plugin pour YouTube</summary>
@@ -311,7 +855,6 @@ This is a Non-profit resource, organized solely for educational purposes which i
         <website>https://www.youtube.com</website>
         <email>ytplugin at datanet dot ws</email>
         <source>https://github.com/jdf76/plugin.video.youtube</source>
-        <size>1776578</size>
     </extension>
 </addon>
 
@@ -684,7 +1227,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
         </extension>
 </addon>
 
-<addon id="script.module.placenta" name="Placenta Module" version="1.3.0" provider-name="Team Afterbirth">
+<addon id="script.module.placenta" name="Placenta Module" version="1.3.2" provider-name="Team Afterbirth">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 	</requires>
@@ -746,7 +1289,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
   </extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.08a" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.10" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />
@@ -785,7 +1328,31 @@ This is a Non-profit resource, organized solely for educational purposes which i
   </extension>
 </addon>
 
-<addon id="script.module.universalscrapers" name="Universal Scrapers" version="1.0.9" provider-name="Team Universal">
+<addon id="script.module.streamlink.base" name="Streamlink Library" version="2018.05.21" provider-name="Twilight0">
+  <requires>
+    <import addon="xbmc.python" version="2.24.0"/>
+    <import addon="script.module.requests" version="2.12.4"/>
+    <import addon="script.module.futures" version="2.2.0"/>
+    <import addon="script.module.streamlink.crypto" version="1.4.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="resources/lib/"/>
+  <extension point="xbmc.addon.metadata">
+    <summary>Streamlink Library</summary>
+    <description>Streamlink Library for Kodi</description>
+    <platform>all</platform>
+    <license>Simplified BSD</license>
+    <source>https://github.com/Twilight0/script.module.streamlink.base/</source>
+    <language>en</language>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+    <news>+ 2018.05.21
+- Updates to plugins pulled from upstream
+- Removed _version module and replaced debug info of version with the one Kodi provides</news>
+  </extension>
+</addon>
+
+<addon id="script.module.universalscrapers" name="Universal Scrapers" version="1.0.9.1" provider-name="Team Universal">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.module.beautifulsoup" version="3.2.1"/>
@@ -811,7 +1378,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
         </extension>
 </addon>
 
-<addon id="script.module.urlresolver" name="URLResolver" version="5.0.15" provider-name="tvaddons">
+<addon id="script.module.urlresolver" name="URLResolver" version="5.0.16" provider-name="tvaddons">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />
@@ -996,5 +1563,80 @@ v0.31
         <summary lang="en">Proxy for f4m</summary>
         <description lang="en">Use this addon to play F4m v1 and v2 streams</description>
     </extension>
+</addon>
+
+<addon id="service.subtitles.opensubtitles"
+       name="OpenSubtitles.org"
+       version="5.0.16"
+       provider-name="amet, opensubtitles">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.subtitle.module"
+             library="service.py" />
+  <extension point="xbmc.addon.metadata">
+    <summary>OpenSubtitles</summary>
+    <description lang="en">Search and download subtitles for movies and TV-Series from OpenSubtitles.org. Search in 75 languages, 4.000.000+ subtitles, daily updates.</description>
+	<description lang="at">Pelis and Subtítulos TV en munches llingües, milenta de subtítulos traducíos y xubíos caldía. Descarga llibre dende la fonte, sofitu API, millones d'usuarios.</description>
+	<description lang="br">Istitloù Filmoù ha TV e meur a yezh, miliadoù a istitloù troet hag uskarget bemdez. Pellgargadenn digoust diouzh ar vammenn, skoazell an API, millionoù a implijerien.</description>
+	<description lang="ca">Subtítols de films i televisió en múltiples idiomes, milers de subtítols traduïts carregats diàriament. Descàrrega gratuïta des de la font, suport de l'API, amb milions d'usuaris.</description>
+	<description lang="cs">Titulky k filmům a seriálům v mnoha jazycích, denně tisíce nahraných přeložených titulků. Stažení zadarmo přímo od zdroje, podpora API, milióny uživatelů.</description>
+	<description lang="de">Film- und TV-Untertitel in vielen Sprachen, täglicher Upload von tausenden übersetzten Untertiteln. Freier Download von der Quelle, API-Unterstützung, Millionen Nutzer</description>
+	<description lang="el">Ταινίες και Σειρές σε όλες τις γλώσσες, χιλιάδες μεταφρασμένοι υπότιτλοι ανεβαίνουν καθημερινά, κατεβάστε δωρεάν , υποστήριξη API από εκατομμύρια χρήστες</description>
+	<description lang="eo">Filmaj kaj Televidaj subtekstoj en multaj lingvoj, miloj da tradukitaj subtekstoj ĉiutage alŝutataj. Senpaga elŝuto de fonto, API-subteno, miloj da uzantoj.</description>
+	<description lang="es">Películas y Subtítulos en diversos idiomas, miles de subtítulos traducidos subidos diariamente. Descarge gratis, soporte API, millones de usuarios.</description>
+	<description lang="et">Sadu Filmi ja TV Serjaalide subtiitrid erinevates keeltes laetakse üles igapäev. tasuta allalaadimine ja abi, rohkem kui miljon kasutajat.</description>
+	<description lang="eu">Film eta Telebista azpitituluak hizkuntza anitzetan, milaka azpititulu itzuliak igotzen dira egunero. Doan jaitsi iturburutik, API sostengua, milioika erabiltzaile.</description>
+	<description lang="fi">Tekstityksiä useilla kielillä elokuviin ja TV-Sarjoihin, tuhansia uusia tekstityksiä päivittäin, ilmainen lataus, API tuki, miljoonia käyttäjiä.</description>
+	<description lang="fr">Les sous-titres de film et téléfilm en plusieurs langues, des milliers de sous-titres traduits tous les jours. Bénéficiez de téléchargements gratuits depuis la source, du support API, une d'une communauté de millions d'utilisateurs.</description>
+	<description lang="hi">मूवी और टीवी उपशीर्षक कई भाषाओं में अनुवाद उपशीर्षक के हजारों दैनिक अपलोड की गई। मुफ्त डाउनलोड स्रोत से , एपीआई समर्थन, उपयोगकर्ताओं के लाखों लोगों की ।</description>
+	<description lang="hr">Titlovi za filmove i TV na mnogim jezicima, tisuće prijevoda postavljenih svaki dan. Besplatno preuzimanje s izvora, podrška za API, milijuni korisnika.</description>
+	<description lang="hu">Film és TV feliratok több nyelven, naponta több ezer lefordított felirat feltöltés. Ingyenes letöltés a forrástól, API támogatás, több millió felhasználó.</description>
+	<description lang="id">Subjudul film dan serial TV dalam multibahasa, ribuan subjudul diterjemah dan diunggah setiap harinya. Pengunduhan gratis dari sumber, didukung fitur antarmuka pemrograman aplikasi, dan jutaan pengguna.</description>
+	<description lang="is">Textar fyrir myndir og sjónvarpsþ. á mörgum tungumálum, þúsundir af þýddum textum upphlaðið daglega. Frítt niðurhal frá síðu, API stuðningur, milljónir notenda.</description>
+	<description lang="it">Sottotitoli di Film e TV in più lingue,migliaia di sottotitoli tradotti caricati ogni giorno.Download gratuito,supporto API, milioni di utenti.</description>
+	<description lang="ja">映画やテレビの字幕をさまざまな言語で。毎日数多くの翻訳字幕がアップロードされています。ソースを無料ダウンロード、API 対応、数百万を超えるユーザー。</description>
+	<description lang="ka">სუბტიტრები ფილმებისა და ტვ-სთვის მრავალ ენაზე. ათასობიტ თარგმნილი სუბტიტრის ატვირთვა ყოველდღიურად. უდასო ჩამოტვირტვა წყაროდან, API მხარდაჭერა, მილიონობით მომხმარებელი</description>
+	<description lang="km">អត្ថបទរឿងសម្រាប់ ខ្សែភាពយន្ត និងកម្មវិធីទូរទស្សន៍​ ជាភាសាជាច្រើន រួមនឹងអត្ថបទរឿងបកប្រែរាប់ពាន់​រឿង​ដែល​ត្រូវបាន​អ័ពឡូដជារៀងរាល់ថ្ងៃ។ ទាញយកដោយឥតគិតថ្លៃពីប្រភពដើម គាំទ្រ API និងមានអ្នកប្រើប្រាស់រាប់លាននាក់។ </description>
+	<description lang="ko">Movie and TV Subtitles in multiple languages, thousands of translated subtitles uploaded daily. Free download from source, API support, millions of users.</description>
+	<description lang="ms">Sarikata TV dan Movie dalam pelbagai bahasa, ribuan terjemahan sarikata dimuat-naik setiap hari.Muat-turun percuma dari sumber utama, sokongan API, jutaan pengguna.</description>
+	<description lang="nl">Ondertitels voor films en tv-series in meerdere talen, dagelijks upload van duizenden vertaalde ondertitels. Gratis downloaden van de bron, API ondersteuning, miljoenen gebruikers.</description>
+	<description lang="no">Undertekster for film og TV på mange språk, med tusener av nye oversettelser hver dag. Vi har gratis nedlasting av undertekster, API-support, og mange millioner brukere.</description>
+	<description lang="pt-br">Milhares de legendas para filmes e seriados de TV, em vários idiomas, são traduzidas e enviadas diariamente. Download grátis, suporte API e milhões de usuários.</description>
+	<description lang="pl">Napisy do filmów i seriali w wielu językach. Tysiące napisów dodawanych codziennie. Darmowe pobranie, miliony użytkowników.</description>
+	<description lang="pt">Legendas de filmes e séries de TV em vários idiomas, milhares de legendas traduzidas e enviadas diariamente. Download grátis a partir da fonte, suporte API, milhões de utilizadores.</description>
+	<description lang="ro">Subtitrari pentru filme in multe limbi, mii de subtitrari traduse si încărcate in fiecare zi. Descărca gratuit de la sursă, suport API, milioane de utilizatori.</description>
+	<description lang="ru">Кино и ТВ субтитры на нескольких языках, тысячи переведенными субтитрами загружены ежедневно. Бесплатно скачать из исходных текстов, поддержка API, миллионы пользователей.</description>
+	<description lang="sk">Titulky pre filmy a TV seriály, denne nahratých tisíce titulkov preložených vo viacerých jazykoch. Sťahuj zadarmo zo zdroja, podpora API, milióny používateľov.</description>
+	<description lang="sl">Filmski in televizijski podnapisi v mnogo jezikih, na tisoče prevedenih podnapisov dnevno. Brezplačen prenos iz vira, podpora API, miljoni uporabnikov.</description>
+	<description lang="sq">Titra filmash dhe serialesh në shumë gjuhë, mijëra titra të përkthyera që vendosen çdo ditë. Shkarko nga burimi, apo nga mbështetja e API-së, miliona përdorues.</description>
+	<description lang="sr">Titlovi za filmove i TV na mnogim jezicima, hiljade prevoda okačenih svakodnevno. Besplatno skidanje sa izvora, podrška za API, milioni korisnika.</description>
+	<description lang="sv">Filmer och Tv-undertexter med olika språk, tusentals översatta undertexter uppladdade dagligen. Gratis nerladdning från källor, API support, miljoner av användare.</description>
+	<description lang="tr">Her gün eklenen, pek çok dildeki binlerce film ve dizi altyazısı. Kaynağından ücretsiz indirme, API desteği ve milyonlarca kullanıcı.</description>
+	<description lang="uz">Film va TV Taglavhalari ko'p tillarda, minglab tarjima qilingan taglavhalar har kuni tizimga yuklanadi. Bepul resursdan yuklab oling, API qo'llaydi, millionlab foydalanuvchilar.</description>
+	<description lang="zh">多语种的电影及剧集字幕，每日更新千余条翻译好的字幕。免费下载，提供API接口，已拥有上百万的用户。</description>
+    <disclaimer>Users need to provide OpenSubtitles.org username and password in add-on configuration</disclaimer>
+	<news>
+v5.0.16 (2016-11-26) by opensubtitles
+- Changed descriptions, icons, fanart... (by opensubtitles)
+
+v5.0.15 (2016-11-26) by amet
+- disable anonymous login, users need to register on opensubtitles.org and login in addon settings.
+	</news>
+    <platform>all</platform>
+	<language></language>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum>https://forum.opensubtitles.org/viewtopic.php?f=8&amp;t=15847</forum>
+    <website>http://www.opensubtitles.org</website>
+    <email>admin [at] opensubtitles {dot} org</email>
+	<assets>
+	    <icon>resources/media/os_logo_512x512.png</icon>
+	    <fanart>resources/media/os_fanart.jpg</fanart>
+		<screenshot>resources/media/screenshot_1.jpg</screenshot>
+		<screenshot>resources/media/screenshot_2.jpg</screenshot>
+		<screenshot>resources/media/screenshot_3.jpg</screenshot>
+	</assets>
+    <source>https://github.com/opensubtitles/service.subtitles.opensubtitles</source>
+  </extension>
 </addon>
 </addons>

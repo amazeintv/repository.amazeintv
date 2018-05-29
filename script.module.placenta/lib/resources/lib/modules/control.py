@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib, Mr.Blamo
+# Addon Provider: Mr.Blamo
 
 
 import os
@@ -219,7 +219,7 @@ def moderator():
     netloc = [urlparse.urlparse(sys.argv[0]).netloc, '', 'script.extendedinfo', 'plugin.video.chappaai', 'plugin.program.super.favourites', 'plugin.video.live.streamspro', 'plugin.video.phstreams', 'plugin.video.cpstreams', 'plugin.video.tinklepad', 'script.tvguide.fullscreen', 'script.tvguide.assassins']
 
     if not infoLabel('Container.PluginName') in netloc:
-        infoDialog('Placenta: Unknown screen or plugin', sound=True)
+        infoDialog('Placenta: Unknown screen or plugin', sound=False)
         sys.exit()
 
 def metaFile():

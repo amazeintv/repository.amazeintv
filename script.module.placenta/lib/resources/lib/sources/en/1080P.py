@@ -10,7 +10,7 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: MuadDib
+# Addon Provider: Mr.Blamo
 
 import re,traceback,urllib,urlparse,json,base64
 
@@ -24,8 +24,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['1080pmovie.com']
-        self.base_link = 'https://watchhdmovie.net'
+        self.domains = ['1080pmovie.com','watchhdmovie.net']
+        self.base_link = 'https://watchhdmovie.net/'
         self.search_link = '%s/wp-json/wp/v2/posts?search=%s'
 
     def movie(self, imdb, title, localtitle, aliases, year):
