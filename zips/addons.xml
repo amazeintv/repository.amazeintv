@@ -695,7 +695,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	</extension>
 </addon>
 
-<addon id="plugin.video.ProjectCypher" name="[B][COLOR cyan]Project[/COLOR] [COLOR blue]Cypher[/COLOR][/B]" version="4.0.3" provider-name="Cypher">
+<addon id="plugin.video.ProjectCypher" name="[B][COLOR cyan]Project[/COLOR] [COLOR blue]Cypher[/COLOR][/B]" version="4.0.5" provider-name="Cypher">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="script.ProjectCypher.artwork" />
@@ -706,7 +706,8 @@ This is a Non-profit resource, organized solely for educational purposes which i
 		<import addon="script.cypherstream" />
 		<import addon="script.module.cypherswift" />
 		<import addon="script.module.cypheruktvnow" />
-		<import addon="script.module.cypherustvnow" />
+		<import addon="script.module.cyphermobdro" />
+		<import addon="script.module.cyphernettv" />
 		<import addon="script.module.laola1free" />
 		<import addon="plugin.video.youtube" version="5.2.1" optional="true" />
 		<import addon="script.module.pyxbmct" />
@@ -734,9 +735,30 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	</extension>
 </addon>
 
+<addon id="plugin.video.rd"
+       name="AUTHORIZE RD"
+       version="1.0.5"
+       provider-name="Rogue">
+<requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.beautifulsoup" version="3.2.1"/>
+    <import addon="script.module.beautifulsoup4" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.simplejson" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="default.py">
+    <provides>video</provides>
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">[COLOR blue]AddOn To Authorize Real DeBrid[/COLOR]</summary>
+    <description lang="en">[COLOR blue]AddOn To Authorize Real DeBrid[/COLOR]</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.SkyNet"
-       name="SkyNet"
-       version="4.0.9"
+       name="[COLOR white]SkyNet[/COLOR]"
+       version="5.0.1"
        provider-name="SkyNet">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
@@ -754,7 +776,6 @@ This is a Non-profit resource, organized solely for educational purposes which i
     <import addon="script.module.simplejson" />
     <import addon="script.common.plugin.cache" version="2.5.2"/>
     <import addon="script.module.metahandler" version="2.5.1"/>
-    <import addon="script.module.nanscrapers"/>
     <import addon="script.module.python.koding.aio" version="0.9.6.6"/>
     <import addon="script.module.web-pdb" version="1.0"/>
 
@@ -858,7 +879,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
     </extension>
 </addon>
 
-    <addon id="repository.blamo" name="[COLOR red]Blamo Repo[/COLOR]" version="0.1.3" provider-name="Mr Blamo">
+    <addon id="repository.blamo" name="[COLOR red]Blamo Repo[/COLOR]" version="0.1.4" provider-name="Mr Blamo">
         <requires>
             <import addon="xbmc.addon" version="12.0.0"/>
         </requires>
@@ -923,6 +944,39 @@ This is a Non-profit resource, organized solely for educational purposes which i
 	<extension point="xbmc.addon.metadata">
 		<summary>The MaverickTV Repository v2.8</summary>
 		<description>The MaverickTV Repository for add-on and dependencies</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+
+<addon id="repository.supremacy" name="[COLORaqua]supremacy[/COLOR]" version="2.3" provider-name="supremacy">
+	<extension point="xbmc.addon.repository" name="[COLORaqua]supremacy[/COLOR]">
+	<dir>
+		<info compressed="false">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/totalrevolution/python-koding/master/zips/</datadir>
+	</dir>
+	<dir>
+		<info compressed="false">https://raw.githubusercontent.com/duncanh52/modrepo/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/duncanh52/modrepo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/duncanh52/modrepo/master/plugins/</datadir>
+	</dir>
+	<dir>
+        <info compressed="false">https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/jsergio123/zips/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/jsergio123/zips/master/</datadir>
+    </dir>
+    <dir>
+        <info compressed="false">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/teamuniversal/scrapers/master/_modules4all/zips/</datadir>
+    </dir>
+		<info compressed="false">http://supremacy.org.uk/zip/plugin/addon.xml</info>
+		<checksum>http://supremacy.org.uk/zip/plugin/addons.xml.md5</checksum>
+		<datadir zip="true">http://supremacy.org.uk/zip/plugin/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>video addon for supremacy</summary>
+		<description>Latest Addon Updates For Supremacy Repository</description>
 		<platform>all</platform>
 	</extension>
 </addon>
@@ -1066,6 +1120,47 @@ This is a Non-profit resource, organized solely for educational purposes which i
 		<platform>all</platform>
 		<summary lang="en">a[COLOR blue][B]MAZE[/B][/COLOR]in[COLOR blue][B]TV[/COLOR] MODULE</summary>
 	</extension>
+</addon>
+
+<addon id="script.module.cyphermobdro" name="Cyphers Mobdro" version="1.0" provider-name="Cypher/RACC">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.livestreamer" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.routing" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="cyphermobdro.py">
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_gb">Mobdro Dependency for Project Cypher</summary>
+    <description lang="en_gb">Mobdro Dependency for Project Cypher</description>
+    <disclaimer lang="en_gb">Mobdro Dependency for Project Cypher</disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license></license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="script.module.cyphernettv" name="Cyphers NetTV" version="1.1" provider-name="Cypher">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.pyamf" />
+    <import addon="script.module.livestreamer" />
+    <import addon="script.module.requests" />
+    <import addon="script.module.routing" />
+  </requires>
+  <extension point="xbmc.python.pluginsource" library="cyphernettv.py">
+  </extension>
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Project Cyphers Dependency Addon</summary>
+    <description lang="en">Project Cyphers Dependency Addon</description>
+	<disclaimer lang="en">Project Cyphers Dependency Addon</disclaimer>
+    <platform>all</platform>
+  </extension>
 </addon>
 
 <addon id="script.module.cypherswift" name="Cypher IPTV Svr.2" version="0.2" provider-name="Cypher">
@@ -1289,7 +1384,7 @@ This is a Non-profit resource, organized solely for educational purposes which i
   </extension>
 </addon>
 
-<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.10" provider-name="jsergio">
+<addon id="script.module.resolveurl" name="ResolveURL" version="5.0.11" provider-name="jsergio">
 	<requires>
 		<import addon="xbmc.python" version="2.1.0" />
 		<import addon="plugin.video.youtube" optional="true" />

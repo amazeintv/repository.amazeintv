@@ -1,40 +1,35 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-'''
-    Exodus Add-on
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
-
-
-
-import re,urllib,urlparse
+import re,traceback,urllib,urlparse,json
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
+from resources.lib.modules import control
 from resources.lib.modules import debrid
+from resources.lib.modules import log_utils
 from resources.lib.modules import source_utils
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['rlsbb.online', 'rlsbb.co']
-        self.base_link = 'http://rlsbb.co/'
-        self.search_link = '/search/%s/feed/rss2/'
-        self.search_link2 = '/?s=%s&submit=Find'
-
+        self.domains = ['rlsbb.com', 'rlsbb.ru']
+        self.base_link = 'http://rlsbb.ru'
+        self.search_base_link = 'http://search.rlsbb.ru'
+        self.search_cookie = 'serach_mode=rlsbb'
+        self.search_link = '/lib/search526049.php?phrase=%s&pindex=1&content=true'
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -42,8 +37,9 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
-
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
@@ -51,8 +47,9 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
-
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
         try:
@@ -64,8 +61,9 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return
-
 
     def sources(self, url, hostDict, hostprDict):
         try:
@@ -73,92 +71,99 @@ class source:
 
             if url == None: return sources
 
-            if debrid.status() is False: raise Exception()
+            if debrid.status() == False: raise Exception()
 
             data = urlparse.parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
 
             title = data['tvshowtitle'] if 'tvshowtitle' in data else data['title']
-
             hdlr = 'S%02dE%02d' % (int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else data['year']
 
-            query = '%s S%02dE%02d' % (data['tvshowtitle'], int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (data['title'], data['year'])
-            query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', ' ', query)
+            query = '%s S%02dE%02d' % (
+            data['tvshowtitle'], int(data['season']), int(data['episode'])) if 'tvshowtitle' in data else '%s %s' % (
+            data['title'], data['year'])
+            query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', '', query)
+
+            query = query.replace("&", "and")
+            query = query.replace("  ", " ")
+            query = query.replace(" ", "-")
 
             url = self.search_link % urllib.quote_plus(query)
             url = urlparse.urljoin(self.base_link, url)
 
+            url = "http://rlsbb.ru/" + query
+
+            if 'tvshowtitle' not in data: url = url + "-1080p"
+
             r = client.request(url)
 
-            posts = client.parseDOM(r, 'item')
+            if r == None and 'tvshowtitle' in data:
+                season = re.search('S(.*?)E', hdlr)
+                season = season.group(1)
+                query = title
+                query = re.sub('(\\\|/| -|:|;|\*|\?|"|\'|<|>|\|)', '', query)
+                query = query + "-S" + season
+                query = query.replace("&", "and")
+                query = query.replace("  ", " ")
+                query = query.replace(" ", "-")
+                url = "http://rlsbb.ru/" + query
+                r = client.request(url)
 
+            posts = client.parseDOM(r, "div", attrs={"class": "content"})
             hostDict = hostprDict + hostDict
-
             items = []
-
             for post in posts:
                 try:
-                    t = client.parseDOM(post, 'title')[0]
-                    u = client.parseDOM(post, 'enclosure', ret='url', attrs={'type': 'video.+?'})
-
-                    s = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+) (?:GiB|MiB|GB|MB))', post)
-                    s = s[0] if s else '0'
-
-                    items += [(t, i, s) for i in u]
-
+                    u = client.parseDOM(post, 'a', ret='href')
+                    for i in u:
+                        try:
+                            name = str(i)
+                            if hdlr in name.upper(): items.append(name)
+                        except:
+                            pass
                 except:
                     pass
+
+            seen_urls = set()
 
             for item in items:
                 try:
-                    name = item[0]
-                    name = client.replaceHTMLCodes(name)
+                    info = []
 
-                    t = re.sub('(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*|3D)(\.|\)|\]|\s|)(.+|)', '', name)
-
-                    if not cleantitle.get(t) == cleantitle.get(title): raise Exception()
-
-                    y = re.findall('[\.|\(|\[|\s](\d{4}|S\d*E\d*|S\d*)[\.|\)|\]|\s]', name)[-1].upper()
-
-                    if not y == hdlr: raise Exception()
-
-                    quality, info = source_utils.get_release_quality(name, item[1])
-
-                    try:
-                        size = re.sub('i', '', item[2])
-                        print size
-                        div = 1 if size.endswith('GB') else 1024
-                        size = float(re.sub('[^0-9|/.|/,]', '', size))/div
-                        size = '%.2f GB' % size
-                        info.append(size)
-                    except:
-                        pass
-
-                    info = ' | '.join(info)
-
-                    url = item[1]
-                    if any(x in url for x in ['.rar', '.zip', '.iso']): raise Exception()
+                    url = str(item)
                     url = client.replaceHTMLCodes(url)
                     url = url.encode('utf-8')
 
-                    valid, host = source_utils.is_host_valid(url, hostDict)
-                    if not valid: continue
+                    if url in seen_urls: continue
+                    seen_urls.add(url)
+
+                    host = url.replace("\\", "")
+                    host2 = host.strip('"')
+                    host = re.findall('([\w]+[.][\w]+)$', urlparse.urlparse(host2.strip().lower()).netloc)[0]
+
+                    if not host in hostDict: raise Exception()
+                    if any(x in host2 for x in ['.rar', '.zip', '.iso']): continue
+
+                    if '720p' in host2:
+                        quality = 'HD'
+                    elif '1080p' in host2:
+                        quality = '1080p'
+                    else:
+                        quality = 'SD'
+
+                    info = ' | '.join(info)
                     host = client.replaceHTMLCodes(host)
                     host = host.encode('utf-8')
-
-                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True})
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': host2, 'info': info, 'direct': False, 'debridonly': True})
                 except:
                     pass
-
             check = [i for i in sources if not i['quality'] == 'CAM']
             if check: sources = check
-
             return sources
         except:
+            failure = traceback.format_exc()
+            log_utils.log('RLSBB - Exception: \n' + str(failure))
             return sources
-
 
     def resolve(self, url):
         return url
-
-

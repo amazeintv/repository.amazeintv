@@ -1,5 +1,5 @@
 """
-    Exodus Add-on
+    Jor-EL Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,11 +14,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
-import urlparse, urllib, json, base64, hashlib, re, xbmc
+import urlparse, urllib, json, base64, hashlib, re, xbmc, requests
 
 from resources.lib.modules import client, cleantitle, source_utils, directstream
 from resources.lib.modules import pyaes
+
 
 class source:
     def __init__(self):
@@ -32,7 +36,8 @@ class source:
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            url = {'title': title, 'year': year, 'imdb': imdb}
+            clean_title = cleantitle.geturl(title).replace('-','+')
+            url = {'title': title, 'year': year, 'imdb': imdb, 'clean_title': clean_title}
             return urllib.urlencode(url)
 
         except Exception:
@@ -40,7 +45,7 @@ class source:
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
-            data = {'tvshowtitle': tvshowtitle, 'year': year, 'imdb': imdb}
+            data = {'tvshowtitle': tvshowtitle, 'year': year, 'imdb': imdb, 'clean_title':cleantitle.geturl(tvshowtitle).replace('-','+')}
             return urllib.urlencode(data)
 
         except Exception:
@@ -70,7 +75,7 @@ class source:
                 urls = self.__get_movie_urls(data)
 
             for url in urls:
-                response = client.request(url)
+                response = requests.get(url).text
 
                 encrypted = re.findall('embedVal="(.+?)"', response)[0]
                 decrypted = self.__decrypt(encrypted)
@@ -105,28 +110,37 @@ class source:
                                 continue
 
                     elif 'url' in location:
-                        if 'http' in location['url']:
-                            continue
+                        if 'openload' in location['url']:
+                            quality = storage['video'] if 'tvshowtitle' not in data else '720p'
+                            sources.append(
+                                {'source': "openload.co",
+                                 'quality': quality,
+                                 'language': "en",
+                                 'url': location['url'],
+                                 'direct': False,
+                                 'debridonly': False})
+                        else:
+                            url = urlparse.urljoin(self.cdn_link, location['url'])
 
-                        url = urlparse.urljoin(self.cdn_link, location['url'])
-
-                        response = client.request(url)
-                        manifest = json.loads(response)
-
-                        for video in manifest:
+                            response = requests.get(url).text
                             try:
-                                quality = video['label']
-                                link = video['file']
+                                manifest = json.loads(response)
+                                for video in manifest:
+                                    try:
+                                        quality = video['label'] if video['label'] == '720p' or video['label'] == '1080p' else  'SD'
+                                        link = video['file']
 
-                                sources.append({
-                                    'source': 'CDN',
-                                    'quality': quality,
-                                    'language': 'en',
-                                    'url': link,
-                                    'direct': True,
-                                    'debridonly': False
-                                })
+                                        sources.append({
+                                            'source': 'CDN',
+                                            'quality': quality,
+                                            'language': 'en',
+                                            'url': link,
+                                            'direct': True,
+                                            'debridonly': False
+                                        })
 
+                                    except Exception:
+                                        continue
                             except Exception:
                                 continue
 
@@ -144,7 +158,7 @@ class source:
 
     def __get_episode_urls(self, data):
         try:
-            search = self.search_path % data['imdb']
+            search = self.search_path % data['clean_title']+ '+season+'+data['season']
             url = urlparse.urljoin(self.base_link, search)
 
             response = client.request(url)
@@ -152,7 +166,7 @@ class source:
             jsobj = json.loads(response)
 
             for obj in jsobj['suggestions']:
-                if data['season'] in obj['value']:
+                if data['tvshowtitle'] in obj['value'] and data['season'] in obj['value']:
                     url = urlparse.urljoin(self.base_link, obj['data']['href'])
 
             response = client.request(url)
@@ -166,7 +180,7 @@ class source:
 
     def __get_movie_urls(self, data):
         try:
-            search = self.search_path % data['imdb']
+            search = self.search_path % data['clean_title']+ '+'+data['year']
             url = urlparse.urljoin(self.base_link, search)
 
             response = client.request(url)

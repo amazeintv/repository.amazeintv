@@ -1,9 +1,7 @@
-# NEEDS FIXING
-
 # -*- coding: utf-8 -*-
 
 '''
-    Exodus Add-on
+    Project Cypher Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -30,8 +28,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['xmovies8.tv', 'xmovies8.ru', 'xmovies8.es']
-        self.base_link = 'https://xmovies8.es'
+        self.domains = ['xmovies8.tv', 'xmovies8.ru']
+        self.base_link = 'https://www1.xmovies8.fm'
         self.search_link = 'https://search.' + self.domains[2] +'/?q=%s&page=1'
 
     def matchAlias(self, title, aliases):

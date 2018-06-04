@@ -1,9 +1,7 @@
-# NEEDS FIXING
-
 # -*- coding: utf-8 -*-
 
 '''
-    Exodus Add-on
+    Jor-EL Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
 import re,urlparse
 

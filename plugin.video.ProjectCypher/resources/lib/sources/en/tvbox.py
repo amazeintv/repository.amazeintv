@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Exodus Add-on
+    Jor-EL Add-on
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
+
 
 import re,urllib,urlparse,json,base64,hashlib,time
 
@@ -28,18 +32,18 @@ from resources.lib.modules import dom_parser
 
 
 class source:
-    def __init__(self):
+    def __init__(self):       
         self.priority = 1
         self.language = ['en']
-        self.domains = ['tvbox.ag']
-        self.base_link = 'https://tvbox.ag'
-        self.search_link_tv = 'https://tvbox.ag/tvshows'
-        self.search_link_movie = 'https://tvbox.ag/movies'
+        self.domains = ['tvbox.unblocked.mx/']
+        self.base_link = 'https://tvbox.unblocked.mx/'
+        self.search_link_tv = 'https://tvbox.unblocked.mx/tvshows'
+        self.search_link_movie = 'https://tvbox.unblocked.mx/movies'
 
-
+    
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
-            result = client.request(self.search_link_movie, cookie='check=1')
+            result = client.request(self.search_link_movie)
             m = client.parseDOM(result, 'div', attrs={'class': 'masonry'})[0]
             m = dom_parser.parse_dom(m, 'a', req='href')
             m = [(i.attrs['href'], i.content) for i in m]
@@ -53,7 +57,7 @@ class source:
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
 
         try:
-            result = client.request(self.search_link_tv, cookie='check=1')
+            result = client.request(self.search_link_tv)
             m = client.parseDOM(result, 'div', attrs={'class': 'masonry'})[0]
             m = dom_parser.parse_dom(m, 'a', req='href')
             m = [(i.attrs['href'], i.content) for i in m]
@@ -71,8 +75,8 @@ class source:
 
             url = urlparse.urljoin(self.base_link, url)
             for i in range(3):
-                result = client.request(url, cookie='check=1', timeout=10)
-                if not result == None: break
+                result = client.request(url, timeout=10)
+                if not result == None: break  
 
             title = cleantitle.get(title)
             premiered = re.compile('(\d{4})-(\d{2})-(\d{2})').findall(premiered)[0]
@@ -93,12 +97,12 @@ class source:
             if url == None: return sources
             url = urlparse.urljoin(self.base_link, url)
             for i in range(3):
-                result = client.request(url, cookie='check=1')
+                result = client.request(url)
                 if not result == None: break
-
-            links = re.compile('onclick="report\(\'([^\']+)').findall(result)
+            
+            links = re.compile('onclick="report\(\'([^\']+)').findall(result)         
             for link in links:
-                try:
+                try:                    
                     valid, hoster = source_utils.is_host_valid(link, hostDict)
                     if not valid: continue
                     urls, host, direct = source_utils.check_directstreams(link, hoster)

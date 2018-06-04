@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
 '''
-    Exodus Add-on
-    Bubbles Add-on
-    Copyright (C) 2016 Bubbles
-
+    Jor-EL Add-on
+    
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
@@ -19,6 +17,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
 import re,urllib,urlparse,json
 from resources.lib.modules import client

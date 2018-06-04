@@ -1,39 +1,32 @@
-# -*- coding: utf-8 -*-
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-'''
-    Exodus Add-on
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
 
 
-import re,urllib,urlparse
+import re,traceback,urllib,urlparse
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
-from resources.lib.modules import debrid
-from resources.lib.modules import source_utils
+from resources.lib.modules import log_utils
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['tinydl.com', 'phazeddl.me']
-        self.base_link = 'http://phazeddl.me/'
+        self.domains = ['tinydl.com','phazeddl.me']
+        self.base_link = 'http://phazeddl.me'
         self.search_link = '/search/%s/feed/rss2/'
-
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
@@ -41,16 +34,15 @@ class source:
             url = urllib.urlencode(url)
             return url
         except:
+            failure = traceback.format_exc()
+            log_utils.log('PhazeDDL - Exception: \n' + str(failure))
             return
-
 
     def sources(self, url, hostDict, hostprDict):
         try:
             sources = []
 
             if url == None: return sources
-
-            if debrid.status() == False: raise Exception()
 
             data = urlparse.parse_qs(url)
             data = dict([(i, data[i][0]) if data[i] else (i, '') for i in data])
@@ -79,7 +71,7 @@ class source:
 
                     c = client.parseDOM(post, 'content.+?')[0]
 
-                    u = re.findall('>Single Link(.+?)p>\s*<span', c.replace('\n', ''))[0]
+                    u = re.findall('>Single Link(.+?)(?:#ff0000|$)', c.replace('\n', ''))[0]
 
                     u = client.parseDOM(u, 'a', ret='href')
 
@@ -102,7 +94,24 @@ class source:
                     y = re.findall('[\.|\(|\[|\s](\d{4}|S\d*E\d*|S\d*)[\.|\)|\]|\s]', name)[-1].upper()
 
                     if not y == hdlr: raise Exception()
-                    quality, info = source_utils.get_release_quality(name, item[1])
+                                                                                   
+
+                    fmt = re.sub('(.+)(\.|\(|\[|\s)(\d{4}|S\d*E\d*|S\d*)(\.|\)|\]|\s)', '', name.upper())
+                    fmt = re.split('\.|\(|\)|\[|\]|\s|\-', fmt)
+                    fmt = [i.lower() for i in fmt]
+
+                    if any(i.endswith(('subs', 'sub', 'dubbed', 'dub')) for i in fmt): raise Exception()
+                    if any(i in ['extras'] for i in fmt): raise Exception()
+
+                    if '1080p' in fmt: quality = '1080p'
+                    elif '720p' in fmt: quality = 'HD'
+                    else: quality = 'SD'
+                    if any(i in ['dvdscr', 'r5', 'r6'] for i in fmt): quality = 'SCR'
+                    elif any(i in ['camrip', 'tsrip', 'hdcam', 'hdts', 'dvdcam', 'dvdts', 'cam', 'telesync', 'ts'] for i in fmt): quality = 'CAM'
+
+                    info = []
+
+                    if '3d' in fmt: info.append('3D')
 
                     try:
                         size = re.findall('((?:\d+\.\d+|\d+\,\d+|\d+) (?:GB|GiB|MB|MiB))', item[2])[-1]
@@ -113,18 +122,21 @@ class source:
                     except:
                         pass
 
+                    if any(i in ['hevc', 'h265', 'x265'] for i in fmt): info.append('HEVC')
+
                     info = ' | '.join(info)
 
                     url = item[1]
-                    if any(x in url for x in ['.rar', '.zip', '.iso']): raise Exception()
+                    if any(x in url for x in ['.rar', '.zip', '.iso']): continue
                     url = client.replaceHTMLCodes(url)
                     url = url.encode('utf-8')
 
-                    valid, host = source_utils.is_host_valid(url,hostDict)
+                    host = re.findall('([\w]+[.][\w]+)$', urlparse.urlparse(url.strip().lower()).netloc)[0]
+                    if not host in hostDict: raise Exception()
                     host = client.replaceHTMLCodes(host)
                     host = host.encode('utf-8')
 
-                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': True})
+                    sources.append({'source': host, 'quality': quality, 'language': 'en', 'url': url, 'info': info, 'direct': False, 'debridonly': False})
                 except:
                     pass
 
@@ -133,8 +145,9 @@ class source:
 
             return sources
         except:
+            failure = traceback.format_exc()
+            log_utils.log('PhazeDDL - Exception: \n' + str(failure))
             return sources
-
 
     def resolve(self, url):
         return url

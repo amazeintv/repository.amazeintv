@@ -1,23 +1,20 @@
-"""
-    Exodus Add-on
+# -*- coding: UTF-8 -*-
+#######################################################################
+ # ----------------------------------------------------------------------------
+ # "THE BEER-WARE LICENSE" (Revision 42):
+ # @tantrumdev wrote this file.  As long as you retain this notice you
+ # can do whatever you want with this stuff. If we meet some day, and you think
+ # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
+ # ----------------------------------------------------------------------------
+#######################################################################
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+# Addon Name: Project Cypher
+# Addon id: plugin.video.ProjectCypher
+# Addon Provider: Cypher
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+import urlparse,traceback,urllib,json,base64,xbmc
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-"""
-
-import urlparse, urllib, json, base64, xbmc
-
-from resources.lib.modules import client, cleantitle, source_utils, directstream
+from resources.lib.modules import client, cleantitle, log_utils, source_utils, directstream
 from resources.lib.modules import pyaes
 
 class source:
@@ -41,16 +38,18 @@ class source:
         try:
             url = {'title': title, 'year': year, 'imdb': imdb}
             return urllib.urlencode(url)
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             data = {'tvshowtitle': tvshowtitle, 'year': year, 'imdb': imdb}
             return urllib.urlencode(data)
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -60,8 +59,9 @@ class source:
             data.update({'season': season, 'episode': episode, 'title': title, 'premiered': premiered})
 
             return urllib.urlencode(data)
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def sources(self, url, hostDict, hostprDict):
@@ -104,15 +104,17 @@ class source:
                     pass
 
             return sources
-
-        except Exception:
-            return
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
+            return sources
 
     def resolve(self, url):
         try:
             return url
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def __get_episode_url(self, data):
@@ -138,8 +140,9 @@ class source:
             url = urlparse.urljoin(self.base_link, path)
 
             return url
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def __get_movie_url(self, data):
@@ -164,8 +167,9 @@ class source:
             url = urlparse.urljoin(self.base_link, path)
 
             return url
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
 
     def __decrypt(self, ciphertext):
@@ -177,6 +181,7 @@ class source:
             plaintext += decrypter.feed()
 
             return plaintext
-
-        except Exception:
+        except:
+            failure = traceback.format_exc()
+            log_utils.log('ShowBox - Exception: \n' + str(failure))
             return
