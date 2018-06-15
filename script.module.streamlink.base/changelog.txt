@@ -1,3 +1,31 @@
++ 2018.06.10
+- Various plugin updates
+- Added issue template
+- Improved README
+
++ 2018.06.07
+- vk.ru plugin bug fix
+- Instructions on how to get MPEG-DASH url added to README
+
++ 2018.06.07
+- Upstream release 0.13.0
+- Fixes to maintain python 2.6.X support (e.g. Kodi Jarvis on Android)
+- Updated youtube plugin to include custom API key option and the fallback to plain html if quota reached
+
++ 2018.06.04
+- Updated facebook plugin to support VOD
+
++ 2018.06.03
+- Bumped to commit d653d56
+- Updated facebook plugin to support DASH
+- Improved DASH
+
++ 2018.06.01
+- Bumped to commit d653d56
+- MPEG-DASH support added
+- New logging system
+- Various updates to plugins
+
 + 2018.05.21
 - Updates to plugins pulled from upstream
 - Removed _version module and replaced debug info of version with the one Kodi provides

@@ -10,17 +10,17 @@
 
 # Addon Name: Placenta
 # Addon id: plugin.video.placenta
-# Addon Provider: Mrblamo
+# Addon Provider: Mr.blamo
 
-import requests, json, sys
-from resources.lib.modules import source_utils, cleantitle, control
-
-
+import re,traceback,urllib,urlparse,requests,json,sys
+from resources.lib.modules import source_utils
+from resources.lib.modules import cleantitle
+from resources.lib.modules import control
 
 class source:
     def __init__(self):
         self.accepted_extensions = ['mkv','mp4','avi', 'm4v', 'mpg', 'mpeg', 'webm']
-        self.priority = 0
+        self.priority = 1
         self.language = ['en']
         self.domain = 'furk.net'
         self.meta_search_link = "/api/plugins/metasearch?api_key=%s&q=%s&cached=yes&moderated=yes" \
@@ -80,7 +80,7 @@ class source:
                         continue
             return sources
         except:
-            print("Unexpected error in Furk Script: source", sys.exc_info()[0])
+            print("Unexpected error in Furk Scraper: source", sys.exc_info()[0])
             exc_type, exc_obj, exc_tb = sys.exc_info()
             print(exc_type, exc_tb.tb_lineno)
             pass

@@ -25,9 +25,9 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['vodly.us', 'vodly.unblocked.tv']
-        self.base_link = 'http://watch32.is/'
-        self.search_link = '%s/search?q=watch32.is+%s+%s'
+        self.domains = ['vodly.us', 'vodly.unblocked.tv', 'watch32.is']
+        self.base_link = 'http://watch32.is'
+        self.search_link = '/%s/search?q=watch32.is+%s+%s'
         self.goog = 'https://www.google.co.uk'
 
     def movie(self, imdb, title, localtitle, aliases, year):
