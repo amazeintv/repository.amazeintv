@@ -43,6 +43,7 @@ if not os.path.isdir(IMAGE_DIR):
     os.makedirs(IMAGE_DIR)
 
 livepro = ADDON.getSetting('livepro')
+SHOWLIVE=ADDON.getSetting('SHOWLIVE')
 
 def get_httplib():
  
@@ -146,26 +147,29 @@ def CATS():
         addDir('Shows','http://www.itv.com/hub/shows',1,icon,isFolder=True)
         addDir('Categories','cats',205,icon,isFolder=True)
         addDir('Live','Live',206,icon,isFolder=True)
+        if SHOWLIVE == 'true':
+            try:LIVE('dont')
+            except:pass
         setView('tvshows', 'default')
 
         
                         
 def getsim(channel):
-    if 'ITV' == channel.upper():return ('ITV','2')
+    if 'ITV' == channel.upper():return ('ITV','1')
 
-    if 'ITV2' in channel.upper():return ('ITV2','3')
+    if 'ITV2' in channel.upper():return ('ITV2','2')
 
-    if 'ITV3' in channel.upper():return ('ITV3','4')
+    if 'ITV3' in channel.upper():return ('ITV3','3')
 
-    if 'ITV4' in channel.upper():return ('ITV4','5')
+    if 'ITV4' in channel.upper():return ('ITV4','4')
 
-    if 'CITV' in channel.upper():return ('CITV','6')
+    if 'CITV' in channel.upper():return ('CITV','7')
 
-    if 'ITVBE' in channel.upper():return ('ITVBe','7')
+    if 'ITVBE' in channel.upper():return ('ITVBe','8')
 
     
                         
-def LIVE():
+def LIVE(url):
     try:
         link = OPEN_URL('https://www.itv.com/hub/tv-guide')
 
@@ -181,10 +185,15 @@ def LIVE():
                 else:
                     mode = 7
                     sim = 'sim'+icon_num
-                addDir(channel + ' - '+title,sim,mode,foricon+'art/%s.png' % icon_num,isFolder=False)
+                    
+                if url=='dont':
+                    name = '[COLOR plum]On Now[/COLOR] - [COLOR green]%s[/COLOR] - %s' % (channel,title)
+                    addDir(name,sim,mode,foricon+'art/%s.png' % icon_num,isFolder=False)
+                else:
+                    addDir(channel + ' - '+title,sim,mode,foricon+'art/%s.png' % icon_num,isFolder=False)
                 
-
-        addDir('Events/Sport','https://itvliveevents-i.akamaihd.net/hls/live/203496/itvliveevents/ITVEVTMN/master.m3u8',7,foricon+'art/9.jpg',isFolder=False)#sim9
+        if url !='dont':
+            addDir('Events/Sport','https://itvliveevents-i.akamaihd.net/hls/live/203496/itvliveevents/ITVEVTMN/master.m3u8',7,foricon+'art/9.jpg',isFolder=False)#sim9
         
     except: 
         addDir('ITV1','sim1',7,foricon+'art/1.png',isFolder=False)#sim1   https://itv1liveios-i.akamaihd.net/hls/live/203437/itvlive/ITV1MN/master.m3u8
@@ -1157,7 +1166,7 @@ elif mode==205:
     CATEGORIES()
     
 elif mode==206:
-    LIVE()   
+    LIVE(url)   
         
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
 

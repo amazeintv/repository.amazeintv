@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -26,7 +26,7 @@ class source:
         self.priority = 1
         self.language = ['en']
         self.domains = ['1movies.se','1movies.to','1movies.se']
-        self.base_link = 'https://www1.1movies.se/'
+        self.base_link = 'https://www2.1movies.se/'
         self.search_link = '/search_all/%s/'
         self.player_link = '/ajax/movie/load_player_v3'
 

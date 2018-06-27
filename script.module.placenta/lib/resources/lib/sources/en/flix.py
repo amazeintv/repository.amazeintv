@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -12,13 +12,12 @@
 # Addon id: plugin.video.placenta
 # Addon Provider: Mr.Blamo
 
-import re, traceback urlparse, urllib, base64
+import re, urlparse, urllib, base64
 
 from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import cache
 from resources.lib.modules import dom_parser2
-
 
 class source:
     def __init__(self):
@@ -27,7 +26,6 @@ class source:
         self.domains = ['netflixlogin.in']
         self.base_link = 'http://netflixlogin.in'
         self.search_link = '/search-movies/%s.html'
-
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:

@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -25,8 +25,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['http://openloadmovies.tv/','getmypopcornnow.xyz']
-        self.base_link = 'http://pubfilmonline.net/'
+        self.domains = ['openloadmovies.tv','getmypopcornnow.xyz']
+        self.base_link = 'http://openloadmovies.tv/'
         self.ajax_link = '/wp-admin/admin-ajax.php'
         self.search_link = '/?s=%s'
         self.scraper = cfscrape.create_scraper()

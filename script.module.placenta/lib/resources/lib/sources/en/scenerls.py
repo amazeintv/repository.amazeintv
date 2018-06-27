@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -25,7 +25,7 @@ class source:
         self.language = ['en']
         self.domains = ['scene-rls.com','scene-rls.net']
         self.base_link = 'http://scene-rls.net/'
-        self.search_link = '/search/%s/feed/rss2/'
+        self.search_link = '/?s=%s'
         self.search_link_2 = '/?s=%s&submit=Find'
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):

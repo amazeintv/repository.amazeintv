@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -22,8 +22,8 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['megashare.vc']
-        self.base_link = 'http://www1.megashare.vc/'
+        self.domains = ['megashare.bz']
+        self.base_link = 'http://megashare.bz/'
         self.search_link = '/watch/%s-%s-.html'
         
     def movie(self, imdb, title, localtitle, aliases, year):

@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -12,17 +12,17 @@
 # Addon id: plugin.video.placenta
 # Addon Provider: Mr.Blamo
 
-import urlparse,traceback,urllib,json,base64,xbmc
+import urlparse, urllib, json, base64, xbmc
 
-from resources.lib.modules import client, cleantitle, log_utils, source_utils, directstream
+from resources.lib.modules import client, cleantitle, source_utils, directstream
 from resources.lib.modules import pyaes
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['movietimeapp.com', 'sbfunapi.cc']
-        self.base_link = 'http://sbfunapi.cc/'
+        self.domains = ['movietimeapp.com']
+        self.base_link = 'http://sbfunapi.cc'
         self.server = 'http://%s/video/%s/manifest_mp4.json?sign=%s&expires_at=%s'
         self.key = b'\x38\x36\x63\x66\x37\x66\x66\x63\x62\x33\x34\x64\x37\x64\x33\x30\x64\x33\x62\x63\x31\x35\x61\x38\x35\x31\x36\x33\x34\x33\x32\x38'
         self.show_search = '/api/serials/tv_list/?query=%s'
@@ -37,19 +37,19 @@ class source:
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
             url = {'title': title, 'year': year, 'imdb': imdb}
+
             return urllib.urlencode(url)
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def tvshow(self, imdb, tvdb, tvshowtitle, localtvshowtitle, aliases, year):
         try:
             data = {'tvshowtitle': tvshowtitle, 'year': year, 'imdb': imdb}
+
             return urllib.urlencode(data)
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def episode(self, url, imdb, tvdb, title, premiered, season, episode):
@@ -59,9 +59,8 @@ class source:
             data.update({'season': season, 'episode': episode, 'title': title, 'premiered': premiered})
 
             return urllib.urlencode(data)
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def sources(self, url, hostDict, hostprDict):
@@ -75,6 +74,7 @@ class source:
                 url = self.__get_episode_url(data)
             else:
                 url = self.__get_movie_url(data)
+
 
             token = urlparse.parse_qs(urlparse.urlparse(url).query)['token'][0]
 
@@ -96,7 +96,7 @@ class source:
                         'quality': k + 'p',
                         'language': 'en',
                         'url': v,
-                        'direct': False,
+                        'direct': True,
                         'debridonly': False
                     })
 
@@ -104,17 +104,15 @@ class source:
                     pass
 
             return sources
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
-            return sources
+
+        except Exception:
+            return
 
     def resolve(self, url):
         try:
             return url
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def __get_episode_url(self, data):
@@ -124,7 +122,6 @@ class source:
             url = urlparse.urljoin(self.base_link, path)
 
             response = client.request(url, headers=self.headers)
-
             show_id = json.loads(response)[0]['id']
 
             path = self.episode_details % (show_id, data['season'], data['episode'])
@@ -140,9 +137,8 @@ class source:
             url = urlparse.urljoin(self.base_link, path)
 
             return url
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def __get_movie_url(self, data):
@@ -167,9 +163,8 @@ class source:
             url = urlparse.urljoin(self.base_link, path)
 
             return url
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return
 
     def __decrypt(self, ciphertext):
@@ -181,7 +176,6 @@ class source:
             plaintext += decrypter.feed()
 
             return plaintext
-        except:
-            failure = traceback.format_exc()
-            log_utils.log('ShowBox - Exception: \n' + str(failure))
+
+        except Exception:
             return

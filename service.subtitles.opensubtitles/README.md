@@ -1,15 +1,19 @@
-OpenSubtitles.org KODI add-on
-=============================
-Search and download subtitles for movies and TV-Series from OpenSubtitles.org. Search in 75 languages, 4.000.000+ subtitles, daily updates.
+OpenSubtitles.org by OpenSubtitles KODI add-on
+==============================================
+
+How to install this addon in KODI:
+- download http://www.opensubtitles.org/addons/kodi/service.subtitles.opensubtitles_by_opensubtitles.zip
+- open KODI -> System -> Settings -> Add-ons -> Install from zip file
+- navigate to the file you downloaded
+         
                             
 Changelog
+5.2.14
+- New feature: Users are able to check for subtitles when Kodi is not playing, by using the manual search or by standing on an item and opening the subtitles search dialog (By key or by an external addon) | @burekas
+- The external addon for the contextmenu can be downloaded from here: https://github.com/burekas7/context.subtitlesdialog.contextmenu
 
-
-5.0.16
-- Changed descriptions, icons, fanart... (by opensubtitles)
-
-5.0.15
-- disable anonymous login, users need to register on opensubtitles.org and login in addon settings.
+5.1.14
+- Users are able to download subtitles as anonymous without authentication. Added localized descriptions, media files
 
 5.0.14
 - Fix for Portuguese (Brazil) broken by 42f6ec9, thx host505
