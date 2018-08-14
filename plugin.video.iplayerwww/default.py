@@ -120,9 +120,6 @@ elif mode == 105:
 elif mode == 106:
     Video.ListHighlights(url)
 
-elif mode == 198:
-    Video.ListMainHighlights(url)
-
 elif mode == 107:
     Video.ListWatching(logged_in)
 
@@ -205,6 +202,9 @@ elif mode == 134:
 elif mode == 136:
     Radio.GetPage(url)
 
+elif mode == 137:
+    Radio.GetCategoryPage(url)
+
 # Modes 201-299 will create a playable menu entry, not a directory
 elif mode == 201:
     Video.PlayStream(name, url, iconimage, description, subtitles_url)
@@ -218,6 +218,9 @@ elif mode == 203:
 elif mode == 204:
     Video.AddAvailableRedButtonItem(name, url)
 
+elif mode == 205:
+    Video.AddAvailableUHDTrialItem(name, url)
+
 elif mode == 211:
     Radio.PlayStream(name, url, iconimage, description, subtitles_url)
 
@@ -227,6 +230,8 @@ elif mode == 212:
 elif mode == 213:
     Radio.AddAvailableLiveStreamItem(name, url, iconimage)
 
+elif mode == 197:
+    Video.ListUHDTrial()
 
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

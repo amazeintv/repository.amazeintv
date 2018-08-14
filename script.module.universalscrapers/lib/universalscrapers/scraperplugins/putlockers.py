@@ -1,9 +1,9 @@
 import requests,re,time
-import urllib, base64
-from ..jsunpack import unpack
+from ..modules.jsunpack import unpack
 import xbmcaddon
 from ..scraper import Scraper
 from ..common import clean_title,clean_search,send_log,error_log
+from universalscrapers.modules import cfscrape
 dev_log = xbmcaddon.Addon('script.module.universalscrapers').getSetting("dev_log")
 
 a = 'Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:59.0) Gecko/20100101 Firefox/59.0'
@@ -21,19 +21,20 @@ class putlockers(Scraper):
     def scrape_movie(self, x, y, z, debrid = False):
         try:
             count = 0
-            start_headache = time.time() 
+            start_headache = time.time()
+            scraper = cfscrape.create_scraper()
             e = clean_search(x.lower())
             l = '%s/?s=%s+%s' %(self.i,e.replace(' ','+'),y)
 #            print l
-            i = b.get(l,headers=c,timeout=5).content
+            i = scraper.get(l,headers=c,timeout=5).content
             f = re.findall('<div class="thumbnail animation-2">.+?href="(.+?)">.+?alt="(.+?)"',i)
             for e, l in f:
                 d, g = re.findall('(.+?)\((.+?)\)',str(l))[0]
                 if clean_title(d) == clean_title(x) and g == y:
  #                   print e
-                    q = b.get(e).content
+                    q = scraper.get(e).content
                     r = re.findall('<iframe class="metaframe rptss" src="(.+?)"',q)[0]
-                    t = b.get(r).content
+                    t = scraper.get(r).content
                     u = re.findall("var tc = '(.+?)'.+?url: \"(.+?)\".+?\"_token\": \"(.+?)\".+?function.+?\(s\)(.+?)</script>",t,re.DOTALL)
                     for v, w, xoxo, yoyo in u:
                         o = self.get_x_token(v,yoyo)
@@ -46,7 +47,7 @@ class putlockers(Scraper):
                         l = b.post(w,headers=p,data=g).json()
                         for a in l:
                             if 'putvid' in a:
-                                z = b.get(a).content
+                                z = scraper.get(a).content
                                 enjoy = re.findall("<script type='text/javascript'>(.+?)</script>",z,re.DOTALL)[0]
                                 enjoy = unpack(enjoy)
                                 enjoy = re.findall('sources:\["(.+?)"',str(enjoy))[0]
@@ -57,7 +58,7 @@ class putlockers(Scraper):
                                     something = 'Openload'
                                 elif 'streamango' in a:
                                     something = 'Streamango'
-                                z = b.get(a).content
+                                z = scraper.get(a).content
                                 fun = re.findall('"description" content="(.+?)"',z)[0]
                                 if '1080p' in fun:
                                     somestuff = '1080p'

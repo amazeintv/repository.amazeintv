@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -80,7 +80,7 @@ class source:
             data = zip(client.parseDOM(data, 'a'), client.parseDOM(data, 'a', ret='href'))
             url = [(i[0], i[1]) for i in data if i[0] == str(int(episode))]
 
-            return url[0][1]
+            return url[0][0]
         except:
             failure = traceback.format_exc()
             log_utils.log('CinemaMega - Exception: \n' + str(failure))

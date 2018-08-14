@@ -2,7 +2,7 @@
 #######################################################################
  # ----------------------------------------------------------------------------
  # "THE BEER-WARE LICENSE" (Revision 42):
- # @tantrumdev wrote this file.  As long as you retain this notice you
+ # @Daddy_Blamo wrote this file.  As long as you retain this notice you
  # can do whatever you want with this stuff. If we meet some day, and you think
  # this stuff is worth it, you can buy me a beer in return. - Muad'Dib
  # ----------------------------------------------------------------------------
@@ -18,18 +18,21 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import cache
 from resources.lib.modules import dom_parser2
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
         self.domains = ['hdmega.unblckd.cc']
-        self.base_link = 'http://hdmega.unblckd.cc'
+        self.base_link = 'http://hdmega.unblckd.ink/'
         self.search_link = '/search-movies/%s.html'
+        self.scraper = cfscrape.create_scraper()
 
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
+            scraper = cfscrape.create_scraper()
             clean_title = cleantitle.geturl(title)
             search_url = urlparse.urljoin(self.base_link, self.search_link % clean_title.replace('-', '+'))
             r = cache.get(client.request, 1, search_url)

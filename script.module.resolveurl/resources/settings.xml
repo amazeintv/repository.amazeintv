@@ -691,6 +691,10 @@
 		<setting id="VidnodeResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="VidnodeResolver_enabled" type="bool" label="Enabled" default="true"/>
 		<setting id="VidnodeResolver_login" type="bool" label="login" default="true" visible="false"/>
+		<setting label="vidorg.net" type="lsep"/>
+		<setting id="VidorgResolver_priority" type="number" label="Priority" default="100"/>
+		<setting id="VidorgResolver_enabled" type="bool" label="Enabled" default="true"/>
+		<setting id="VidorgResolver_login" type="bool" label="login" default="true" visible="false"/>
 		<setting label="vidoza" type="lsep"/>
 		<setting id="VidozaResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="VidozaResolver_enabled" type="bool" label="Enabled" default="true"/>
@@ -707,12 +711,12 @@
 		<setting id="VidtoResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="VidtoResolver_enabled" type="bool" label="Enabled" default="true"/>
 		<setting id="VidtoResolver_login" type="bool" label="login" default="true" visible="false"/>
+	</category>
+	<category label="Resolvers 9">
 		<setting label="vidtodo" type="lsep"/>
 		<setting id="VidToDoResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="VidToDoResolver_enabled" type="bool" label="Enabled" default="true"/>
 		<setting id="VidToDoResolver_login" type="bool" label="login" default="true" visible="false"/>
-	</category>
-	<category label="Resolvers 9">
 		<setting label="vidup.me" type="lsep"/>
 		<setting id="VidUpMeResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="VidUpMeResolver_enabled" type="bool" label="Enabled" default="true"/>
@@ -785,6 +789,8 @@
 		<setting id="YoutubeResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="YoutubeResolver_enabled" type="bool" label="Enabled" default="true"/>
 		<setting id="YoutubeResolver_login" type="bool" label="login" default="true" visible="false"/>
+	</category>
+	<category label="Resolvers 10">
 		<setting label="zstream.to" type="lsep"/>
 		<setting id="ZstreamResolver_priority" type="number" label="Priority" default="100"/>
 		<setting id="ZstreamResolver_enabled" type="bool" label="Enabled" default="true"/>

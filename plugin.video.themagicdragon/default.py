@@ -23,7 +23,7 @@ import time
 import requests
 import _Edit
 	
-resolve_url=['oboom.com','alldebrid.com', 'allmyvideos.net', 'estream.to', 'vidtodo.com',  'streamango.com','vidto.me',  '1fichier.com','allvid.ch', 'auengine.com', 'fmovies.se','beststreams.net', 'briskfile.com', 'castamp.com', 'clicknupload.com', 'clicknupload.me', 'clicknupload.link', 'cloudy.ec', 'cloudzilla.to', 'neodrive.co', 'crunchyroll.com', 'daclips.in', 'daclips.com', 'dailymotion.com', 'divxstage.eu', 'divxstage.net', 'divxstage.to', 'couldtime.to', 'ecostream.tv', 'exashare.com', 'facebook.com', 'fastplay.sx', 'filehoot.com', 'filenuke.com', 'filepup.net', 'filmshowonline.net', 'flashx.tv', 'plus.google.com', 'googlevideo.com', 'picasaweb.google.com', 'googleusercontent.com', 'googledrive.com', 'gorillavid.in', 'gorillavid.com', 'gorillavid.in', 'grifthost.com', 'hugefiles.net', 'idowatch.net', 'indavideo.hu', 'ishared.eu', 'jetload.tv', 'kingfiles.net', 'letwatch.us', 'letwatch.to', 'vidshare.us', 'mail.ru', 'my.mail.ru', 'videoapi.my.mail.ru', 'api.video.mail.ru', 'mega-debrid.eu', 'megamp4.net', 'mersalaayitten.com', 'movdivx.com', 'movpod.net', 'movpod.in', 'movshare.net', 'wholecloud.net', 'mp4engine.com', 'mp4stream.com', 'mp4upload.com', 'myvidstream.net', 'nosvideo.com', 'noslocker.com', 'auroravid.to', 'novamov.com', 'nowvideo.sx', 'nowvideo.eu', 'nowvideo.ch', 'nowvideo.sx', 'nowvideo.co', 'nowvideo.li', 'nowvideo.ec', 'nowvideo.at', 'nowvideo.fo', 'ok.ru', 'odnoklassniki.ru', 'openload.io', 'openload.co', 'play44.net', 'played.to', 'playhd.video', 'playhd.fo', 'playu.net', 'playu.me', 'playwire.com', 'Premiumize.me', 'primeshare.tv', 'promptfile.com', 'purevid.com', 'rapidvideo.ws', 'rapidvideo.com', 'api.real-debrid.com', 'premium.rpnet.biz', 'rutube.ru', 'shared2.me', 'shared.sx', 'sharerepo.com', 'sharesix.com', 'simply-debrid.com', 'speedplay.xyz', 'speedplay.us', 'speedplay3.pw', 'speedvideo.net', 'stagevu.com', 'streamcloud.eu', 'streamin.to', 'teramixer.com', 'thevideo.me', 'thevideos.tv', 'toltsd-fel.tk', 'trollvid.net', 'tune.pk', 'tusfiles.net', 'twitch.tv', 'up2stream.com', 'upload.af', 'uploadc.com', 'uploadc.ch', 'zalaa.com', 'uploadx.org', 'uptobox.com', 'uptostream.com', 'userfiles.com', 'userscloud.com', 'veehd.com', 'veoh.com', 'vid.ag', 'vidbull.com', 'vidcrazy.net', 'uploadcrazy.net', 'thevideobee.to', 'videoboxer.co', 'vidgg.to', 'vid.gg', 'videohut.to', 'videomega.tv', 'videoraj.to', 'videorev.cc', 'videosky.to', 'video.tt', 'videoweed.es', 'bitvid.sx', 'videoweed.com', 'videowood.tv', 'byzoo.org', 'playpanda.net', 'videozoo.me', 'videowing.me', 'videowing.me', 'easyvideo.me', 'play44.net', 'playbb.me', 'video44.net', 'vidio.sx', 'vid.me', 'vidspot.net', 'vidto.me', 'vidup.me', 'vidup.org', 'vidzi.tv', 'vimeo.com', 'vivo.sx', 'vk.com', 'vkpass.com', 'vodlocker.com', 'vshare.io', 'vshare.eu', 'watchers.to', 'watchonline.to', 'watchvideo.us', 'watchvideo2.us', 'watchvideo3.us', 'watchvideo4.us', 'watchvideo5.us', 'watchvideo6.us', 'watchvideo7.us', 'watchvideo8.us', 'watchvideo9.us', 'weshare.me', 'xvidstage.com', 'youlol.biz', 'shitmovie.com', 'yourupload.com', 'youtube.com', 'youtu.be', 'youwatch.org', 'api.zevera.com', 'zettahost.tv', 'zstream.to']
+resolve_url=['rapidvideo.com','oboom.com','alldebrid.com', 'allmyvideos.net', 'estream.to', 'vidtodo.com',  'streamango.com','vidto.me',  '1fichier.com','allvid.ch', 'auengine.com', 'fmovies.se','beststreams.net', 'briskfile.com', 'castamp.com', 'clicknupload.com', 'clicknupload.me', 'clicknupload.link', 'cloudy.ec', 'cloudzilla.to', 'neodrive.co', 'crunchyroll.com', 'daclips.in', 'daclips.com', 'dailymotion.com', 'divxstage.eu', 'divxstage.net', 'divxstage.to', 'couldtime.to', 'ecostream.tv', 'exashare.com', 'facebook.com', 'fastplay.sx', 'filehoot.com', 'filenuke.com', 'filepup.net', 'filmshowonline.net', 'flashx.tv', 'plus.google.com', 'googlevideo.com', 'picasaweb.google.com', 'googleusercontent.com', 'googledrive.com', 'gorillavid.in', 'gorillavid.com', 'gorillavid.in', 'grifthost.com', 'hugefiles.net', 'idowatch.net', 'indavideo.hu', 'ishared.eu', 'jetload.tv', 'kingfiles.net', 'letwatch.us', 'letwatch.to', 'vidshare.us', 'mail.ru', 'my.mail.ru', 'videoapi.my.mail.ru', 'api.video.mail.ru', 'mega-debrid.eu', 'megamp4.net', 'mersalaayitten.com', 'movdivx.com', 'movpod.net', 'movpod.in', 'movshare.net', 'wholecloud.net', 'mp4engine.com', 'mp4stream.com', 'mp4upload.com', 'myvidstream.net', 'nosvideo.com', 'noslocker.com', 'auroravid.to', 'novamov.com', 'nowvideo.sx', 'nowvideo.eu', 'nowvideo.ch', 'nowvideo.sx', 'nowvideo.co', 'nowvideo.li', 'nowvideo.ec', 'nowvideo.at', 'nowvideo.fo', 'ok.ru', 'odnoklassniki.ru', 'openload.io', 'openload.co', 'play44.net', 'played.to', 'playhd.video', 'playhd.fo', 'playu.net', 'playu.me', 'playwire.com', 'Premiumize.me', 'primeshare.tv', 'promptfile.com', 'purevid.com', 'rapidvideo.ws', 'rapidvideo.com', 'api.real-debrid.com', 'premium.rpnet.biz', 'rutube.ru', 'shared2.me', 'shared.sx', 'sharerepo.com', 'sharesix.com', 'simply-debrid.com', 'speedplay.xyz', 'speedplay.us', 'speedplay3.pw', 'speedvideo.net', 'stagevu.com', 'streamcloud.eu', 'streamin.to', 'teramixer.com', 'thevideo.me', 'thevideos.tv', 'toltsd-fel.tk', 'trollvid.net', 'tune.pk', 'tusfiles.net', 'twitch.tv', 'up2stream.com', 'upload.af', 'uploadc.com', 'uploadc.ch', 'zalaa.com', 'uploadx.org', 'uptobox.com', 'uptostream.com', 'userfiles.com', 'userscloud.com', 'veehd.com', 'veoh.com', 'vid.ag', 'vidbull.com', 'vidcrazy.net', 'uploadcrazy.net', 'thevideobee.to', 'videoboxer.co', 'vidgg.to', 'vid.gg', 'videohut.to', 'videomega.tv', 'videoraj.to', 'videorev.cc', 'videosky.to', 'video.tt', 'videoweed.es', 'bitvid.sx', 'videoweed.com', 'videowood.tv', 'byzoo.org', 'playpanda.net', 'videozoo.me', 'videowing.me', 'videowing.me', 'easyvideo.me', 'play44.net', 'playbb.me', 'video44.net', 'vidio.sx', 'vid.me', 'vidspot.net', 'vidto.me', 'vidup.me', 'vidup.org', 'vidzi.tv', 'vimeo.com', 'vivo.sx', 'vk.com', 'vkpass.com', 'vodlocker.com', 'vshare.io', 'vshare.eu', 'watchers.to', 'watchonline.to', 'watchvideo.us', 'watchvideo2.us', 'watchvideo3.us', 'watchvideo4.us', 'watchvideo5.us', 'watchvideo6.us', 'watchvideo7.us', 'watchvideo8.us', 'watchvideo9.us', 'weshare.me', 'xvidstage.com', 'youlol.biz', 'shitmovie.com', 'yourupload.com', 'youtube.com', 'youtu.be', 'youwatch.org', 'api.zevera.com', 'zettahost.tv', 'zstream.to']
 g_ignoreSetResolved=['plugin.video.dramasonline','plugin.video.f4mTester','plugin.video.shahidmbcnet','plugin.video.SportsDevil','plugin.stream.vaughnlive.tv','plugin.video.ZemTV-shani']
 
 class NoRedirection(urllib2.HTTPErrorProcessor):
@@ -80,7 +80,7 @@ def makeRequest(url, headers=None):
 				
 def SKindex():
     addon_log("SKindex")
-    addDir('[B][COLOR blue]FIND US ON TWITTER @magicdragon_ZT[/B][/COLOR]','[B][COLORblue]FIND US ON TWITTER @dogsbollocks_ZT[/B][/COLOR]',4,'https://cdn1.iconfinder.com/data/icons/logotypes/32/square-twitter-256.png' ,  FANART,'','','','')	
+    addDir('[B][COLOR blue]FIND US ON TWITTER @magicdragon_ZT[/B][/COLOR]','[B][COLORblue]FIND US ON TWITTER @magicdragon_ZT[/B][/COLOR]',4,'https://cdn1.iconfinder.com/data/icons/logotypes/32/square-twitter-256.png' ,  FANART,'','','','')	
     addDir('[B][I][COLORred]"MOVIE & CATCH UP TV SEARCH"[/B][/I][/COLOR]','[B][I][COLORred]"MOVIE & CATCH UP TV SEARCH"[/B][/I][/COLOR]',41,'https://freeiconshop.com/wp-content/uploads/edd/search-flat.png' ,  FANART,'','','','')
     getData(_Edit.MainBase,'')
     xbmcplugin.endOfDirectory(int(sys.argv[1]))
@@ -683,7 +683,59 @@ def Search_loop():
 					addDir(name2,url2,30,image2,fanart2,'','','','')
 			else:
 				if Search_title in name2.lower().replace(' ',''):
-					addDir(name2,url2,1,image2,fanart2,'','','','')						
+					addDir(name2,url2,1,image2,fanart2,'','','','')	
+		HTML46 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/junetv.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML46)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML47 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/july18tv.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML47)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML48 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/aug18tv.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML48)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')
+		HTML49 = Open_Url('http://supremacy.org.uk/tombraider/dogsbollocks/nr2.txt')
+		match2 = re.compile('<title>(.+?)</title>.+?<link>(.+?)</link>.+?<thumbnail>(.+?)</thumbnail>.+?<fanart>(.+?)/fanart>',re.DOTALL).findall(HTML49)
+		for name2,url2,image2,fanart2 in match2:
+			if fanart2 == '<':
+				fanart2 = FANART
+			else:
+				fanart2 = fanart2.replace('<','')
+			if 'sublink' in url2:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,30,image2,fanart2,'','','','')
+			else:
+				if Search_title in name2.lower().replace(' ',''):
+					addDir(name2,url2,1,image2,fanart2,'','','','')					
 def getSources():
         if os.path.exists(favorites) == True:
             addDir('Favorites','url',4,os.path.join(home, 'resources', 'favorite.png'),FANART,'','','','')

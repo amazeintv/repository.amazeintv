@@ -184,7 +184,7 @@ def LIVE(url):
                     mode = 8
                 else:
                     mode = 7
-                    sim = 'sim'+icon_num
+                    sim = 'itv'+icon_num
                     
                 if url=='dont':
                     name = '[COLOR plum]On Now[/COLOR] - [COLOR green]%s[/COLOR] - %s' % (channel,title)
@@ -231,20 +231,24 @@ def PLAY_STREAM(name,url,iconimage):
         STREAM=url
 
     else:    
-        SoapMessage=TEMPLATE(url,'itv'+url.replace('sim',''))
-        headers={'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
+        #SoapMessage=TEMPLATE(url,'itv'+url.replace('sim',''))
+        #headers={'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com',
+                 #'Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null',
+                 #'SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",
+                 #'User-Agent':'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.87 Safari/537.36'}
 
         if ADDON.getSetting('proxy')=='true':
             if ADDON.getSetting('custom_ip')=='':
                 IP=getip()
             else:
                 IP=ADDON.getSetting('custom_ip')
-            headers={"X-Forwarded-For":IP,'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
+            #headers={"X-Forwarded-For":IP,'Content-Length':'%d'%len(SoapMessage),'Content-Type':'text/xml; charset=utf-8','Host':'secure-mercury.itv.com','Origin':'http://www.itv.com','Referer':'http://www.itv.com/Mercury/Mercury_VideoPlayer.swf?v=null','SOAPAction':"http://tempuri.org/PlaylistService/GetPlaylist",'User-Agent':'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1700.107 Safari/537.36'}
 
             ENDING='|X-Forwarded-For='+IP
 
-        res, response = http.request("https://secure-mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
-        
+        res, response = http.request("https://mediaplayer.itv.com/flash/playlists/ukonly/%s.xml" %url.lower())
+        #res, response = http.request("https://secure-mercury.itv.com/PlaylistService.svc", 'POST', headers=headers, body=SoapMessage)
+ 
         rtmp=re.compile('<MediaFiles base="(.+?)"').findall(response)[0]
         if 'CITV' in name:
             r='CDATA\[(citv.+?)\]'
@@ -547,8 +551,10 @@ def getip():
 
 
 def PLAY_STREAM_HLS_LIVE(name,url,iconimage):
-     
-    ENDING=''
+
+    REF = 'https://www.itv.com/hub/'+url.lower()
+    
+    ENDING='|User-Agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1'
     
     if ADDON.getSetting('proxy')=='false':
         buf = OPEN_URL('https://www.itv.com/hub/'+url.lower())
@@ -576,13 +582,15 @@ def PLAY_STREAM_HLS_LIVE(name,url,iconimage):
     req.add_header('Connection','keep-alive')
     if ADDON.getSetting('proxy')=='true':
         req.add_header('X-Forwarded-For',IP)
-        ENDING='|X-Forwarded-For='+IP
-    req.add_header('User-Agent','Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_3 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13G34 Safari/601.1')       
-    req.add_header('Referer',url)
+        ENDING='|User-Agent=Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1&X-Forwarded-For='+IP
+    req.add_header('User-Agent','Mozilla/5.0 (iPhone; CPU iPhone OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1')       
+    req.add_header('Referer',REF)
 
+    if ADDON.getSetting('UA')=='true':
+        data  = {"user": {"itvUserId": "", "entitlements": [], "token": ""}, "device": {"manufacturer": "Safari", "model": "5", "os": {"name": "Windows NT", "version": "6.1", "type": "desktop"}}, "client": {"version": "4.1", "id": "browser"}, "variantAvailability": {"featureset": {"min": ["hls", "aes"], "max": ["hls", "aes"]}, "platformTag": "dotcom"}}
+    else:
+        data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPad","os":{"name":"iPhone OS","version":"6.0","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
 
-    #data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPhone","os":{"name":"iPad OS","version":"11.2.5","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
-    data  = {"user": {"itvUserId": "", "entitlements": [], "token": ""}, "device": {"manufacturer": "Safari", "model": "5", "os": {"name": "Windows NT", "version": "6.1", "type": "desktop"}}, "client": {"version": "4.1", "id": "browser"}, "variantAvailability": {"featureset": {"min": ["hls", "aes"], "max": ["hls", "aes"]}, "platformTag": "dotcom"}}
 
 
     try:
@@ -603,31 +611,23 @@ def PLAY_STREAM_HLS_LIVE(name,url,iconimage):
 
     BEG = link['Playlist']['Video']['Base']
     bb= link['Playlist']['Video']['MediaFiles']
-    try:
-        SUBLINK = link['Playlist']['Video']['Subtitles'][0]['Href']
-        subtitles_exist = 1
-    except:
-        subtitles_exist = 0
-        there_are_subtitles=0
+
         
     for k in bb:
         END = bb[0]['Href']
 
-    if __settings__.getSetting('subtitles_control') == 'true':
-        if subtitles_exist == 1:
-            subtitles_file = download_subtitles_HLS(SUBLINK, '')
-            print "Subtitles at ", subtitles_file
-            there_are_subtitles=1
         
     STREAM =  BEG+END
+
+    HOST = BEG.split('//')[1].split('/')[0]
+
+    
     
     liz = xbmcgui.ListItem(TITLE, iconImage='DefaultVideo.png', thumbnailImage=iconimage)
-    try:
-        if there_are_subtitles == 1:
-            liz.setSubtitles([subtitles_file])
-    except:pass     
     liz.setInfo(type='Video', infoLabels={'Title':TITLE})
+    liz.setProperty('mimetype', 'application/x-mpegURL')
     liz.setProperty("IsPlayable","true")
+    
     liz.setPath(STREAM+ENDING)
     xbmcplugin.setResolvedUrl(int(sys.argv[1]), True, liz)
 
@@ -681,7 +681,9 @@ def HLS(url,iconimage):
 
 
    #data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPhone","os":{"name":"iPad OS","version":"11.2.5","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["hls","aes"],"max":["hls","aes"]},"platformTag":"mobile"}}
+    
     data  = {"user": {"itvUserId": "", "entitlements": [], "token": ""}, "device": {"manufacturer": "Safari", "model": "5", "os": {"name": "Windows NT", "version": "6.1", "type": "desktop"}}, "client": {"version": "4.1", "id": "browser"}, "variantAvailability": {"featureset": {"min": ["hls", "aes", "outband-webvtt"], "max": ["hls", "aes", "outband-webvtt"]}, "platformTag": "dotcom"}}
+    #data  = {"user":{"itvUserId":"","entitlements":[],"token":""},"device":{"manufacturer":"Apple","model":"iPad","os":{"name":"iPhone OS","version":"6.0","type":"ios"}},"client":{"version":"4.1","id":"browser"},"variantAvailability":{"featureset":{"min":["aes","hls", "outband-webvtt"],"max":["hls","aes", "outband-webvtt"]},"platformTag":"mobile"}}
 
 
     try:
@@ -1074,6 +1076,10 @@ def addDir(name,url,mode,iconimage,plot='',isFolder=True):
             xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_DATE)
         if isFolder==False:
             liz.setProperty("IsPlayable","true")
+            if ADDON.getSetting('hls')=='true':
+                liz.setProperty('mimetype', 'application/x-mpegURL')
+            if ADDON.getSetting('livepro')=='true':
+                liz.setProperty('mimetype', 'application/x-mpegURL')
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=isFolder)
         return ok
 

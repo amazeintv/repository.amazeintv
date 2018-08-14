@@ -12,7 +12,6 @@
 # Addon id: plugin.video.placenta
 # Addon Provider: Mr.Blamo
 
-# kudos for the edits
 
 import re,traceback,urllib,urlparse,json,requests
 
@@ -25,10 +24,10 @@ class source:
     def __init__(self):
         self.priority = 1
         self.language = ['en']
-        self.domains = ['openloadmovies.tv','getmypopcornnow.xyz']
-        self.base_link = 'http://openloadmovies.tv/'
-        self.ajax_link = '/wp-admin/admin-ajax.php'
-        self.search_link = '/?s=%s'
+        self.domains = ['pubfilmonline.net']
+        self.base_link = 'http://pubfilmonline.net/'
+        self.ajax_link = '/?s=%s'
+        self.search_link = '/wp-admin/admin-ajax.php'
         self.scraper = cfscrape.create_scraper()
 
     def movie(self, imdb, title, localtitle, aliases, year):

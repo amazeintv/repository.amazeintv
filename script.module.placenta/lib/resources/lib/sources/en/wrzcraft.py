@@ -21,6 +21,7 @@ from resources.lib.modules import cleantitle
 from resources.lib.modules import client
 from resources.lib.modules import debrid
 from resources.lib.modules import source_utils
+from resources.lib.modules import cfscrape
 
 class source:
     def __init__(self):
@@ -29,10 +30,12 @@ class source:
         self.domains = ['wrzcraft.net']
         self.base_link = 'http://wrzcraft.net'
         self.search_link = '/search/%s/feed/rss2/'
+        self.scraper = cfscrape.create_scraper()
 
 
     def movie(self, imdb, title, localtitle, aliases, year):
         try:
+            scraper = cfscrape.create_scraper()
             url = {'imdb': imdb, 'title': title, 'year': year}
             return url
         except:
@@ -108,5 +111,4 @@ class source:
 
     def resolve(self, url):
         return url
-
 

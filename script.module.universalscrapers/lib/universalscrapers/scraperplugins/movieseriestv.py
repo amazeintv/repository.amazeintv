@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-
+## links masked
 import re,xbmcaddon,requests,time
 from ..scraper import Scraper
-from ..common import clean_title,clean_search, filter_host, get_rd_domains,random_agent,send_log,error_log
+from ..common import clean_title, clean_search, filter_host, get_rd_domains,random_agent,send_log,error_log
 
 dev_log = xbmcaddon.Addon('script.module.universalscrapers').getSetting("dev_log")
 
@@ -15,11 +15,10 @@ class movieseriestv(Scraper):
         self.domains = ['movieseriestv.net']
         self.base_link = 'http://www.movieseriestv.net'
         self.sources = []
-        if dev_log=='true':
-            self.start_time = time.time()
 
     def scrape_movie(self, title, year, imdb, debrid=False):
         try:
+            start_time = time.time() 
             if not debrid:
                 return []
             search_id = clean_search(title.lower())
@@ -36,11 +35,11 @@ class movieseriestv(Scraper):
                     continue
                 #print ' pass this> '+ url
                         
-                self.get_source(url)                     
+                self.get_source(url, title, year, start_time)                     
             return self.sources
         except Exception, argument:        
             if dev_log == 'true':
-                error_log(self.name,'Check Search')
+                error_log(self.name,argument)
             return self.sources  
 
     # not lot tv on site
@@ -71,7 +70,7 @@ class movieseriestv(Scraper):
             # return self.sources                   
  
 
-    def get_source(self,url):
+    def get_source(self,url, title, year, start_time):
         try:        
             headers = {'User_Agent':random_agent()}
             movpage = requests.get(url,headers=headers,timeout=3).content
@@ -110,8 +109,8 @@ class movieseriestv(Scraper):
                                     count +=1
                                     self.sources.append({'source': host,'quality': res,'scraper': self.name,'url': url,'direct': False, 'debridonly': True})
                 if dev_log=='true':
-                    end_time = time.time() - self.start_time
-                    send_log(self.name,end_time,count)                                    
+                    end_time = time.time() - start_time
+                    send_log(self.name,end_time,count,title,year)                                    
             except:pass
         except:pass
 
